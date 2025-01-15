@@ -1,0 +1,78 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:latest
+    ports:
+      - 5430:5432
+    restart: always
+    deploy:
+      mode: replicated
+      replicas: 1
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: vod
+    volumes:
+      - postgres:/var/lib/postgresql/data/
+
+  pgadmin:
+    depends_on:
+      - postgres
+    image: dpage/pgadmin4:latest
+    restart: always
+    deploy:
+      mode: replicated
+      replicas: 1
+    ports:
+      - 5051:5051
+    environment:
+      PGADMIN_DEFAULT_EMAIL: local@local.com
+      PGADMIN_DEFAULT_PASSWORD: password
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+
+  # redis:
+  #   image: redis:latest
+  #   restart: always
+  #   deploy:
+  #     mode: replicated
+  #     replicas: 1
+  #   ports:
+  #     - '6379:6379'
+  #   volumes: 
+  #     - redis:/data
+
+  # smtp4dev:
+  #   image: rnwood/smtp4dev:latest
+  #   restart: always
+  #   deploy:
+  #     mode: replicated
+  #     replicas: 1
+  #   ports:
+  #     # Web interface port
+  #     - '8000:80'
+  #     # SMTP server port
+  #     - '25:25'
+  #     # IMAP port
+  #     - '143:143'
+  #   volumes:
+  #     - smtp4dev:/smtp4dev
+
+  # tests:
+  #   depends_on:
+  #     - redis
+  #     - postgres
+  #   build:
+  #     context: ./
+  #     dockerfile: ./app.dockerfile
+  #   command: ptw
+  #   tty: true
+  #   volumes:
+  #     - .:/app
+
+volumes:
+  postgres:
+  pgadmin:
+  # redis:
+  # smtp4dev:

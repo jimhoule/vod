@@ -1,0 +1,29 @@
+{
+  "name": "hono-server",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint . --report-unused-disable-directives --max-warnings 0",
+    "check-types": "tsc --noEmit",
+    "trace": "node --trace_gc ./dist/index.js",
+    "build": "tsc",
+    "test": "vitest",
+    "db:generate": "npx drizzle-kit generate",
+    "db:drop": "npx drizzle-kit drop",
+    "db:migrate": "tsx ./src/drizzle/migrate.ts",
+    "db:studio": "npx drizzle-kit studio"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.13.7",
+    "@hono/zod-validator": "^0.4.2",
+    "bcrypt": "^5.1.1",
+    "drizzle-orm": "^0.38.3",
+    "postgres": "^3.4.5"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@types/bcrypt": "^5.0.2",
+    "@types/node": "^20.11.17",
+    "drizzle-kit": "^0.30.1",
+    "tsx": "^4.7.1"
+  }
+}

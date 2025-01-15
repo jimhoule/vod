@@ -1,0 +1,14 @@
+{
+  "extends": "@repo/typescript-config/node.json",
+  "compilerOptions": {
+    "target": "ESNext",
+    "verbatimModuleSyntax": true,
+    "types": [
+      "node"
+    ],
+    "jsx": "react-jsx",
+    "jsxImportSource": "hono/jsx",
+    "rootDir": "./src",
+    "outDir": "./dist"
+  }
+}
