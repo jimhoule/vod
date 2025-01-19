@@ -32,47 +32,27 @@ services:
     volumes:
       - pgadmin:/var/lib/pgadmin
 
-  # redis:
-  #   image: redis:latest
-  #   restart: always
-  #   deploy:
-  #     mode: replicated
-  #     replicas: 1
-  #   ports:
-  #     - '6379:6379'
-  #   volumes: 
-  #     - redis:/data
+  app:
+    depends_on:
+      - postgres
+    build:
+      context: .
+      dockerfile: ./apps/hono-server/Dockerfile
+    restart: always
+    deploy:
+      mode: replicated
+      replicas: 1
+    ports:
+      - 3002:3002
 
-  # smtp4dev:
-  #   image: rnwood/smtp4dev:latest
-  #   restart: always
-  #   deploy:
-  #     mode: replicated
-  #     replicas: 1
-  #   ports:
-  #     # Web interface port
-  #     - '8000:80'
-  #     # SMTP server port
-  #     - '25:25'
-  #     # IMAP port
-  #     - '143:143'
-  #   volumes:
-  #     - smtp4dev:/smtp4dev
-
-  # tests:
-  #   depends_on:
-  #     - redis
-  #     - postgres
-  #   build:
-  #     context: ./
-  #     dockerfile: ./app.dockerfile
-  #   command: ptw
-  #   tty: true
-  #   volumes:
-  #     - .:/app
+  tests:
+    depends_on:
+      - postgres
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    tty: true
 
 volumes:
   postgres:
   pgadmin:
-  # redis:
-  # smtp4dev:

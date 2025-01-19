@@ -1,0 +1,10 @@
+# Dependencies
+node_modules
+
+# Git
+.git
+.github
+.gitignore
+
+*.md
+dist

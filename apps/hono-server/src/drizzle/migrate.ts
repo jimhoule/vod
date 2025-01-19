@@ -2,7 +2,7 @@ import { drizzle } from 'drizzle-orm/postgres-js';
 import { migrate } from 'drizzle-orm/postgres-js/migrator';
 import postgres from 'postgres';
 
-const migrationClient = postgres('postgres://postgres:password@localhost:5435/honodrizzle', {
+const migrationClient = postgres('postgres://postgres:password@localhost:5430/vod', {
     max: 1,
 });
 

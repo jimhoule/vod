@@ -4,9 +4,12 @@
   "scripts": {
     "lint": "eslint . --report-unused-disable-directives --max-warnings 0",
     "check-types": "tsc --noEmit",
+    "start": "node  ./dist/index.js",
     "trace": "node --trace_gc ./dist/index.js",
+    "dev": "tsx watch src/index.ts",
     "build": "tsc",
-    "test": "vitest",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "db:generate": "npx drizzle-kit generate",
     "db:drop": "npx drizzle-kit drop",
     "db:migrate": "tsx ./src/drizzle/migrate.ts",
