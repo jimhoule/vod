@@ -29,6 +29,7 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: local@local.com
       PGADMIN_DEFAULT_PASSWORD: password
+      PGADMIN_LISTEN_PORT: 5051
     volumes:
       - pgadmin:/var/lib/pgadmin
 
