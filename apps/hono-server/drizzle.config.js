@@ -1,9 +1,10 @@
 import { defineConfig } from 'drizzle-kit';
+import { configs } from './src/configs';
 
 export default defineConfig({
     dialect: 'postgresql',
     dbCredentials: {
-        url: 'postgres://postgres:password@localhost:5430/vod',
+        url: configs.db.url
     },
     schema: './src/drizzle/schema.ts',
     out: './src/drizzle/migrations',

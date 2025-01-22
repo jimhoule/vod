@@ -4,7 +4,7 @@ services:
   postgres:
     image: postgres:latest
     ports:
-      - 5430:5432
+      - 5432:5432
     restart: always
     deploy:
       mode: replicated
@@ -33,7 +33,7 @@ services:
     volumes:
       - pgadmin:/var/lib/pgadmin
 
-  app:
+  hono-server:
     depends_on:
       - postgres
     build:
@@ -45,6 +45,7 @@ services:
       replicas: 1
     ports:
       - 3002:3002
+    env_file: ./apps/hono-server/.env
 
   tests:
     depends_on:
