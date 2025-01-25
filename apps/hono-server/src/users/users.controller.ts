@@ -1,7 +1,8 @@
 import { zValidator } from '@hono/zod-validator';
 import { HTTPException } from 'hono/http-exception';
 import { z } from 'zod';
-import { factory } from '../factory.js';
+import { createHandlers } from '../app/app.factory.js';
+import { throwHttpError } from '../app/app.http-error.js';
 import { UsersService } from './users.service.js';
 
 const findByIdValidationSchema = z.object({
@@ -12,15 +13,19 @@ export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
     findAll() {
-        return factory.createHandlers(async (c) => {
-            const users = await this.usersService.findAll();
-
-            return c.json(users, 200);
-        });
+        try {
+            return createHandlers(async (c) => {
+                const users = await this.usersService.findAll();
+    
+                return c.json(users, 200);
+            });
+        } catch (err) {
+            throwHttpError(err);
+        }
     }
 
     findById() {
-        return factory.createHandlers(zValidator('param', findByIdValidationSchema), async (c) => {
+        return createHandlers(zValidator('param', findByIdValidationSchema), async (c) => {
             const { id } = c.req.valid('param');
             const user = await this.usersService.findById(id);
             if (!user) {

@@ -1,9 +1,8 @@
-import { HTTPException } from 'hono/http-exception';
 import { zValidator } from '@hono/zod-validator';
 import { z } from 'zod';
+import { createHandlers } from '../app/app.factory.js';
+import { throwHttpError } from '../app/app.http-error.js';
 import { AuthService } from './auth.service.js';
-import { AppError } from '../core/app.error.js';
-import { factory } from '../factory.js';
 
 const loginValidationSchema = z.object({
     email: z.string().email(),
@@ -21,28 +20,22 @@ export class AuthController {
     constructor(private readonly authService: AuthService) {}
 
     login() {
-        return factory.createHandlers(zValidator('json', loginValidationSchema), async (c) => {
+        return createHandlers(zValidator('json', loginValidationSchema), async (c) => {
             try {
                 // Validates request body
                 const { email, password } = c.req.valid('json');
                 // Gets access token
                 const accessToken = await this.authService.login(email, password);
 
-                return c.json(accessToken, 200);
+                return c.json({ accessToken }, 200);
             } catch (err) {
-                console.error(err);
-
-                if (err instanceof AppError) {
-                    throw new HTTPException(err.statusCode, { message: err.message });
-                }
-
-                throw err;
+                throwHttpError(err);
             }
         });
     }
 
     register() {
-        return factory.createHandlers(zValidator('json', registerValidationSchema), async (c) => {
+        return createHandlers(zValidator('json', registerValidationSchema), async (c) => {
             try {
                 // Validates request body
                 const { firstName, lastName, email, password } = c.req.valid('json');
@@ -54,15 +47,9 @@ export class AuthController {
                     password,
                 );
 
-                return c.json(accessToken, 201);
+                return c.json({ accessToken }, 201);
             } catch (err) {
-                console.error(err);
-
-                if (err instanceof AppError) {
-                    throw new HTTPException(err.statusCode, { message: err.message });
-                }
-
-                throw err;
+                throwHttpError(err);
             }
         });
     }

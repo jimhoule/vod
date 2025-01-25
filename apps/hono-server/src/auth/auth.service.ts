@@ -1,4 +1,4 @@
-import { AppError } from '../core/app.error.js';
+import { AppError } from '../app/app.error.js';
 import type { EncryptionService } from '../encryption/encryption.service.js';
 import type { TokensService } from '../tokens/tokens.service.js';
 import type { UsersService } from '../users/users.service.js';

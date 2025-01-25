@@ -1,6 +1,6 @@
 import type { User } from './user.model.js';
 import type { UsersRepository } from './repositories/users.repository.js';
-import { withId } from '../utils/mixins/with-id.js';
+import { withId } from '../utils/with-id.js';
 
 export class UsersService {
     constructor(private readonly usersRepository: UsersRepository) {}
