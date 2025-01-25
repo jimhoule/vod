@@ -9,10 +9,10 @@ export class AppHttpError extends HTTPException {
 
 export const throwHttpError = (err: unknown): never => {
     console.error(err);
-    
+
     if (err instanceof AppError) {
-        throw new AppHttpError(err.statusCode, err.message );
+        throw new AppHttpError(err.statusCode, err.message);
     }
 
     throw new AppHttpError(500, '', err);
-}
+};
