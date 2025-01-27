@@ -20,9 +20,7 @@ describe('AuthService', (): void => {
             registerPayload.email,
             registerPayload.password,
         );
-        const accessTokenPayload = tokensService.decodeToken<{ id: string; email: string }>(
-            accessToken,
-        );
+        const accessTokenPayload = tokensService.decode<{ id: string; email: string }>(accessToken);
 
         const user: User = {
             id: accessTokenPayload.id,

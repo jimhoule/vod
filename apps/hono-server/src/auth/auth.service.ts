@@ -27,7 +27,7 @@ export class AuthService {
         }
 
         // Generates access token
-        return this.tokensService.generateToken({ id: user.id, email });
+        return this.tokensService.generate({ id: user.id, email });
     }
 
     async register(
@@ -48,6 +48,6 @@ export class AuthService {
         const user = await this.usersService.create(firstName, lastName, email, hashedPassword);
 
         // Gets access token
-        return this.tokensService.generateToken({ id: user.id, email: user.email });
+        return this.tokensService.generate({ id: user.id, email: user.email });
     }
 }

@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { AppHttpError } from '../app/app.http-error.js';
 import { createHandlers } from '../app/app.factory.js';
 import { throwHttpError } from '../app/app.http-error.js';
+import { isAuthenticated } from '../auth/middlewares/is-authenticated.middleware.js';
 import { UsersService } from './users.service.js';
 
 const findByIdValidationSchema = z.object({
@@ -13,7 +14,7 @@ export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
     findAll() {
-        return createHandlers(async (c) => {
+        return createHandlers(isAuthenticated, async (c) => {
             try {
                 const users = await this.usersService.findAll();
 
@@ -25,18 +26,22 @@ export class UsersController {
     }
 
     findById() {
-        return createHandlers(zValidator('param', findByIdValidationSchema), async (c) => {
-            try {
-                const { id } = c.req.valid('param');
-                const user = await this.usersService.findById(id);
-                if (!user) {
-                    throw new AppHttpError(404, `User with ID ${id} not found`);
-                }
+        return createHandlers(
+            isAuthenticated,
+            zValidator('param', findByIdValidationSchema),
+            async (c) => {
+                try {
+                    const { id } = c.req.valid('param');
+                    const user = await this.usersService.findById(id);
+                    if (!user) {
+                        throw new AppHttpError(404, `User with ID ${id} not found`);
+                    }
 
-                return c.json(user, 200);
-            } catch (err) {
-                throwHttpError(err);
-            }
-        });
+                    return c.json(user, 200);
+                } catch (err) {
+                    throwHttpError(err);
+                }
+            },
+        );
     }
 }

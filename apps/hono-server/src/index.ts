@@ -9,7 +9,7 @@ export const app = new Hono()
     .route('/', authRoutes)
     .route('/', usersRoutes)
     .onError((err, c) => {
-        // Gets HTTPException the custom response
+        // Gets AppHttpError the custom response
         if (err instanceof AppHttpError) {
             return err.getResponse();
         }
