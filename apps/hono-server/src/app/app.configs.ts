@@ -7,11 +7,11 @@ const processEnvSchema = z.object({
 		.refine((val) => !isNaN(parseInt(val)))
 		.transform((val) => parseInt(val)),
 	DB_URL: z.string(),
-	JWT_SECRET: z.string()
-})
+	JWT_SECRET: z.string(),
+});
 
 const load = () => {
-	const parsedProcessEnv = processEnvSchema.parse(process.env)
+	const parsedProcessEnv = processEnvSchema.parse(process.env);
 
 	return {
 		http: {
