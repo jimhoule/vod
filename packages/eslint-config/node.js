@@ -1,7 +1,5 @@
-import js from "@eslint/js";
-import eslintConfigPrettier from "eslint-config-prettier";
-import tseslint from "typescript-eslint";
-import { config as baseConfig } from "./base.js";
+import globals from 'globals';
+import { baseConfig } from "./base.js";
 
 /**
  * A custom ESLint configuration for libraries that use Node.js.
@@ -10,7 +8,12 @@ import { config as baseConfig } from "./base.js";
  * */
 export const nodeConfig = [
   ...baseConfig,
-  // js.configs.recommended,
-  // eslintConfigPrettier,
-  // ...tseslint.configs.recommended,
+  {
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
+    },
+  },
+  
 ];
