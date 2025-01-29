@@ -5,10 +5,10 @@ import { UsersService } from './users.service.js';
 import { UsersController } from './users.controller.js';
 
 export const createUsersRoutes = (usersController: UsersController) => {
-    return new Hono()
-        .basePath('/users')
-        .get('/', ...usersController.findAll())
-        .get('/:id', ...usersController.findById());
+	return new Hono()
+		.basePath('/users')
+		.get('/', ...usersController.findAll())
+		.get('/:id', ...usersController.findById());
 };
 
 export const usersService = new UsersService(new PostgresUsersRepository());

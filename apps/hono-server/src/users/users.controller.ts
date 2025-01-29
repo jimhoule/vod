@@ -7,41 +7,41 @@ import { isAuthenticated } from '../auth/middlewares/is-authenticated.middleware
 import { UsersService } from './users.service.js';
 
 const findByIdValidationSchema = z.object({
-    id: z.string().uuid(),
+	id: z.string().uuid(),
 });
 
 export class UsersController {
-    constructor(private readonly usersService: UsersService) {}
+	constructor(private readonly usersService: UsersService) {}
 
-    findAll() {
-        return createHandlers(isAuthenticated, async (c) => {
-            try {
-                const users = await this.usersService.findAll();
+	findAll() {
+		return createHandlers(isAuthenticated, async (c) => {
+			try {
+				const users = await this.usersService.findAll();
 
-                return c.json(users, 200);
-            } catch (err) {
-                throwHttpError(err);
-            }
-        });
-    }
+				return c.json(users, 200);
+			} catch (err) {
+				throwHttpError(err);
+			}
+		});
+	}
 
-    findById() {
-        return createHandlers(
-            isAuthenticated,
-            zValidator('param', findByIdValidationSchema),
-            async (c) => {
-                try {
-                    const { id } = c.req.valid('param');
-                    const user = await this.usersService.findById(id);
-                    if (!user) {
-                        throw new AppHttpError(404, `User with ID ${id} not found`);
-                    }
+	findById() {
+		return createHandlers(
+			isAuthenticated,
+			zValidator('param', findByIdValidationSchema),
+			async (c) => {
+				try {
+					const { id } = c.req.valid('param');
+					const user = await this.usersService.findById(id);
+					if (!user) {
+						throw new AppHttpError(404, `User with ID ${id} not found`);
+					}
 
-                    return c.json(user, 200);
-                } catch (err) {
-                    throwHttpError(err);
-                }
-            },
-        );
-    }
+					return c.json(user, 200);
+				} catch (err) {
+					throwHttpError(err);
+				}
+			},
+		);
+	}
 }

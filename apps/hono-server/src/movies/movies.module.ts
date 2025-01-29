@@ -5,11 +5,11 @@ import { MoviesService } from './movies.service.js';
 import { MoviesController } from './movies.controller.js';
 
 export const createMoviesRoutes = (moviesController: MoviesController) => {
-    return new Hono()
-        .basePath('/movies')
-        .post('/', ...moviesController.create())
-        .get('/', ...moviesController.findAll())
-        .get('/:id', ...moviesController.findById());
+	return new Hono()
+		.basePath('/movies')
+		.post('/', ...moviesController.create())
+		.get('/', ...moviesController.findAll())
+		.get('/:id', ...moviesController.findById());
 };
 
 export const moviesService = new MoviesService(new PostgresMoviesRepository());

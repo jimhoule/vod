@@ -7,24 +7,24 @@ import { moviesRoutes } from './movies/movies.module.js';
 import { usersRoutes } from './users/users.module.js';
 
 export const app = new Hono()
-    .route('/', authRoutes)
-    .route('/', moviesRoutes)
-    .route('/', usersRoutes)
-    .onError((err, c) => {
-        // Gets AppHttpError the custom response
-        if (err instanceof AppHttpError) {
-            return err.getResponse();
-        }
+	.route('/', authRoutes)
+	.route('/', moviesRoutes)
+	.route('/', usersRoutes)
+	.onError((err, c) => {
+		// Gets AppHttpError the custom response
+		if (err instanceof AppHttpError) {
+			return err.getResponse();
+		}
 
-        return c.json(err);
-    });
+		return c.json(err);
+	});
 
 const port = appConfigs.http.port;
 console.log(`Server is running on http://localhost:${port}`);
 
 serve({
-    fetch: app.fetch,
-    port,
+	fetch: app.fetch,
+	port,
 });
 
 export type HonoServerType = typeof app;

@@ -3,22 +3,22 @@ import type { MoviesRepository } from './repositories/movies.repository.js';
 import { withId } from '../utils/with-id.js';
 
 export class MoviesService {
-    constructor(private readonly moviesRepository: MoviesRepository) {}
+	constructor(private readonly moviesRepository: MoviesRepository) {}
 
-    async create(title: string, description: string): Promise<Movie> {
-        const movie: Movie = withId({
-            title,
-            description,
-        });
+	async create(title: string, description: string): Promise<Movie> {
+		const movie: Movie = withId({
+			title,
+			description,
+		});
 
-        return this.moviesRepository.create(movie);
-    }
+		return this.moviesRepository.create(movie);
+	}
 
-    findAll(): Promise<Movie[]> {
-        return this.moviesRepository.findAll();
-    }
+	findAll(): Promise<Movie[]> {
+		return this.moviesRepository.findAll();
+	}
 
-    findById(id: string): Promise<Movie | undefined> {
-        return this.moviesRepository.findById(id);
-    }
+	findById(id: string): Promise<Movie | undefined> {
+		return this.moviesRepository.findById(id);
+	}
 }
