@@ -59,7 +59,7 @@ describe('UsersService', (): void => {
     it('should not find user by ID', async () => {
         const { usersService } = await getTestContext();
 
-        const user = await usersService.findById('fakeId');
+        const user = await usersService.findById('340f82f1-0e78-4a5c-b7ab-c26bcf56cf09');
 
         expect(user).not.toBeDefined();
     });

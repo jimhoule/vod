@@ -28,6 +28,12 @@ export const ProfileTable = pgTable('profiles', {
         .references(() => UsersTable.id, { onDelete: 'cascade' }),
 });
 
+export const MoviesTable = pgTable('movies', {
+    id: uuid('id').primaryKey().notNull(),
+    title: varchar('title', { length: 255 }).notNull(),
+    description: varchar('description', { length: 255 }).notNull(),
+});
+
 // RELATIONS
 export const UserTableRelations = relations(UsersTable, ({ many }) => {
     return {

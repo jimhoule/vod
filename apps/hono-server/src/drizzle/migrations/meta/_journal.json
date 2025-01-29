@@ -8,6 +8,13 @@
       "when": 1737129500856,
       "tag": "0000_create_users_profiles_tables",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1738122149303,
+      "tag": "0001_create_movies_table",
+      "breakpoints": true
     }
   ]
 }

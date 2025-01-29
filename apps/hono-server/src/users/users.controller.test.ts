@@ -10,17 +10,17 @@ describe('UsersController', async (): Promise<void> => {
         const app = createUsersRoutes(new UsersController(usersService));
         const mockClient = testClient(app);
 
-        const createUserDto = {
+        const createUserPayload = {
             firstName: 'Jenny',
             lastName: 'Doe',
             email: 'test@test.com',
             password: 'password',
         };
         const user = await usersService.create(
-            createUserDto.firstName,
-            createUserDto.lastName,
-            createUserDto.email,
-            createUserDto.password,
+            createUserPayload.firstName,
+            createUserPayload.lastName,
+            createUserPayload.email,
+            createUserPayload.password,
         );
 
         const accessToken = await tokensService.generate({ id: user.id, email: user.email });
@@ -44,7 +44,7 @@ describe('UsersController', async (): Promise<void> => {
         expect(response.status).toEqual(200);
     });
 
-    it('should try to find users without access token', async () => {
+    it('should try to find all users without access token', async () => {
         const { mockClient } = await getTestContext();
 
         const response = await mockClient.users.$get();
@@ -88,5 +88,36 @@ describe('UsersController', async (): Promise<void> => {
         );
 
         expect(response.status).toEqual(404);
+    });
+
+    it('should try to find user by ID without access token', async () => {
+        const { user, mockClient } = await getTestContext();
+
+        const response = await mockClient.users[':id'].$get({
+            param: {
+                id: user.id,
+            },
+        });
+
+        expect(response.status).toEqual(401);
+    });
+
+    it('should try to find user by ID with invalid uuid', async () => {
+        const { mockClient, accessToken } = await getTestContext();
+
+        const response = await mockClient.users[':id'].$get(
+            {
+                param: {
+                    id: 'fakeId',
+                },
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            },
+        );
+
+        expect(response.status).toEqual(400);
     });
 });

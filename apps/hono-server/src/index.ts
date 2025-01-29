@@ -3,10 +3,12 @@ import { serve } from '@hono/node-server';
 import { appConfigs } from './app/app.configs.js';
 import { AppHttpError } from './app/app.http-error.js';
 import { authRoutes } from './auth/auth.module.js';
+import { moviesRoutes } from './movies/movies.module.js';
 import { usersRoutes } from './users/users.module.js';
 
 export const app = new Hono()
     .route('/', authRoutes)
+    .route('/', moviesRoutes)
     .route('/', usersRoutes)
     .onError((err, c) => {
         // Gets AppHttpError the custom response
@@ -25,4 +27,4 @@ serve({
     port,
 });
 
-export type HoneServerType = typeof app;
+export type HonoServerType = typeof app;
