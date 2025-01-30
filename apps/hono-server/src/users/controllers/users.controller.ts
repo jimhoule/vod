@@ -1,10 +1,10 @@
 import { zValidator } from '@hono/zod-validator';
 import { z } from 'zod';
-import { AppHttpError } from '../app/app.http-error.js';
-import { createHandlers } from '../app/app.factory.js';
-import { throwHttpError } from '../app/app.http-error.js';
-import { isAuthenticated } from '../auth/middlewares/is-authenticated.middleware.js';
-import { UsersService } from './users.service.js';
+import { AppHttpError } from '../../app/app.http-error.js';
+import { createHandlers } from '../../app/app.factory.js';
+import { throwHttpError } from '../../app/app.http-error.js';
+import { isAuthenticated } from '../../auth/middlewares/is-authenticated.middleware.js';
+import { UsersService } from '../services/users.service.js';
 
 const findByIdValidationSchema = z.object({
 	id: z.string().uuid(),

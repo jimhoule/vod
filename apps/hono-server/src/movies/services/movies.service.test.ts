@@ -1,5 +1,5 @@
 import { expect, describe, it } from 'vitest';
-import { createMoviesTestService } from './movies.module.js';
+import { createMoviesTestService } from '../movies.module.js';
 
 describe('MoviesService', (): void => {
 	const getTestContext = async () => {

@@ -1,6 +1,6 @@
 import { sign, decode } from 'hono/jwt';
 import type { JWTPayload } from 'hono/utils/jwt/types';
-import { appConfigs } from '../app/app.configs.js';
+import { appConfigs } from '../../app/app.configs.js';
 import type { TokensService } from './tokens.service.js';
 
 export class JwtTokensService implements TokensService {

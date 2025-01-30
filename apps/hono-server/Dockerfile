@@ -42,4 +42,4 @@ ENTRYPOINT ["/docker-entrypoint.sh"]
 # Exposes port for external use
 EXPOSE 3002
 # Starts app
-CMD node apps/hono-server/dist/index.js
+CMD node apps/hono-server/dist/main.js

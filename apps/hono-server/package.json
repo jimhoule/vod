@@ -4,9 +4,9 @@
   "scripts": {
     "lint": "eslint . --report-unused-disable-directives --max-warnings 0",
     "check-types": "tsc --noEmit",
-    "start": "node  ./dist/index.js",
-    "trace": "node --trace_gc ./dist/index.js",
-    "dev": "tsx watch src/index.ts",
+    "start": "node  ./dist/main.js",
+    "trace": "node --trace_gc ./dist/main.js",
+    "dev": "tsx watch src/main.ts",
     "build": "tsc",
     "test": "vitest run",
     "test:watch": "vitest",

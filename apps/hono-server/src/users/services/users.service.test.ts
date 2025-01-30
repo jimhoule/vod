@@ -1,5 +1,5 @@
 import { expect, describe, it } from 'vitest';
-import { createUsersTestService } from './users.module.js';
+import { createUsersTestService } from '../users.module.js';
 
 describe('UsersService', (): void => {
 	const getTestContext = async () => {

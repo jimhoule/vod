@@ -1,14 +1,17 @@
 import { testClient } from 'hono/testing';
 import { describe, expect, it } from 'vitest';
-import { tokensService } from '../tokens/tokens.module.js';
-import { UsersController } from './users.controller.js';
-import { createUsersRoutes, createUsersTestService } from './users.module.js';
+import { tokensService } from '../../tokens/tokens.module.js';
+import {
+	createUsersTestService,
+	createUsersController,
+	createUsersRoutes,
+} from '../users.module.js';
 
 describe('UsersController', async (): Promise<void> => {
 	const getTestContext = async () => {
 		const usersService = createUsersTestService();
-		const app = createUsersRoutes(new UsersController(usersService));
-		const mockClient = testClient(app);
+		const usersRoutes = createUsersRoutes(createUsersController(usersService));
+		const mockClient = testClient(usersRoutes);
 
 		const createUserPayload = {
 			firstName: 'Jenny',

@@ -1,7 +1,7 @@
 import { eq } from 'drizzle-orm';
 import { db } from '../../drizzle/db.js';
 import { MoviesTable } from '../../drizzle/schema.js';
-import type { Movie } from '../movie.model.js';
+import type { Movie } from '../models/movie.model.js';
 import type { MoviesRepository } from './movies.repository.js';
 
 export class PostgresMoviesRepository implements MoviesRepository {

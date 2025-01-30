@@ -1,7 +1,7 @@
 import { eq } from 'drizzle-orm';
 import { db } from '../../drizzle/db.js';
 import { UsersTable } from '../../drizzle/schema.js';
-import type { User } from '../user.model.js';
+import type { User } from '../models/user.model.js';
 import type { UsersRepository } from './users.repository.js';
 
 export class PostgresUsersRepository implements UsersRepository {

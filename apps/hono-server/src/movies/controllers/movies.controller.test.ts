@@ -1,14 +1,17 @@
 import { testClient } from 'hono/testing';
 import { describe, expect, it } from 'vitest';
-import { tokensService } from '../tokens/tokens.module.js';
-import { MoviesController } from './movies.controller.js';
-import { createMoviesRoutes, createMoviesTestService } from './movies.module.js';
+import { tokensService } from '../../tokens/tokens.module.js';
+import {
+	createMoviesTestService,
+	createMoviesController,
+	createMoviesRoutes,
+} from '../movies.module.js';
 
 describe('MoviesController', async (): Promise<void> => {
 	const getTestContext = async () => {
 		const moviesService = createMoviesTestService();
-		const app = createMoviesRoutes(new MoviesController(moviesService));
-		const mockClient = testClient(app);
+		const moviesRoutes = createMoviesRoutes(createMoviesController(moviesService));
+		const mockClient = testClient(moviesRoutes);
 
 		const createMoviePayload = {
 			title: 'Fake title',

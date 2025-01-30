@@ -1,4 +1,4 @@
-import type { User } from '../user.model.js';
+import type { User } from '../models/user.model.js';
 import type { UsersRepository } from './users.repository.js';
 
 export class FakeUsersRepository implements UsersRepository {

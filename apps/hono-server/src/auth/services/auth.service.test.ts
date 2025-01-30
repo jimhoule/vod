@@ -1,7 +1,7 @@
 import { expect, describe, it } from 'vitest';
-import { createAuthTestService } from './auth.module.js';
-import { tokensService } from '../tokens/tokens.module.js';
-import type { User } from '../users/user.model.js';
+import { createAuthTestService } from '../auth.module.js';
+import { tokensService } from '../../tokens/tokens.module.js';
+import type { User } from '../../users/models/user.model.js';
 
 describe('AuthService', (): void => {
 	const getTestContext = async () => {

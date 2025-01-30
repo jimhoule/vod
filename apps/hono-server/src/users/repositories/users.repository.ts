@@ -1,4 +1,4 @@
-import type { User } from '../user.model.js';
+import type { User } from '../models/user.model.js';
 
 export interface UsersRepository {
 	create(user: User): Promise<User>;

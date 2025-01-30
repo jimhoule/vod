@@ -1,8 +1,8 @@
 import { zValidator } from '@hono/zod-validator';
 import { z } from 'zod';
-import { createHandlers } from '../app/app.factory.js';
-import { throwHttpError } from '../app/app.http-error.js';
-import { AuthService } from './auth.service.js';
+import { createHandlers } from '../../app/app.factory.js';
+import { throwHttpError } from '../../app/app.http-error.js';
+import { AuthService } from '../services/auth.service.js';
 
 const loginValidationSchema = z.object({
 	email: z.string().email(),

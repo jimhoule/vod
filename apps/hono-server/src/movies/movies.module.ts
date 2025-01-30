@@ -1,9 +1,12 @@
 import { Hono } from 'hono';
 import { FakeMoviesRepository } from './repositories/fake-movies.repository.js';
 import { PostgresMoviesRepository } from './repositories/postgres-movies.repository.js';
-import { MoviesService } from './movies.service.js';
-import { MoviesController } from './movies.controller.js';
+import { MoviesService } from './services/movies.service.js';
+import { MoviesController } from './controllers/movies.controller.js';
 
+export const createMoviesTestService = () => new MoviesService(new FakeMoviesRepository());
+export const createMoviesController = (moviesService: MoviesService) =>
+	new MoviesController(moviesService);
 export const createMoviesRoutes = (moviesController: MoviesController) => {
 	return new Hono()
 		.basePath('/movies')
@@ -13,6 +16,4 @@ export const createMoviesRoutes = (moviesController: MoviesController) => {
 };
 
 export const moviesService = new MoviesService(new PostgresMoviesRepository());
-export const moviesRoutes = createMoviesRoutes(new MoviesController(moviesService));
-
-export const createMoviesTestService = () => new MoviesService(new FakeMoviesRepository());
+export const moviesRoutes = createMoviesRoutes(createMoviesController(moviesService));

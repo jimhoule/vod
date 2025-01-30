@@ -1,4 +1,4 @@
-import type { Movie } from '../movie.model.js';
+import type { Movie } from '../models/movie.model.js';
 import type { MoviesRepository } from './movies.repository.js';
 
 export class FakeMoviesRepository implements MoviesRepository {
