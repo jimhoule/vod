@@ -1,22 +1,18 @@
 import { expect, describe, it } from 'vitest';
 import { createUsersTestService } from '../users.module.js';
+import type { CreateUserPayload } from './payloads/create-user.payload.js';
 
 describe('UsersService', (): void => {
 	const getTestContext = async () => {
 		const usersService = createUsersTestService();
 
-		const createUserPayload = {
+		const createUserPayload: CreateUserPayload = {
 			firstName: 'Jenny',
 			lastName: 'Doe',
 			email: 'test@test.com',
 			password: 'password',
 		};
-		const user = await usersService.create(
-			createUserPayload.firstName,
-			createUserPayload.lastName,
-			createUserPayload.email,
-			createUserPayload.password,
-		);
+		const user = await usersService.create(createUserPayload);
 
 		return {
 			user,

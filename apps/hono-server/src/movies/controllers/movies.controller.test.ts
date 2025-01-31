@@ -1,11 +1,12 @@
 import { testClient } from 'hono/testing';
 import { describe, expect, it } from 'vitest';
-import { tokensService } from '../../tokens/tokens.module.js';
 import {
 	createMoviesTestService,
 	createMoviesController,
 	createMoviesRoutes,
 } from '../movies.module.js';
+import type { CreateMoviePayload } from '../services/payloads/create-movie.payload.js';
+import { tokensService } from '../../tokens/tokens.module.js';
 
 describe('MoviesController', async (): Promise<void> => {
 	const getTestContext = async () => {
@@ -13,7 +14,7 @@ describe('MoviesController', async (): Promise<void> => {
 		const moviesRoutes = createMoviesRoutes(createMoviesController(moviesService));
 		const mockClient = testClient(moviesRoutes);
 
-		const createMoviePayload = {
+		const createMoviePayload: CreateMoviePayload = {
 			title: 'Fake title',
 			description: 'Fake description',
 		};

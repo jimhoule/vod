@@ -25,7 +25,7 @@ export class FakeMoviesRepository implements MoviesRepository {
 	async update(id: string, updateMovieData: UpdateMovieData): Promise<Movie> {
 		const movie = await this.findById(id);
 		if (!movie) {
-			throw new Error(`Movie with ID ${id} does not exist in database`);
+			throw new Error(`Movie with ID ${id} does not exist`);
 		}
 
 		Object.assign(movie, updateMovieData);

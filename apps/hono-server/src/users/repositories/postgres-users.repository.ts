@@ -3,22 +3,9 @@ import { db } from '../../drizzle/db.js';
 import { UsersTable } from '../../drizzle/schema.js';
 import type { User } from '../models/user.model.js';
 import type { UsersRepository } from './users.repository.js';
+import type { CreateUserData } from './types/create-user-data.type.js';
 
 export class PostgresUsersRepository implements UsersRepository {
-	async create(user: User): Promise<User> {
-		const [newUser] = await db
-			.insert(UsersTable)
-			.values({
-				firstName: user.firstName,
-				lastName: user.lastName,
-				email: user.email,
-				password: user.password,
-			})
-			.returning();
-
-		return newUser as User;
-	}
-
 	async findAll(): Promise<User[]> {
 		return db.select().from(UsersTable);
 	}
@@ -33,5 +20,11 @@ export class PostgresUsersRepository implements UsersRepository {
 		const [user] = await db.select().from(UsersTable).where(eq(UsersTable.email, email));
 
 		return user;
+	}
+
+	async create(createUserData: CreateUserData): Promise<User> {
+		const [newUser] = await db.insert(UsersTable).values(createUserData).returning();
+
+		return newUser as User;
 	}
 }

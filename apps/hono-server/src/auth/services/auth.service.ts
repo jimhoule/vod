@@ -45,7 +45,12 @@ export class AuthService {
 		// Hashes password
 		const hashedPassword = await this.encryptionService.hashPassword(password);
 		// Creates user
-		const user = await this.usersService.create(firstName, lastName, email, hashedPassword);
+		const user = await this.usersService.create({
+			firstName,
+			lastName,
+			email,
+			password: hashedPassword,
+		});
 
 		// Gets access token
 		return this.tokensService.generate({ id: user.id, email: user.email });

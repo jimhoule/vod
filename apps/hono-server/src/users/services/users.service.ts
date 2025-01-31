@@ -1,25 +1,10 @@
 import type { User } from '../models/user.model.js';
 import type { UsersRepository } from '../repositories/users.repository.js';
+import type { CreateUserPayload } from './payloads/create-user.payload.js';
 import { withId } from '../../utils/with-id.js';
 
 export class UsersService {
 	constructor(private readonly usersRepository: UsersRepository) {}
-
-	async create(
-		firstName: string,
-		lastName: string,
-		email: string,
-		password: string,
-	): Promise<User> {
-		const user: User = withId({
-			firstName,
-			lastName,
-			email,
-			password,
-		});
-
-		return this.usersRepository.create(user);
-	}
 
 	findAll(): Promise<User[]> {
 		return this.usersRepository.findAll();
@@ -31,5 +16,9 @@ export class UsersService {
 
 	findByEmail(email: string): Promise<User | undefined> {
 		return this.usersRepository.findByEmail(email);
+	}
+
+	create(createUserPayload: CreateUserPayload): Promise<User> {
+		return this.usersRepository.create(withId(createUserPayload));
 	}
 }

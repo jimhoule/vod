@@ -1,11 +1,12 @@
 import { testClient } from 'hono/testing';
 import { describe, expect, it } from 'vitest';
-import { tokensService } from '../../tokens/tokens.module.js';
 import {
 	createUsersTestService,
 	createUsersController,
 	createUsersRoutes,
 } from '../users.module.js';
+import type { CreateUserPayload } from '../services/payloads/create-user.payload.js';
+import { tokensService } from '../../tokens/tokens.module.js';
 
 describe('UsersController', async (): Promise<void> => {
 	const getTestContext = async () => {
@@ -13,18 +14,13 @@ describe('UsersController', async (): Promise<void> => {
 		const usersRoutes = createUsersRoutes(createUsersController(usersService));
 		const mockClient = testClient(usersRoutes);
 
-		const createUserPayload = {
+		const createUserPayload: CreateUserPayload = {
 			firstName: 'Jenny',
 			lastName: 'Doe',
 			email: 'test@test.com',
 			password: 'password',
 		};
-		const user = await usersService.create(
-			createUserPayload.firstName,
-			createUserPayload.lastName,
-			createUserPayload.email,
-			createUserPayload.password,
-		);
+		const user = await usersService.create(createUserPayload);
 
 		const accessToken = await tokensService.generate({ id: user.id, email: user.email });
 
