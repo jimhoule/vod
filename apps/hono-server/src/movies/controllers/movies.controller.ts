@@ -6,34 +6,22 @@ import { throwHttpError } from '../../app/app.http-error.js';
 import { isAuthenticated } from '../../auth/middlewares/is-authenticated.middleware.js';
 import { MoviesService } from '../services/movies.service.js';
 
+const idValidationSchema = z.object({
+	id: z.string().uuid(),
+});
+
 const createValidationSchema = z.object({
 	title: z.string(),
 	description: z.string(),
 });
 
-const findByIdValidationSchema = z.object({
-	id: z.string().uuid(),
+const updateValidationSchema = z.object({
+	title: z.string().optional(),
+	description: z.string().optional(),
 });
 
 export class MoviesController {
 	constructor(private readonly moviesService: MoviesService) {}
-
-	create() {
-		return createHandlers(
-			isAuthenticated,
-			zValidator('json', createValidationSchema),
-			async (c) => {
-				try {
-					const { title, description } = c.req.valid('json');
-					const movie = await this.moviesService.create(title, description);
-
-					return c.json(movie, 201);
-				} catch (err) {
-					throwHttpError(err);
-				}
-			},
-		);
-	}
 
 	findAll() {
 		return createHandlers(isAuthenticated, async (c) => {
@@ -50,7 +38,7 @@ export class MoviesController {
 	findById() {
 		return createHandlers(
 			isAuthenticated,
-			zValidator('param', findByIdValidationSchema),
+			zValidator('param', idValidationSchema),
 			async (c) => {
 				try {
 					const { id } = c.req.valid('param');
@@ -60,6 +48,59 @@ export class MoviesController {
 					}
 
 					return c.json(movie, 200);
+				} catch (err) {
+					throwHttpError(err);
+				}
+			},
+		);
+	}
+
+	create() {
+		return createHandlers(
+			isAuthenticated,
+			zValidator('json', createValidationSchema),
+			async (c) => {
+				try {
+					const createMovieDto = c.req.valid('json');
+					const movie = await this.moviesService.create(createMovieDto);
+
+					return c.json(movie, 201);
+				} catch (err) {
+					throwHttpError(err);
+				}
+			},
+		);
+	}
+
+	update() {
+		return createHandlers(
+			isAuthenticated,
+			zValidator('param', idValidationSchema),
+			zValidator('json', updateValidationSchema),
+			async (c) => {
+				try {
+					const { id } = c.req.valid('param');
+					const updateMovieDto = c.req.valid('json');
+					const movie = await this.moviesService.update(id, updateMovieDto);
+
+					return c.json(movie, 200);
+				} catch (err) {
+					throwHttpError(err);
+				}
+			},
+		);
+	}
+
+	delete() {
+		return createHandlers(
+			isAuthenticated,
+			zValidator('param', idValidationSchema),
+			async (c) => {
+				try {
+					const { id } = c.req.valid('param');
+					await this.moviesService.delete(id);
+
+					return c.body(null, 204);
 				} catch (err) {
 					throwHttpError(err);
 				}

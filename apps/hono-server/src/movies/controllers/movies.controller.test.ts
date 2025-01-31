@@ -17,10 +17,7 @@ describe('MoviesController', async (): Promise<void> => {
 			title: 'Fake title',
 			description: 'Fake description',
 		};
-		const movie = await moviesService.create(
-			createMoviePayload.title,
-			createMoviePayload.description,
-		);
+		const movie = await moviesService.create(createMoviePayload);
 
 		const accessToken = await tokensService.generate({
 			id: '340f82f1-0e78-4a5c-b7ab-c26bcf56cf09',
@@ -87,7 +84,7 @@ describe('MoviesController', async (): Promise<void> => {
 	});
 
 	it('should find movie by ID', async () => {
-		const { movie, mockClient, accessToken } = await getTestContext();
+		const { mockClient, accessToken, movie } = await getTestContext();
 
 		const response = await mockClient.movies[':id'].$get(
 			{
@@ -125,7 +122,7 @@ describe('MoviesController', async (): Promise<void> => {
 	});
 
 	it('should try to find movie by ID without access token', async () => {
-		const { movie, mockClient } = await getTestContext();
+		const { mockClient, movie } = await getTestContext();
 
 		const response = await mockClient.movies[':id'].$get({
 			param: {
@@ -153,5 +150,47 @@ describe('MoviesController', async (): Promise<void> => {
 		);
 
 		expect(response.status).toEqual(400);
+	});
+
+	it('should update movie', async () => {
+		const { mockClient, accessToken, movie } = await getTestContext();
+
+		const response = await mockClient.movies[':id'].$put(
+			{
+				param: {
+					id: movie.id,
+				},
+				json: {
+					title: 'Updated fake title',
+					description: 'Updated fake description',
+				},
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
+				},
+			},
+		);
+
+		expect(response.status).toEqual(200);
+	});
+
+	it('should delete movie', async () => {
+		const { mockClient, accessToken, movie } = await getTestContext();
+
+		const response = await mockClient.movies[':id'].$delete(
+			{
+				param: {
+					id: movie.id,
+				},
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
+				},
+			},
+		);
+
+		expect(response.status).toEqual(204);
 	});
 });

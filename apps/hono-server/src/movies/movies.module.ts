@@ -10,9 +10,11 @@ export const createMoviesController = (moviesService: MoviesService) =>
 export const createMoviesRoutes = (moviesController: MoviesController) => {
 	return new Hono()
 		.basePath('/movies')
-		.post('/', ...moviesController.create())
 		.get('/', ...moviesController.findAll())
-		.get('/:id', ...moviesController.findById());
+		.get('/:id', ...moviesController.findById())
+		.post('/', ...moviesController.create())
+		.put('/:id', ...moviesController.update())
+		.delete('/:id', ...moviesController.delete());
 };
 
 export const moviesService = new MoviesService(new PostgresMoviesRepository());
