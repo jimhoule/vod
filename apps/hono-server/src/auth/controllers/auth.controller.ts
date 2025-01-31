@@ -23,9 +23,9 @@ export class AuthController {
 		return createHandlers(zValidator('json', loginValidationSchema), async (c) => {
 			try {
 				// Validates request body
-				const { email, password } = c.req.valid('json');
+				const loginDto = c.req.valid('json');
 				// Gets access token
-				const accessToken = await this.authService.login(email, password);
+				const accessToken = await this.authService.login(loginDto);
 
 				return c.json({ accessToken }, 200);
 			} catch (err) {
@@ -38,14 +38,9 @@ export class AuthController {
 		return createHandlers(zValidator('json', registerValidationSchema), async (c) => {
 			try {
 				// Validates request body
-				const { firstName, lastName, email, password } = c.req.valid('json');
+				const registerDto = c.req.valid('json');
 				// Gets access token
-				const accessToken = await this.authService.register(
-					firstName,
-					lastName,
-					email,
-					password,
-				);
+				const accessToken = await this.authService.register(registerDto);
 
 				return c.json({ accessToken }, 201);
 			} catch (err) {

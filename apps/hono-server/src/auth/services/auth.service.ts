@@ -1,4 +1,6 @@
 import { AppError } from '../../app/app.error.js';
+import type { LoginPayload } from './payloads/login.payload.js';
+import type { RegisterPayload } from './payloads/register.payload.js';
 import type { EncryptionService } from '../../encryption/services/encryption.service.js';
 import type { TokensService } from '../../tokens/services/tokens.service.js';
 import type { UsersService } from '../../users/services/users.service.js';
@@ -10,9 +12,9 @@ export class AuthService {
 		private readonly usersService: UsersService,
 	) {}
 
-	async login(email: string, password: string): Promise<string> {
+	async login(loginPayload: LoginPayload): Promise<string> {
 		// Gets user by email
-		const user = await this.usersService.findByEmail(email);
+		const user = await this.usersService.findByEmail(loginPayload.email);
 		if (!user) {
 			throw new AppError('Email or password invalid', 400);
 		}
@@ -20,35 +22,28 @@ export class AuthService {
 		// Validates password
 		const isPasswordValid = await this.encryptionService.comparePassword(
 			user.password,
-			password,
+			loginPayload.password,
 		);
 		if (!isPasswordValid) {
 			throw new AppError('Email or password invalid', 400);
 		}
 
 		// Generates access token
-		return this.tokensService.generate({ id: user.id, email });
+		return this.tokensService.generate({ id: user.id, email: user.email });
 	}
 
-	async register(
-		firstName: string,
-		lastName: string,
-		email: string,
-		password: string,
-	): Promise<string> {
+	async register(registerPayload: RegisterPayload): Promise<string> {
 		// Validates email
-		const doesAlreadyExist = await this.usersService.findByEmail(email);
+		const doesAlreadyExist = await this.usersService.findByEmail(registerPayload.email);
 		if (doesAlreadyExist) {
 			throw new AppError('Email or password invalid', 400);
 		}
 
 		// Hashes password
-		const hashedPassword = await this.encryptionService.hashPassword(password);
+		const hashedPassword = await this.encryptionService.hashPassword(registerPayload.password);
 		// Creates user
 		const user = await this.usersService.create({
-			firstName,
-			lastName,
-			email,
+			...registerPayload,
 			password: hashedPassword,
 		});
 

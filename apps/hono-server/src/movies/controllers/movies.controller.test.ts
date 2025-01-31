@@ -5,7 +5,7 @@ import {
 	createMoviesController,
 	createMoviesRoutes,
 } from '../movies.module.js';
-import type { CreateMoviePayload } from '../services/payloads/create-movie.payload.js';
+import type { Movie } from '../models/movie.model.js';
 import { tokensService } from '../../tokens/tokens.module.js';
 
 describe('MoviesController', async (): Promise<void> => {
@@ -14,32 +14,19 @@ describe('MoviesController', async (): Promise<void> => {
 		const moviesRoutes = createMoviesRoutes(createMoviesController(moviesService));
 		const mockClient = testClient(moviesRoutes);
 
-		const createMoviePayload: CreateMoviePayload = {
-			title: 'Fake title',
-			description: 'Fake description',
-		};
-		const movie = await moviesService.create(createMoviePayload);
-
 		const accessToken = await tokensService.generate({
 			id: '340f82f1-0e78-4a5c-b7ab-c26bcf56cf09',
 			email: 'fake@fake.com',
 		});
 
-		return {
-			mockClient,
-			movie,
-			accessToken,
-			createMoviePayload,
+		const createMovieDto = {
+			title: 'Fake title',
+			description: 'Fake description',
 		};
-	};
-
-	it('should create movie', async () => {
-		const { mockClient, accessToken, createMoviePayload } = await getTestContext();
-
-		const response = await mockClient.movies.$post(
+		const createMovieResponse = await mockClient.movies.$post(
 			{
 				json: {
-					...createMoviePayload,
+					...createMovieDto,
 				},
 			},
 			{
@@ -48,8 +35,20 @@ describe('MoviesController', async (): Promise<void> => {
 				},
 			},
 		);
+		const movie = (await createMovieResponse.json()) as Movie;
 
-		expect(response.status).toEqual(201);
+		return {
+			mockClient,
+			movie,
+			accessToken,
+			createMovieResponse,
+		};
+	};
+
+	it('should create movie', async () => {
+		const { createMovieResponse } = await getTestContext();
+
+		expect(createMovieResponse.status).toEqual(201);
 	});
 
 	it('should find all movies', async () => {

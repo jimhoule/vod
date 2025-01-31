@@ -13,33 +13,28 @@ describe('AuthController', (): void => {
 			email: 'test@test.com',
 			password: 'password',
 		};
-		const register = () => {
-			return mockClient.auth.register.$post({
-				json: {
-					...registerDto,
-				},
-			});
-		};
+		const registerResponse = await mockClient.auth.register.$post({
+			json: {
+				...registerDto,
+			},
+		});
 
 		return {
 			mockClient,
 			registerDto,
-			register,
+			registerResponse,
 		};
 	};
 
 	it('should register', async () => {
-		const { register } = await getTestContext();
+		const { registerResponse } = await getTestContext();
 
-		const response = await register();
-
-		expect(response.status).toEqual(201);
+		expect(registerResponse.status).toEqual(201);
 	});
 
 	it('should login', async () => {
-		const { mockClient, register, registerDto } = await getTestContext();
+		const { mockClient, registerDto } = await getTestContext();
 
-		await register();
 		const response = await mockClient.auth.login.$post({
 			json: {
 				email: registerDto.email,
