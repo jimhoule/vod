@@ -4,6 +4,6 @@ export default {
     ...tailwindcssConfig,
     content: [
 		...tailwindcssConfig.content,
-        './app/**/*.{jsx,tsx}',
+        './src/**/*.{jsx,tsx}',
     ],
 };
