@@ -1,6 +1,3 @@
-export type RegisterPayload = {
-	firstName: string;
-	lastName: string;
-	email: string;
-	password: string;
-};
+import type { User } from '../../../users/models/user.model.js';
+
+export type RegisterPayload = Omit<User, 'id'>;

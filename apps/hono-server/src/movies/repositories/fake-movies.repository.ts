@@ -10,7 +10,7 @@ export class FakeMoviesRepository implements MoviesRepository {
 		return this.movies;
 	}
 
-	async findById(id: string): Promise<Movie | undefined> {
+	async findById(id: Movie['id']): Promise<Movie | undefined> {
 		return this.movies.find((movie: Movie): boolean => movie.id === id);
 	}
 
@@ -22,7 +22,7 @@ export class FakeMoviesRepository implements MoviesRepository {
 		return movie;
 	}
 
-	async update(id: string, updateMovieData: UpdateMovieData): Promise<Movie> {
+	async update(id: Movie['id'], updateMovieData: UpdateMovieData): Promise<Movie> {
 		const movie = await this.findById(id);
 		if (!movie) {
 			throw new Error(`Movie with ID ${id} does not exist`);

@@ -10,13 +10,13 @@ export class PostgresUsersRepository implements UsersRepository {
 		return db.select().from(UsersTable);
 	}
 
-	async findById(id: string): Promise<User | undefined> {
+	async findById(id: User['id']): Promise<User | undefined> {
 		const [user] = await db.select().from(UsersTable).where(eq(UsersTable.id, id));
 
 		return user;
 	}
 
-	async findByEmail(email: string): Promise<User | undefined> {
+	async findByEmail(email: User['email']): Promise<User | undefined> {
 		const [user] = await db.select().from(UsersTable).where(eq(UsersTable.email, email));
 
 		return user;

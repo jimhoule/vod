@@ -10,11 +10,11 @@ export class UsersService {
 		return this.usersRepository.findAll();
 	}
 
-	findById(id: string): Promise<User | undefined> {
+	findById(id: User['id']): Promise<User | undefined> {
 		return this.usersRepository.findById(id);
 	}
 
-	findByEmail(email: string): Promise<User | undefined> {
+	findByEmail(email: User['email']): Promise<User | undefined> {
 		return this.usersRepository.findByEmail(email);
 	}
 

@@ -5,15 +5,15 @@ import type { CreateUserData } from './types/create-user-data.type.js';
 export class FakeUsersRepository implements UsersRepository {
 	private users: User[] = [];
 
-	async findById(id: string): Promise<User | undefined> {
-		return this.users.find((user: User): boolean => user.id === id);
-	}
-
 	async findAll(): Promise<User[]> {
 		return this.users;
 	}
 
-	async findByEmail(email: string): Promise<User | undefined> {
+	async findById(id: User['id']): Promise<User | undefined> {
+		return this.users.find((user: User): boolean => user.id === id);
+	}
+
+	async findByEmail(email: User['email']): Promise<User | undefined> {
 		return this.users.find((user: User): boolean => user.email === email);
 	}
 

@@ -11,7 +11,7 @@ export class PostgresMoviesRepository implements MoviesRepository {
 		return db.select().from(MoviesTable);
 	}
 
-	async findById(id: string): Promise<Movie | undefined> {
+	async findById(id: Movie['id']): Promise<Movie | undefined> {
 		const [movie] = await db.select().from(MoviesTable).where(eq(MoviesTable.id, id));
 
 		return movie;
@@ -23,7 +23,7 @@ export class PostgresMoviesRepository implements MoviesRepository {
 		return newMovie as Movie;
 	}
 
-	async update(id: string, updateMovieData: UpdateMovieData): Promise<Movie> {
+	async update(id: Movie['id'], updateMovieData: UpdateMovieData): Promise<Movie> {
 		const [movie] = await db
 			.update(MoviesTable)
 			.set(updateMovieData)

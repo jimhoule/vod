@@ -11,7 +11,7 @@ export class MoviesService {
 		return this.moviesRepository.findAll();
 	}
 
-	findById(id: string): Promise<Movie | undefined> {
+	findById(id: Movie['id']): Promise<Movie | undefined> {
 		return this.moviesRepository.findById(id);
 	}
 
@@ -23,7 +23,7 @@ export class MoviesService {
 		return this.moviesRepository.update(id, updateMoviePayload);
 	}
 
-	delete(id: string): Promise<Movie> {
+	delete(id: Movie['id']): Promise<Movie> {
 		return this.moviesRepository.delete(id);
 	}
 }

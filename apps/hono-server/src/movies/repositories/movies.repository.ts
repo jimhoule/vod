@@ -4,8 +4,8 @@ import type { UpdateMovieData } from './types/update-movie-data.type.js';
 
 export interface MoviesRepository {
 	findAll(): Promise<Movie[]>;
-	findById(id: string): Promise<Movie | undefined>;
+	findById(id: Movie['id']): Promise<Movie | undefined>;
 	create(createMovieData: CreateMovieData): Promise<Movie>;
-	update(id: string, updateMovieData: UpdateMovieData): Promise<Movie>;
+	update(id: Movie['id'], updateMovieData: UpdateMovieData): Promise<Movie>;
 	delete(id: Movie['id']): Promise<Movie>;
 }
