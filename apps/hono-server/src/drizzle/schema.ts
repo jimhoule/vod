@@ -20,8 +20,8 @@ export const UsersTable = pgTable(
 	},
 );
 
-export const ProfileTable = pgTable('profiles', {
-	id: uuid('id').primaryKey().defaultRandom(),
+export const ProfilesTable = pgTable('profiles', {
+	id: uuid('id').primaryKey().notNull(),
 	name: varchar('name', { length: 255 }).notNull(),
 	userId: uuid('user_id')
 		.notNull()
@@ -35,16 +35,16 @@ export const MoviesTable = pgTable('movies', {
 });
 
 // RELATIONS
-export const UserTableRelations = relations(UsersTable, ({ many }) => {
+export const UsersTableRelations = relations(UsersTable, ({ many }) => {
 	return {
-		profiles: many(ProfileTable),
+		profiles: many(ProfilesTable),
 	};
 });
 
-export const ProfileTableRelations = relations(ProfileTable, ({ one }) => {
+export const ProfilesTableRelations = relations(ProfilesTable, ({ one }) => {
 	return {
 		user: one(UsersTable, {
-			fields: [ProfileTable.userId],
+			fields: [ProfilesTable.userId],
 			references: [UsersTable.id],
 		}),
 	};

@@ -1,0 +1,42 @@
+import type { Profile } from '../models/profile.model.js';
+import type { ProfilesRepository } from './profiles.repository.js';
+import type { CreateProfileData } from './types/create-profile-data.type.js';
+import type { UpdateProfileData } from './types/update-profile-data.type.js';
+
+export class FakeProfilesRepository implements ProfilesRepository {
+	private profiles: Profile[] = [];
+
+	async findAll(): Promise<Profile[]> {
+		return this.profiles;
+	}
+
+	async findById(id: Profile['id']): Promise<Profile | undefined> {
+		return this.profiles.find((profile: Profile): boolean => profile.id === id);
+	}
+
+	async create(createProfileData: CreateProfileData): Promise<Profile> {
+		const profile = createProfileData;
+		// NOTE: Creates a copy with a new reference
+		this.profiles.push(JSON.parse(JSON.stringify(profile)));
+
+		return profile;
+	}
+
+	async update(id: Profile['id'], updateProfileData: UpdateProfileData): Promise<Profile> {
+		const profile = await this.findById(id);
+		if (!profile) {
+			throw new Error(`Profile with ID ${id} does not exist`);
+		}
+
+		Object.assign(profile, updateProfileData);
+
+		return profile;
+	}
+
+	async delete(id: Profile['id']): Promise<Profile> {
+		const profile = await this.findById(id);
+		this.profiles = this.profiles.filter((profile: Profile): boolean => profile.id !== id);
+
+		return profile as Profile;
+	}
+}

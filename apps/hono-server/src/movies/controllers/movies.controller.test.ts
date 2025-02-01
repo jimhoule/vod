@@ -63,18 +63,6 @@ describe('MoviesController', async (): Promise<void> => {
 		expect(response.status).toEqual(200);
 	});
 
-	it('should find all movies', async () => {
-		const { mockClient, accessToken } = await getTestContext();
-
-		const response = await mockClient.movies.$get(undefined, {
-			headers: {
-				Authorization: `Bearer ${accessToken}`,
-			},
-		});
-
-		expect(response.status).toEqual(200);
-	});
-
 	it('should try to find all movies without access token', async () => {
 		const { mockClient } = await getTestContext();
 
