@@ -51,22 +51,33 @@ describe('ProfilesController', async (): Promise<void> => {
 		expect(createProfileResponse.status).toEqual(201);
 	});
 
-	it('should find all profiles', async () => {
-		const { mockClient, accessToken } = await getTestContext();
+	it('should find all profiles by user ID', async () => {
+		const { mockClient, accessToken, profile } = await getTestContext();
 
-		const response = await mockClient.profiles.$get(undefined, {
-			headers: {
-				Authorization: `Bearer ${accessToken}`,
+		const response = await mockClient.profiles.all[':userId'].$get(
+			{
+				param: {
+					userId: profile.userId,
+				},
 			},
-		});
+			{
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
+				},
+			},
+		);
 
 		expect(response.status).toEqual(200);
 	});
 
-	it('should try to find all profiles without access token', async () => {
-		const { mockClient } = await getTestContext();
+	it('should try to find all profiles by user ID without access token', async () => {
+		const { mockClient, profile } = await getTestContext();
 
-		const response = await mockClient.profiles.$get();
+		const response = await mockClient.profiles.all[':userId'].$get({
+			param: {
+				userId: profile.userId,
+			},
+		});
 
 		expect(response.status).toEqual(401);
 	});

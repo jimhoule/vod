@@ -7,8 +7,8 @@ import { withId } from '../../utils/with-id.js';
 export class ProfilesService {
 	constructor(private readonly profilesRepository: ProfilesRepository) {}
 
-	findAll(): Promise<Profile[]> {
-		return this.profilesRepository.findAll();
+	findAllByUserId(userId: Profile['userId']): Promise<Profile[]> {
+		return this.profilesRepository.findAllByUserId(userId);
 	}
 
 	findById(id: Profile['id']): Promise<Profile | undefined> {

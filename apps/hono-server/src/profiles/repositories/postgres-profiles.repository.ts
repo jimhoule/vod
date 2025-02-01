@@ -7,8 +7,8 @@ import type { CreateProfileData } from './types/create-profile-data.type.js';
 import type { UpdateProfileData } from './types/update-profile-data.type.js';
 
 export class PostgresProfilesRepository implements ProfilesRepository {
-	async findAll(): Promise<Profile[]> {
-		return db.select().from(ProfilesTable);
+	async findAllByUserId(userId: Profile['userId']): Promise<Profile[]> {
+		return db.select().from(ProfilesTable).where(eq(ProfilesTable.userId, userId));
 	}
 
 	async findById(id: Profile['id']): Promise<Profile | undefined> {

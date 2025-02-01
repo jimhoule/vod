@@ -10,6 +10,10 @@ const idValidationSchema = z.object({
 	id: z.string().uuid(),
 });
 
+const userIddValidationSchema = z.object({
+	userId: z.string().uuid(),
+});
+
 const createValidationSchema = z.object({
 	name: z.string(),
 	userId: z.string().uuid(),
@@ -23,16 +27,21 @@ const updateValidationSchema = z.object({
 export class ProfilesController {
 	constructor(private readonly profilesService: ProfilesService) {}
 
-	findAll() {
-		return createHandlers(isAuthenticated, async (c) => {
-			try {
-				const profiles = await this.profilesService.findAll();
+	findAllByUserId() {
+		return createHandlers(
+			isAuthenticated,
+			zValidator('param', userIddValidationSchema),
+			async (c) => {
+				try {
+					const { userId } = c.req.valid('param');
+					const profiles = await this.profilesService.findAllByUserId(userId);
 
-				return c.json(profiles, 200);
-			} catch (err) {
-				throwHttpError(err);
-			}
-		});
+					return c.json(profiles, 200);
+				} catch (err) {
+					throwHttpError(err);
+				}
+			},
+		);
 	}
 
 	findById() {

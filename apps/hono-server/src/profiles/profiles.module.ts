@@ -10,7 +10,7 @@ export const createProfilesController = (profilesService: ProfilesService) =>
 export const createProfilesRoutes = (profilesController: ProfilesController) => {
 	return new Hono()
 		.basePath('/profiles')
-		.get('/', ...profilesController.findAll())
+		.get('/all/:userId', ...profilesController.findAllByUserId())
 		.get('/:id', ...profilesController.findById())
 		.post('/', ...profilesController.create())
 		.put('/:id', ...profilesController.update())

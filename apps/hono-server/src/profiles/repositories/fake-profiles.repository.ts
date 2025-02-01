@@ -6,8 +6,8 @@ import type { UpdateProfileData } from './types/update-profile-data.type.js';
 export class FakeProfilesRepository implements ProfilesRepository {
 	private profiles: Profile[] = [];
 
-	async findAll(): Promise<Profile[]> {
-		return this.profiles;
+	async findAllByUserId(userId: Profile['userId']): Promise<Profile[]> {
+		return this.profiles.filter((profile: Profile): boolean => profile.userId === userId);
 	}
 
 	async findById(id: Profile['id']): Promise<Profile | undefined> {

@@ -28,10 +28,10 @@ describe('ProfilesService', (): void => {
 		expect(profile.userId).toEqual(createProfilePayload.userId);
 	});
 
-	it('should find all profiles', async () => {
+	it('should find all profiles by user ID', async () => {
 		const { profile, profilesService } = await getTestContext();
 
-		const profiles = await profilesService.findAll();
+		const profiles = await profilesService.findAllByUserId(profile.userId);
 
 		expect(profile).toBeDefined();
 		expect(profiles).toBeDefined();
