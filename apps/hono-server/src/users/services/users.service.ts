@@ -1,10 +1,14 @@
 import type { User } from '../models/user.model.js';
 import type { UsersRepository } from '../repositories/users.repository.js';
 import type { CreateUserPayload } from './payloads/create-user.payload.js';
+import type { ProfilesService } from '../../profiles/services/profiles.service.js';
 import { withId } from '../../utils/with-id.js';
 
 export class UsersService {
-	constructor(private readonly usersRepository: UsersRepository) {}
+	constructor(
+		private readonly usersRepository: UsersRepository,
+		private readonly profilesService: ProfilesService,
+	) {}
 
 	findAll(): Promise<User[]> {
 		return this.usersRepository.findAll();
@@ -18,7 +22,13 @@ export class UsersService {
 		return this.usersRepository.findByEmail(email);
 	}
 
-	create(createUserPayload: CreateUserPayload): Promise<User> {
-		return this.usersRepository.create(withId(createUserPayload));
+	async create(createUserPayload: CreateUserPayload): Promise<User> {
+		const user = await this.usersRepository.create(withId(createUserPayload));
+		await this.profilesService.create({
+			name: user.firstName,
+			userId: user.id,
+		});
+
+		return user;
 	}
 }
