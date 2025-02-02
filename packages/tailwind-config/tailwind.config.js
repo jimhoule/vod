@@ -2,7 +2,7 @@
 export const tailwindcssConfig = {
     content: [
         // NOTE: Packages content path an app in apps diectory
-        '../../packages/**/*.{jsx,tsx}',
+        '../../packages/**/*.{js,ts,jsx,tsx}',
     ],
     theme: {
         extend: {},
