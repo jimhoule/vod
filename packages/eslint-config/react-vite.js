@@ -22,4 +22,7 @@ export const reactViteConfig = [
 			ecmaVersion: 2020,
 		},
 	},
+	{
+		ignores: ["src/routeTree.gen.ts"]
+	},
 ]
