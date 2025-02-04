@@ -17,6 +17,7 @@ import { Route as IndexImport } from './routes/index'
 import { Route as ProfilesIndexImport } from './routes/profiles/index'
 import { Route as MoviesIndexImport } from './routes/movies/index'
 import { Route as ProfilesIdImport } from './routes/profiles/$id'
+import { Route as AuthLoginImport } from './routes/auth/login'
 
 // Create Virtual Routes
 
@@ -54,6 +55,12 @@ const ProfilesIdRoute = ProfilesIdImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AuthLoginRoute = AuthLoginImport.update({
+  id: '/auth/login',
+  path: '/auth/login',
+  getParentRoute: () => rootRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -70,6 +77,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/auth/login': {
+      id: '/auth/login'
+      path: '/auth/login'
+      fullPath: '/auth/login'
+      preLoaderRoute: typeof AuthLoginImport
       parentRoute: typeof rootRoute
     }
     '/profiles/$id': {
@@ -101,6 +115,7 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutLazyRoute
+  '/auth/login': typeof AuthLoginRoute
   '/profiles/$id': typeof ProfilesIdRoute
   '/movies': typeof MoviesIndexRoute
   '/profiles': typeof ProfilesIndexRoute
@@ -109,6 +124,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutLazyRoute
+  '/auth/login': typeof AuthLoginRoute
   '/profiles/$id': typeof ProfilesIdRoute
   '/movies': typeof MoviesIndexRoute
   '/profiles': typeof ProfilesIndexRoute
@@ -118,6 +134,7 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/about': typeof AboutLazyRoute
+  '/auth/login': typeof AuthLoginRoute
   '/profiles/$id': typeof ProfilesIdRoute
   '/movies/': typeof MoviesIndexRoute
   '/profiles/': typeof ProfilesIndexRoute
@@ -125,16 +142,30 @@ export interface FileRoutesById {
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/profiles/$id' | '/movies' | '/profiles'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/auth/login'
+    | '/profiles/$id'
+    | '/movies'
+    | '/profiles'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/profiles/$id' | '/movies' | '/profiles'
-  id: '__root__' | '/' | '/about' | '/profiles/$id' | '/movies/' | '/profiles/'
+  to: '/' | '/about' | '/auth/login' | '/profiles/$id' | '/movies' | '/profiles'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/auth/login'
+    | '/profiles/$id'
+    | '/movies/'
+    | '/profiles/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutLazyRoute: typeof AboutLazyRoute
+  AuthLoginRoute: typeof AuthLoginRoute
   ProfilesIdRoute: typeof ProfilesIdRoute
   MoviesIndexRoute: typeof MoviesIndexRoute
   ProfilesIndexRoute: typeof ProfilesIndexRoute
@@ -143,6 +174,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutLazyRoute: AboutLazyRoute,
+  AuthLoginRoute: AuthLoginRoute,
   ProfilesIdRoute: ProfilesIdRoute,
   MoviesIndexRoute: MoviesIndexRoute,
   ProfilesIndexRoute: ProfilesIndexRoute,
@@ -160,6 +192,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/about",
+        "/auth/login",
         "/profiles/$id",
         "/movies/",
         "/profiles/"
@@ -170,6 +203,9 @@ export const routeTree = rootRoute
     },
     "/about": {
       "filePath": "about.lazy.tsx"
+    },
+    "/auth/login": {
+      "filePath": "auth/login.tsx"
     },
     "/profiles/$id": {
       "filePath": "profiles/$id.tsx"
