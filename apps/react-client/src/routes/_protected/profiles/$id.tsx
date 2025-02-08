@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 
-export const Route = createFileRoute('/profiles/$id')({
+export const Route = createFileRoute('/_protected/profiles/$id')({
 	component: ProfilePage,
 	loader: async ({ params }) => {
 		await new Promise((resolve) => setTimeout(resolve, 1000));

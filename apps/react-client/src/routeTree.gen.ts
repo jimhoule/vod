@@ -8,28 +8,29 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { createFileRoute } from '@tanstack/react-router'
-
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as ProtectedImport } from './routes/_protected'
+import { Route as AuthImport } from './routes/_auth'
 import { Route as IndexImport } from './routes/index'
-import { Route as ProfilesIndexImport } from './routes/profiles/index'
-import { Route as MoviesIndexImport } from './routes/movies/index'
-import { Route as ProfilesIdImport } from './routes/profiles/$id'
-import { Route as AuthLoginImport } from './routes/auth/login'
-
-// Create Virtual Routes
-
-const AboutLazyImport = createFileRoute('/about')()
+import { Route as AuthLoginImport } from './routes/_auth/login'
+import { Route as ProtectedProfilesRouteImport } from './routes/_protected/movies/route'
+import { Route as ProtectedProfilesIndexImport } from './routes/_protected/profiles/index'
+import { Route as ProtectedMoviesIndexImport } from './routes/_protected/movies/index'
+import { Route as ProtectedProfilesIdImport } from './routes/_protected/profiles/$id'
 
 // Create/Update Routes
 
-const AboutLazyRoute = AboutLazyImport.update({
-  id: '/about',
-  path: '/about',
+const ProtectedRoute = ProtectedImport.update({
+  id: '/_protected',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/about.lazy').then((d) => d.Route))
+} as any)
+
+const AuthRoute = AuthImport.update({
+  id: '/_auth',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
@@ -37,28 +38,34 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const ProfilesIndexRoute = ProfilesIndexImport.update({
-  id: '/profiles/',
-  path: '/profiles/',
-  getParentRoute: () => rootRoute,
+const AuthLoginRoute = AuthLoginImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => AuthRoute,
 } as any)
 
-const MoviesIndexRoute = MoviesIndexImport.update({
+const ProtectedProfilesRouteRoute = ProtectedProfilesRouteImport.update({
+  id: '/profiles',
+  path: '/profiles',
+  getParentRoute: () => ProtectedRoute,
+} as any)
+
+const ProtectedProfilesIndexRoute = ProtectedProfilesIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ProtectedProfilesRouteRoute,
+} as any)
+
+const ProtectedMoviesIndexRoute = ProtectedMoviesIndexImport.update({
   id: '/movies/',
   path: '/movies/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => ProtectedRoute,
 } as any)
 
-const ProfilesIdRoute = ProfilesIdImport.update({
-  id: '/profiles/$id',
-  path: '/profiles/$id',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const AuthLoginRoute = AuthLoginImport.update({
-  id: '/auth/login',
-  path: '/auth/login',
-  getParentRoute: () => rootRoute,
+const ProtectedProfilesIdRoute = ProtectedProfilesIdImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ProtectedProfilesRouteRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -72,112 +79,166 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutLazyImport
+    '/_auth': {
+      id: '/_auth'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthImport
       parentRoute: typeof rootRoute
     }
-    '/auth/login': {
-      id: '/auth/login'
-      path: '/auth/login'
-      fullPath: '/auth/login'
-      preLoaderRoute: typeof AuthLoginImport
+    '/_protected': {
+      id: '/_protected'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof ProtectedImport
       parentRoute: typeof rootRoute
     }
-    '/profiles/$id': {
-      id: '/profiles/$id'
-      path: '/profiles/$id'
-      fullPath: '/profiles/$id'
-      preLoaderRoute: typeof ProfilesIdImport
-      parentRoute: typeof rootRoute
-    }
-    '/movies/': {
-      id: '/movies/'
-      path: '/movies'
-      fullPath: '/movies'
-      preLoaderRoute: typeof MoviesIndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/profiles/': {
-      id: '/profiles/'
+    '/_protected/profiles': {
+      id: '/_protected/profiles'
       path: '/profiles'
       fullPath: '/profiles'
-      preLoaderRoute: typeof ProfilesIndexImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof ProtectedProfilesRouteImport
+      parentRoute: typeof ProtectedImport
+    }
+    '/_auth/login': {
+      id: '/_auth/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof AuthLoginImport
+      parentRoute: typeof AuthImport
+    }
+    '/_protected/profiles/$id': {
+      id: '/_protected/profiles/$id'
+      path: '/$id'
+      fullPath: '/profiles/$id'
+      preLoaderRoute: typeof ProtectedProfilesIdImport
+      parentRoute: typeof ProtectedProfilesRouteImport
+    }
+    '/_protected/movies/': {
+      id: '/_protected/movies/'
+      path: '/movies'
+      fullPath: '/movies'
+      preLoaderRoute: typeof ProtectedMoviesIndexImport
+      parentRoute: typeof ProtectedImport
+    }
+    '/_protected/profiles/': {
+      id: '/_protected/profiles/'
+      path: '/'
+      fullPath: '/profiles/'
+      preLoaderRoute: typeof ProtectedProfilesIndexImport
+      parentRoute: typeof ProtectedProfilesRouteImport
     }
   }
 }
 
 // Create and export the route tree
 
+interface AuthRouteChildren {
+  AuthLoginRoute: typeof AuthLoginRoute
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthLoginRoute: AuthLoginRoute,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+
+interface ProtectedProfilesRouteRouteChildren {
+  ProtectedProfilesIdRoute: typeof ProtectedProfilesIdRoute
+  ProtectedProfilesIndexRoute: typeof ProtectedProfilesIndexRoute
+}
+
+const ProtectedProfilesRouteRouteChildren: ProtectedProfilesRouteRouteChildren =
+  {
+    ProtectedProfilesIdRoute: ProtectedProfilesIdRoute,
+    ProtectedProfilesIndexRoute: ProtectedProfilesIndexRoute,
+  }
+
+const ProtectedProfilesRouteRouteWithChildren =
+  ProtectedProfilesRouteRoute._addFileChildren(
+    ProtectedProfilesRouteRouteChildren,
+  )
+
+interface ProtectedRouteChildren {
+  ProtectedProfilesRouteRoute: typeof ProtectedProfilesRouteRouteWithChildren
+  ProtectedMoviesIndexRoute: typeof ProtectedMoviesIndexRoute
+}
+
+const ProtectedRouteChildren: ProtectedRouteChildren = {
+  ProtectedProfilesRouteRoute: ProtectedProfilesRouteRouteWithChildren,
+  ProtectedMoviesIndexRoute: ProtectedMoviesIndexRoute,
+}
+
+const ProtectedRouteWithChildren = ProtectedRoute._addFileChildren(
+  ProtectedRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/about': typeof AboutLazyRoute
-  '/auth/login': typeof AuthLoginRoute
-  '/profiles/$id': typeof ProfilesIdRoute
-  '/movies': typeof MoviesIndexRoute
-  '/profiles': typeof ProfilesIndexRoute
+  '': typeof ProtectedRouteWithChildren
+  '/profiles': typeof ProtectedProfilesRouteRouteWithChildren
+  '/login': typeof AuthLoginRoute
+  '/profiles/$id': typeof ProtectedProfilesIdRoute
+  '/movies': typeof ProtectedMoviesIndexRoute
+  '/profiles/': typeof ProtectedProfilesIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/about': typeof AboutLazyRoute
-  '/auth/login': typeof AuthLoginRoute
-  '/profiles/$id': typeof ProfilesIdRoute
-  '/movies': typeof MoviesIndexRoute
-  '/profiles': typeof ProfilesIndexRoute
+  '': typeof ProtectedRouteWithChildren
+  '/login': typeof AuthLoginRoute
+  '/profiles/$id': typeof ProtectedProfilesIdRoute
+  '/movies': typeof ProtectedMoviesIndexRoute
+  '/profiles': typeof ProtectedProfilesIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/about': typeof AboutLazyRoute
-  '/auth/login': typeof AuthLoginRoute
-  '/profiles/$id': typeof ProfilesIdRoute
-  '/movies/': typeof MoviesIndexRoute
-  '/profiles/': typeof ProfilesIndexRoute
+  '/_auth': typeof AuthRouteWithChildren
+  '/_protected': typeof ProtectedRouteWithChildren
+  '/_protected/profiles': typeof ProtectedProfilesRouteRouteWithChildren
+  '/_auth/login': typeof AuthLoginRoute
+  '/_protected/profiles/$id': typeof ProtectedProfilesIdRoute
+  '/_protected/movies/': typeof ProtectedMoviesIndexRoute
+  '/_protected/profiles/': typeof ProtectedProfilesIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/about'
-    | '/auth/login'
+    | ''
+    | '/profiles'
+    | '/login'
     | '/profiles/$id'
     | '/movies'
-    | '/profiles'
+    | '/profiles/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/auth/login' | '/profiles/$id' | '/movies' | '/profiles'
+  to: '/' | '' | '/login' | '/profiles/$id' | '/movies' | '/profiles'
   id:
     | '__root__'
     | '/'
-    | '/about'
-    | '/auth/login'
-    | '/profiles/$id'
-    | '/movies/'
-    | '/profiles/'
+    | '/_auth'
+    | '/_protected'
+    | '/_protected/profiles'
+    | '/_auth/login'
+    | '/_protected/profiles/$id'
+    | '/_protected/movies/'
+    | '/_protected/profiles/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AboutLazyRoute: typeof AboutLazyRoute
-  AuthLoginRoute: typeof AuthLoginRoute
-  ProfilesIdRoute: typeof ProfilesIdRoute
-  MoviesIndexRoute: typeof MoviesIndexRoute
-  ProfilesIndexRoute: typeof ProfilesIndexRoute
+  AuthRoute: typeof AuthRouteWithChildren
+  ProtectedRoute: typeof ProtectedRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AboutLazyRoute: AboutLazyRoute,
-  AuthLoginRoute: AuthLoginRoute,
-  ProfilesIdRoute: ProfilesIdRoute,
-  MoviesIndexRoute: MoviesIndexRoute,
-  ProfilesIndexRoute: ProfilesIndexRoute,
+  AuthRoute: AuthRouteWithChildren,
+  ProtectedRoute: ProtectedRouteWithChildren,
 }
 
 export const routeTree = rootRoute
@@ -191,30 +252,49 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/about",
-        "/auth/login",
-        "/profiles/$id",
-        "/movies/",
-        "/profiles/"
+        "/_auth",
+        "/_protected"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
-    "/about": {
-      "filePath": "about.lazy.tsx"
+    "/_auth": {
+      "filePath": "_auth.tsx",
+      "children": [
+        "/_auth/login"
+      ]
     },
-    "/auth/login": {
-      "filePath": "auth/login.tsx"
+    "/_protected": {
+      "filePath": "_protected.tsx",
+      "children": [
+        "/_protected/profiles",
+        "/_protected/movies/"
+      ]
     },
-    "/profiles/$id": {
-      "filePath": "profiles/$id.tsx"
+    "/_protected/profiles": {
+      "filePath": "_protected/profiles/route.tsx",
+      "parent": "/_protected",
+      "children": [
+        "/_protected/profiles/$id",
+        "/_protected/profiles/"
+      ]
     },
-    "/movies/": {
-      "filePath": "movies/index.tsx"
+    "/_auth/login": {
+      "filePath": "_auth/login.tsx",
+      "parent": "/_auth"
     },
-    "/profiles/": {
-      "filePath": "profiles/index.tsx"
+    "/_protected/profiles/$id": {
+      "filePath": "_protected/profiles/$id.tsx",
+      "parent": "/_protected/profiles"
+    },
+    "/_protected/movies/": {
+      "filePath": "_protected/movies/index.tsx",
+      "parent": "/_protected"
+    },
+    "/_protected/profiles/": {
+      "filePath": "_protected/profiles/index.tsx",
+      "parent": "/_protected/profiles"
     }
   }
 }

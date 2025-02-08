@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { fethProfiles } from '../../queries/fetchProfiles';
+import { fethProfiles } from '../../../queries/fetchProfiles';
 
-export const Route = createFileRoute('/profiles/')({
+export const Route = createFileRoute('/_protected/profiles/')({
 	component: ProfilesPage,
 	loader: async ({ context }) => {
 		return context.queryClient.ensureQueryData(fethProfiles('1'));
