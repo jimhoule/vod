@@ -1,9 +1,19 @@
-export function fetchProfiles(userId: string) {
-	const profiles = [
-		{ id: '1', userId: '1', name: 'Profile 1' },
-		{ id: '2', userId: '1', name: 'Profile 2' },
-		{ id: '3', userId: '2', name: 'Profile 3' },
-	];
+import { Profile } from './types/Profile';
+import { apiClient } from '../apiClient';
 
-	return profiles.filter((profile) => profile.userId === userId);
+export async function fetchProfiles(userId: string, accessToken: string): Promise<Profile[]> {
+	const response = await apiClient.profiles.all[':userId'].$get(
+		{
+			param: {
+				userId,
+			},
+		},
+		{
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+			},
+		},
+	);
+
+	return (await response.json()) as Profile[];
 }
