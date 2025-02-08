@@ -6,9 +6,7 @@ const processEnvSchema = z.object({
 		.string()
 		.refine((value) => !isNaN(parseInt(value)))
 		.transform((value) => parseInt(value)),
-	HTTP_ALLOWED_ORIGINS: z
-		.string()
-		.transform((value) => value.split(',')),
+	HTTP_ALLOWED_ORIGINS: z.string().transform((value) => value.split(',')),
 	DB_URL: z.string(),
 	JWT_SECRET: z.string(),
 });
