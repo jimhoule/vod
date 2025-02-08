@@ -1,10 +1,11 @@
 import { createContext } from 'react';
+import { AccessTokenPayload } from '../api/authApi/types/AccessTokenPayload';
 
 export type AuthContextType = {
 	setAccessToken: (accessToken: string) => void;
-	getAccessToken: () => string | null;
+	getAccessToken: () => string;
 	removeAccessToken: () => void;
-	getAccessTokenPayload: () => { id: string; email: string };
+	getAccessTokenPayload: () => AccessTokenPayload;
 	isAuthenticated: () => boolean;
 };
 

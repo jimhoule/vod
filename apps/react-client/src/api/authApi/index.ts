@@ -1,5 +1,6 @@
-import { LoginPayload } from './payloads/LoginPayload';
-import { RegisterPayload } from './payloads/RegisterPayload';
+import type { LoginPayload } from './types/LoginPayload';
+import type { RegisterPayload } from './types/RegisterPayload';
+import type { Tokens } from './types/Tokens';
 import { apiClient } from '../apiClient';
 
 export async function login(loginPayload: LoginPayload) {
@@ -7,7 +8,7 @@ export async function login(loginPayload: LoginPayload) {
 		json: loginPayload,
 	});
 
-	return (await response.json()) as { accessToken: string };
+	return (await response.json()) as Tokens;
 }
 
 export function register(registerPayload: RegisterPayload) {

@@ -5,7 +5,7 @@ export const Route = createFileRoute('/_protected/profiles/')({
 	component: ProfilesPage,
 	loader: async ({ context }) => {
 		const { getAccessToken, getAccessTokenPayload } = context.auth;
-		const accessToken = getAccessToken() as string;
+		const accessToken = getAccessToken();
 		const { id } = getAccessTokenPayload();
 
 		const profiles = await context.queryClient.ensureQueryData(
