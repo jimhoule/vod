@@ -1,16 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
 import { initParticlesEngine } from '@tsparticles/react';
-import {
-  type ISourceOptions,
-  MoveDirection,
-  OutMode,
-} from '@tsparticles/engine';
+import { type ISourceOptions, MoveDirection, OutMode } from '@tsparticles/engine';
 import { loadSlim } from '@tsparticles/slim';
 
 export const useParticles = () => {
 	const [isInitialized, setIsInitialized] = useState(false);
 
-  	const initialize = async (): Promise<void> => {
+	const initialize = async (): Promise<void> => {
 		await initParticlesEngine(async (engine) => {
 			await loadSlim(engine);
 		});
