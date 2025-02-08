@@ -15,7 +15,7 @@ import { Route as ProtectedImport } from './routes/_protected'
 import { Route as AuthImport } from './routes/_auth'
 import { Route as IndexImport } from './routes/index'
 import { Route as AuthLoginImport } from './routes/_auth/login'
-import { Route as ProtectedProfilesRouteImport } from './routes/_protected/movies/route'
+import { Route as ProtectedMoviesRouteImport } from './routes/_protected/movies/route'
 import { Route as ProtectedProfilesIndexImport } from './routes/_protected/profiles/index'
 import { Route as ProtectedMoviesIndexImport } from './routes/_protected/movies/index'
 import { Route as ProtectedProfilesIdImport } from './routes/_protected/profiles/$id'
@@ -44,28 +44,28 @@ const AuthLoginRoute = AuthLoginImport.update({
   getParentRoute: () => AuthRoute,
 } as any)
 
-const ProtectedProfilesRouteRoute = ProtectedProfilesRouteImport.update({
-  id: '/profiles',
-  path: '/profiles',
+const ProtectedMoviesRouteRoute = ProtectedMoviesRouteImport.update({
+  id: '/movies',
+  path: '/movies',
   getParentRoute: () => ProtectedRoute,
 } as any)
 
 const ProtectedProfilesIndexRoute = ProtectedProfilesIndexImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => ProtectedProfilesRouteRoute,
-} as any)
-
-const ProtectedMoviesIndexRoute = ProtectedMoviesIndexImport.update({
-  id: '/movies/',
-  path: '/movies/',
+  id: '/profiles/',
+  path: '/profiles/',
   getParentRoute: () => ProtectedRoute,
 } as any)
 
+const ProtectedMoviesIndexRoute = ProtectedMoviesIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ProtectedMoviesRouteRoute,
+} as any)
+
 const ProtectedProfilesIdRoute = ProtectedProfilesIdImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => ProtectedProfilesRouteRoute,
+  id: '/profiles/$id',
+  path: '/profiles/$id',
+  getParentRoute: () => ProtectedRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -93,11 +93,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedImport
       parentRoute: typeof rootRoute
     }
-    '/_protected/profiles': {
-      id: '/_protected/profiles'
-      path: '/profiles'
-      fullPath: '/profiles'
-      preLoaderRoute: typeof ProtectedProfilesRouteImport
+    '/_protected/movies': {
+      id: '/_protected/movies'
+      path: '/movies'
+      fullPath: '/movies'
+      preLoaderRoute: typeof ProtectedMoviesRouteImport
       parentRoute: typeof ProtectedImport
     }
     '/_auth/login': {
@@ -109,24 +109,24 @@ declare module '@tanstack/react-router' {
     }
     '/_protected/profiles/$id': {
       id: '/_protected/profiles/$id'
-      path: '/$id'
+      path: '/profiles/$id'
       fullPath: '/profiles/$id'
       preLoaderRoute: typeof ProtectedProfilesIdImport
-      parentRoute: typeof ProtectedProfilesRouteImport
+      parentRoute: typeof ProtectedImport
     }
     '/_protected/movies/': {
       id: '/_protected/movies/'
-      path: '/movies'
-      fullPath: '/movies'
+      path: '/'
+      fullPath: '/movies/'
       preLoaderRoute: typeof ProtectedMoviesIndexImport
-      parentRoute: typeof ProtectedImport
+      parentRoute: typeof ProtectedMoviesRouteImport
     }
     '/_protected/profiles/': {
       id: '/_protected/profiles/'
-      path: '/'
-      fullPath: '/profiles/'
+      path: '/profiles'
+      fullPath: '/profiles'
       preLoaderRoute: typeof ProtectedProfilesIndexImport
-      parentRoute: typeof ProtectedProfilesRouteImport
+      parentRoute: typeof ProtectedImport
     }
   }
 }
@@ -143,30 +143,27 @@ const AuthRouteChildren: AuthRouteChildren = {
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
-interface ProtectedProfilesRouteRouteChildren {
+interface ProtectedMoviesRouteRouteChildren {
+  ProtectedMoviesIndexRoute: typeof ProtectedMoviesIndexRoute
+}
+
+const ProtectedMoviesRouteRouteChildren: ProtectedMoviesRouteRouteChildren = {
+  ProtectedMoviesIndexRoute: ProtectedMoviesIndexRoute,
+}
+
+const ProtectedMoviesRouteRouteWithChildren =
+  ProtectedMoviesRouteRoute._addFileChildren(ProtectedMoviesRouteRouteChildren)
+
+interface ProtectedRouteChildren {
+  ProtectedMoviesRouteRoute: typeof ProtectedMoviesRouteRouteWithChildren
   ProtectedProfilesIdRoute: typeof ProtectedProfilesIdRoute
   ProtectedProfilesIndexRoute: typeof ProtectedProfilesIndexRoute
 }
 
-const ProtectedProfilesRouteRouteChildren: ProtectedProfilesRouteRouteChildren =
-  {
-    ProtectedProfilesIdRoute: ProtectedProfilesIdRoute,
-    ProtectedProfilesIndexRoute: ProtectedProfilesIndexRoute,
-  }
-
-const ProtectedProfilesRouteRouteWithChildren =
-  ProtectedProfilesRouteRoute._addFileChildren(
-    ProtectedProfilesRouteRouteChildren,
-  )
-
-interface ProtectedRouteChildren {
-  ProtectedProfilesRouteRoute: typeof ProtectedProfilesRouteRouteWithChildren
-  ProtectedMoviesIndexRoute: typeof ProtectedMoviesIndexRoute
-}
-
 const ProtectedRouteChildren: ProtectedRouteChildren = {
-  ProtectedProfilesRouteRoute: ProtectedProfilesRouteRouteWithChildren,
-  ProtectedMoviesIndexRoute: ProtectedMoviesIndexRoute,
+  ProtectedMoviesRouteRoute: ProtectedMoviesRouteRouteWithChildren,
+  ProtectedProfilesIdRoute: ProtectedProfilesIdRoute,
+  ProtectedProfilesIndexRoute: ProtectedProfilesIndexRoute,
 }
 
 const ProtectedRouteWithChildren = ProtectedRoute._addFileChildren(
@@ -176,11 +173,11 @@ const ProtectedRouteWithChildren = ProtectedRoute._addFileChildren(
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof ProtectedRouteWithChildren
-  '/profiles': typeof ProtectedProfilesRouteRouteWithChildren
+  '/movies': typeof ProtectedMoviesRouteRouteWithChildren
   '/login': typeof AuthLoginRoute
   '/profiles/$id': typeof ProtectedProfilesIdRoute
-  '/movies': typeof ProtectedMoviesIndexRoute
-  '/profiles/': typeof ProtectedProfilesIndexRoute
+  '/movies/': typeof ProtectedMoviesIndexRoute
+  '/profiles': typeof ProtectedProfilesIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -197,7 +194,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_auth': typeof AuthRouteWithChildren
   '/_protected': typeof ProtectedRouteWithChildren
-  '/_protected/profiles': typeof ProtectedProfilesRouteRouteWithChildren
+  '/_protected/movies': typeof ProtectedMoviesRouteRouteWithChildren
   '/_auth/login': typeof AuthLoginRoute
   '/_protected/profiles/$id': typeof ProtectedProfilesIdRoute
   '/_protected/movies/': typeof ProtectedMoviesIndexRoute
@@ -209,11 +206,11 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | ''
-    | '/profiles'
+    | '/movies'
     | '/login'
     | '/profiles/$id'
-    | '/movies'
-    | '/profiles/'
+    | '/movies/'
+    | '/profiles'
   fileRoutesByTo: FileRoutesByTo
   to: '/' | '' | '/login' | '/profiles/$id' | '/movies' | '/profiles'
   id:
@@ -221,7 +218,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_auth'
     | '/_protected'
-    | '/_protected/profiles'
+    | '/_protected/movies'
     | '/_auth/login'
     | '/_protected/profiles/$id'
     | '/_protected/movies/'
@@ -268,16 +265,16 @@ export const routeTree = rootRoute
     "/_protected": {
       "filePath": "_protected.tsx",
       "children": [
-        "/_protected/profiles",
-        "/_protected/movies/"
-      ]
-    },
-    "/_protected/profiles": {
-      "filePath": "_protected/profiles/route.tsx",
-      "parent": "/_protected",
-      "children": [
+        "/_protected/movies",
         "/_protected/profiles/$id",
         "/_protected/profiles/"
+      ]
+    },
+    "/_protected/movies": {
+      "filePath": "_protected/movies/route.tsx",
+      "parent": "/_protected",
+      "children": [
+        "/_protected/movies/"
       ]
     },
     "/_auth/login": {
@@ -286,15 +283,15 @@ export const routeTree = rootRoute
     },
     "/_protected/profiles/$id": {
       "filePath": "_protected/profiles/$id.tsx",
-      "parent": "/_protected/profiles"
+      "parent": "/_protected"
     },
     "/_protected/movies/": {
       "filePath": "_protected/movies/index.tsx",
-      "parent": "/_protected"
+      "parent": "/_protected/movies"
     },
     "/_protected/profiles/": {
       "filePath": "_protected/profiles/index.tsx",
-      "parent": "/_protected/profiles"
+      "parent": "/_protected"
     }
   }
 }
