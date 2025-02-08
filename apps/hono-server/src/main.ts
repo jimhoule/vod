@@ -1,4 +1,5 @@
 import { Hono } from 'hono';
+import { cors } from 'hono/cors';
 import { serve } from '@hono/node-server';
 import { appConfigs } from './app/app.configs.js';
 import { AppHttpError } from './app/app.http-error.js';
@@ -8,6 +9,7 @@ import { profilesRoutes } from './profiles/profiles.module.js';
 import { usersRoutes } from './users/users.module.js';
 
 export const app = new Hono()
+	.use(cors({ origin: appConfigs.http.allowed_origins }))
 	.route('/', authRoutes)
 	.route('/', moviesRoutes)
 	.route('/', profilesRoutes)

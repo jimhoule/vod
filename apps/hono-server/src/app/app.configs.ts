@@ -4,8 +4,11 @@ import { z } from 'zod';
 const processEnvSchema = z.object({
 	HTTP_PORT: z
 		.string()
-		.refine((val) => !isNaN(parseInt(val)))
-		.transform((val) => parseInt(val)),
+		.refine((value) => !isNaN(parseInt(value)))
+		.transform((value) => parseInt(value)),
+	HTTP_ALLOWED_ORIGINS: z
+		.string()
+		.transform((value) => value.split(',')),
 	DB_URL: z.string(),
 	JWT_SECRET: z.string(),
 });
@@ -16,6 +19,7 @@ const load = () => {
 	return {
 		http: {
 			port: parsedProcessEnv.HTTP_PORT,
+			allowed_origins: parsedProcessEnv.HTTP_ALLOWED_ORIGINS,
 		},
 		db: {
 			url: parsedProcessEnv.DB_URL,
