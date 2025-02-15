@@ -90,17 +90,17 @@ function LoginPage() {
 	const isLoginButtonDisabled = Object.values(loginInputs).some((loginInput) => !loginInput);
 
 	return (
-		<div className="flex h-full w-auto items-center justify-center">
+		<div className='flex h-full w-auto items-center justify-center'>
 			<Form rows={7} onSubmit={handleSubmit}>
 				<Form.Field rowPosition={1}>
-					<Form.Title text="Login" size="4xl" position="center" color="white" />
+					<Form.Title text='Login' size='4xl' position='center' color='white' />
 				</Form.Field>
 
 				<Form.Field rowPosition={2} rowSpace={2}>
 					<Form.Input
-						type="text"
-						name="email"
-						placeholder="Enter email"
+						type='text'
+						name='email'
+						placeholder='Enter email'
 						value={loginInputs.email}
 						error={loginErrors.email}
 						onChange={handleEmailChange}
@@ -110,9 +110,9 @@ function LoginPage() {
 
 				<Form.Field rowPosition={4} rowSpace={2}>
 					<Form.Input
-						type="password"
-						name="password"
-						placeholder="Enter password"
+						type='password'
+						name='password'
+						placeholder='Enter password'
 						value={loginInputs.password}
 						error={loginErrors.password}
 						onChange={handlePasswordChange}
@@ -121,7 +121,7 @@ function LoginPage() {
 				</Form.Field>
 
 				<Form.Field rowPosition={6} rowSpace={2}>
-					<Form.Submit title="Login" isDisabled={isLoginButtonDisabled} />
+					<Form.Submit title='Login' isDisabled={isLoginButtonDisabled} />
 				</Form.Field>
 			</Form>
 		</div>

@@ -60,7 +60,7 @@ Form.Title = function FormTitle({
 	const textColor = `text-${color}`;
 
 	return (
-		<div className="h-fit w-full">
+		<div className='h-fit w-full'>
 			<p className={`${textPosiion} ${textSize} ${textColor}`}>{text}</p>
 		</div>
 	);
@@ -86,9 +86,9 @@ Form.Input = function FormInput({
 	onBlur,
 }: FormInputProps) {
 	return (
-		<div className="flex h-fit w-full flex-col items-center">
+		<div className='flex h-fit w-full flex-col items-center'>
 			<input
-				className="h-16 w-3/4 rounded-md border-2 border-cyan-300 bg-black px-2 text-white outline-none transition-all duration-200 ease-in-out focus:w-full focus:border-pink-500"
+				className='h-16 w-3/4 rounded-md border-2 border-cyan-300 bg-black px-2 text-white outline-none transition-all duration-200 ease-in-out focus:w-full focus:border-pink-500'
 				type={type}
 				name={name}
 				placeholder={placeholder}
@@ -98,8 +98,8 @@ Form.Input = function FormInput({
 			/>
 
 			{!!error && (
-				<div className="flex h-10 w-full flex-col items-center justify-center">
-					<p className="w-3/4 text-red-500">{error}</p>
+				<div className='flex h-10 w-full flex-col items-center justify-center'>
+					<p className='w-3/4 text-red-500'>{error}</p>
 				</div>
 			)}
 		</div>
@@ -113,10 +113,10 @@ type FormSubmitProps = {
 
 Form.Submit = function FormSubmit({ title, isDisabled = false }: FormSubmitProps) {
 	return (
-		<div className="flex justify-center">
+		<div className='flex justify-center'>
 			<input
-				className="w-3/4 cursor-pointer rounded-md border-2 border-cyan-300 bg-black p-4 text-xl text-white transition-all duration-200 ease-in-out hover:w-full hover:border-pink-500 hover:bg-pink-500 hover:text-2xl"
-				type="submit"
+				className='w-3/4 cursor-pointer rounded-md border-2 border-cyan-300 bg-black p-4 text-xl text-white transition-all duration-200 ease-in-out hover:w-full hover:border-pink-500 hover:bg-pink-500 hover:text-2xl'
+				type='submit'
 				value={title}
 				disabled={isDisabled}
 			/>

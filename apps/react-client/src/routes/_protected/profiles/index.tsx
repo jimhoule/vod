@@ -24,7 +24,7 @@ function ProfilesPage() {
 			{profiles.map((profile) => (
 				<Link
 					key={profile.id}
-					to="/profiles/$id"
+					to='/profiles/$id'
 					params={{
 						id: profile.id,
 					}}
