@@ -1,5 +1,6 @@
-import { type ChangeEvent, type FormEvent, useState } from 'react';
+import { type ChangeEvent, type FocusEvent, type FormEvent, useState } from 'react';
 import { createFileRoute } from '@tanstack/react-router';
+import { Form } from '@repo/ui/Form';
 import { z } from 'zod';
 import { useLoginMutation } from '../../hooks/useLoginMutation';
 
@@ -7,56 +8,122 @@ export const Route = createFileRoute('/_auth/login')({
 	component: LoginPage,
 });
 
+const emailValidationSchema = z.string().email({ message: '* Invalid email' });
+const passwordValidationSchema = z.string().min(1, { message: '* Invalid password' });
 const loginFormValidationSchema = z.object({
-	email: z.string().email(),
-	password: z.string(),
+	email: emailValidationSchema,
+	password: passwordValidationSchema,
 });
 
+const initialState = {
+	email: '',
+	password: '',
+};
+
 function LoginPage() {
-	const [loginForm, setLoginForm] = useState({
-		email: '',
-		password: '',
-	});
+	const [loginInputs, setLoginInputs] = useState(initialState);
+	const [loginErrors, setLoginErrors] = useState(initialState);
 
 	const loginMutation = useLoginMutation();
 
+	const validateInputValue = (
+		name: string,
+		parsedSchema: z.SafeParseReturnType<string, string>,
+	): void => {
+		const { success, error } = parsedSchema;
+
+		if (!success) {
+			setLoginErrors({
+				...loginErrors,
+				[name]: error.issues[0].message,
+			});
+
+			return;
+		}
+
+		setLoginErrors({
+			...loginErrors,
+			[name]: '',
+		});
+	};
+
 	const handleEmailChange = (event: ChangeEvent<HTMLInputElement>): void =>
-		setLoginForm({ ...loginForm, email: event.currentTarget.value });
+		setLoginInputs({ ...loginInputs, email: event.currentTarget.value });
+
+	const handleEmailBlur = (event: FocusEvent<HTMLInputElement>): void => {
+		const { name, value } = event.currentTarget;
+		validateInputValue(name, emailValidationSchema.safeParse(value));
+	};
 
 	const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>): void =>
-		setLoginForm({ ...loginForm, password: event.currentTarget.value });
+		setLoginInputs({ ...loginInputs, password: event.currentTarget.value });
+
+	const handlePasswordBlur = (event: FocusEvent<HTMLInputElement>): void => {
+		const { name, value } = event.currentTarget;
+		validateInputValue(name, passwordValidationSchema.safeParse(value));
+	};
 
 	const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
 		event.preventDefault();
 
-		const parsedLoginForm = loginFormValidationSchema.parse(loginForm);
-		loginMutation.mutate(parsedLoginForm);
+		const { data, success, error } = loginFormValidationSchema.safeParse(loginInputs);
+
+		if (!success) {
+			const keys = Object.keys(loginErrors);
+			const errors = error.issues.reduce(
+				(acc, issue, index) => ({
+					...acc,
+					[keys[index]]: issue.message,
+				}),
+				initialState,
+			);
+
+			setLoginErrors(errors);
+
+			return;
+		}
+
+		setLoginErrors(initialState);
+		loginMutation.mutate(data);
 	};
+
+	const isLoginButtonDisabled = Object.values(loginInputs).some((loginInput) => !loginInput);
 
 	return (
 		<div className="flex h-full w-auto items-center justify-center">
-			<form
-				className="grid h-1/2 w-1/4 grid-cols-1 grid-rows-3 rounded-xl border-4 border-cyan-300 bg-black p-4 opacity-80"
-				onSubmit={handleSubmit}
-			>
-				<input
-					type="text"
-					name="email"
-					placeholder="Enter email"
-					value={loginForm.email}
-					onChange={handleEmailChange}
-				/>
+			<Form rows={7} onSubmit={handleSubmit}>
+				<Form.Field rowPosition={1}>
+					<Form.Title text="Login" size="4xl" position="center" color="white" />
+				</Form.Field>
 
-				<input
-					type="password"
-					name="password"
-					placeholder="Enter password"
-					value={loginForm.password}
-					onChange={handlePasswordChange}
-				/>
+				<Form.Field rowPosition={2} rowSpace={2}>
+					<Form.Input
+						type="text"
+						name="email"
+						placeholder="Enter email"
+						value={loginInputs.email}
+						error={loginErrors.email}
+						onChange={handleEmailChange}
+						onBlur={handleEmailBlur}
+					/>
+				</Form.Field>
 
-				<input className="cursor-pointer bg-white p-2" type="submit" value="Login" />
-			</form>
+				<Form.Field rowPosition={4} rowSpace={2}>
+					<Form.Input
+						type="password"
+						name="password"
+						placeholder="Enter password"
+						value={loginInputs.password}
+						error={loginErrors.password}
+						onChange={handlePasswordChange}
+						onBlur={handlePasswordBlur}
+					/>
+				</Form.Field>
+
+				<Form.Field rowPosition={6} rowSpace={2}>
+					<Form.Submit title="Login" isDisabled={isLoginButtonDisabled} />
+				</Form.Field>
+			</Form>
 		</div>
 	);
 }
