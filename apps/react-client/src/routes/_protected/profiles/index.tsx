@@ -1,4 +1,7 @@
-import { createFileRoute, Link } from '@tanstack/react-router';
+import type { MouseEvent } from 'react';
+import { Tile } from '@repo/ui/Tile';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import blankImage from '../../../../assets/blank.jpg';
 import { getFetchProfilesQueryOptions } from '../../../queries/getFetchProfilesQueryOptions';
 
 export const Route = createFileRoute('/_protected/profiles/')({
@@ -19,19 +22,40 @@ export const Route = createFileRoute('/_protected/profiles/')({
 function ProfilesPage() {
 	const { profiles } = Route.useLoaderData();
 
+	const navigate = useNavigate();
+
+	const handleClick = (event: MouseEvent<HTMLDivElement>): void => {
+		// TODO: Add profile ID to Jotai store
+
+		navigate({
+			to: '/profiles/$id',
+			params: {
+				id: event.currentTarget.id,
+			},
+		});
+	};
+
 	return (
-		<div>
-			{profiles.map((profile) => (
-				<Link
-					key={profile.id}
-					to='/profiles/$id'
-					params={{
-						id: profile.id,
-					}}
-				>
-					{profile.name}
-				</Link>
-			))}
+		<div className='flex h-full w-auto flex-col items-center justify-center'>
+			<p className='mb-8 text-6xl text-white'>{"Who's watching ?"}</p>
+
+			<div className='grid size-fit grid-cols-3 grid-rows-2 gap-12'>
+				{profiles.map((profile) => (
+					<Tile
+						id={profile.id}
+						key={profile.id}
+						height='64'
+						width='48'
+						onClick={handleClick}
+					>
+						<Tile.Image height='3/4' width='full' src={blankImage} alt='blank' />
+
+						<Tile.Text height='1/4' size='3xl' color='white'>
+							{profile.name}
+						</Tile.Text>
+					</Tile>
+				))}
+			</div>
 		</div>
 	);
 }

@@ -7,7 +7,8 @@
     "./button": "./src/button.tsx",
     "./card": "./src/card.tsx",
     "./code": "./src/code.tsx",
-	"./Form": "./src/Form/index.tsx"
+	"./Form": "./src/Form/index.tsx",
+	"./Tile": "./src/Tile/index.tsx"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
