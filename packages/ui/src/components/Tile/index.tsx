@@ -1,4 +1,8 @@
 import type { MouseEvent, PropsWithChildren } from 'react';
+import { heightClassesMap } from '../../utils/heightClassesMap.js';
+import { textColorClassesMap } from '../../utils/textColorClassesMap.js';
+import { textSizeClassesMap } from '../../utils/textSizeClassesMap.js';
+import { widthtClassesMap } from '../../utils/widthClassesMap.js';
 
 type TileProps = PropsWithChildren & {
 	id?: string;
@@ -8,11 +12,10 @@ type TileProps = PropsWithChildren & {
 };
 
 export function Tile({ children, id = '', height, width, onClick }: TileProps) {
-	const h = `h-${height}`;
-	const w = `w-${width}`;
+	const classNames = `${heightClassesMap[height]} ${widthtClassesMap[width]} cursor-pointer`;
 
 	return (
-		<div id={id} className={`${h} ${w} cursor-pointer`} onClick={onClick}>
+		<div id={id} className={classNames} onClick={onClick}>
 			{children}
 		</div>
 	);
@@ -26,10 +29,9 @@ type TileImageProps = {
 };
 
 Tile.Image = function TileImage({ height = '3/4', width = 'full', src, alt = '' }: TileImageProps) {
-	const h = `h-${height}`;
-	const w = `w-${width}`;
+	const classNames = `${heightClassesMap[height]} ${widthtClassesMap[width]} object-cover`;
 
-	return <img className={`${h} ${w}`} src={src} alt={alt} />;
+	return <img className={classNames} src={src} alt={alt} />;
 };
 
 type TileTextProps = PropsWithChildren & {
@@ -44,13 +46,12 @@ Tile.Text = function TileText({
 	size = '3xl',
 	color = 'white',
 }: TileTextProps) {
-	const h = `h-${height}`;
-	const textSize = `text-${size}`;
-	const textColor = `text-${color}`;
+	const divClassNames = `flex ${height} items-center justify-center`;
+	const pClassNames = `${textSizeClassesMap[size]} ${textColorClassesMap[color]}`;
 
 	return (
-		<div className={`flex ${h} items-center justify-center`}>
-			<p className={`${textSize} ${textColor}`}>{children}</p>
+		<div className={divClassNames}>
+			<p className={pClassNames}>{children}</p>
 		</div>
 	);
 };

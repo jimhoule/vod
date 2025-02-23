@@ -1,45 +1,47 @@
 import type { ChangeEvent, FocusEvent, FormEvent, PropsWithChildren } from 'react';
+import { gridColsClassesMap } from '../../utils/gridColsClassesMap.js';
+import { gridColSpanClassesMap } from '../../utils/gridColSpanClassesMap.js';
+import { gridColStartClassesMap } from '../../utils/gridColStartClassesMap.js';
+import { gridRowsClassesMap } from '../../utils/gridRowsClassesMap.js';
+import { gridRowSpanClassesMap } from '../../utils/gridRowSpanClassesMap.js';
+import { gridRowStartClassesMap } from '../../utils/gridRowStartClassesMap.js';
+import { textColorClassesMap } from '../../utils/textColorClassesMap.js';
+import { textPositionClassesMap } from '../../utils/textPositionClassesMap.js';
+import { textSizeClassesMap } from '../../utils/textSizeClassesMap.js';
 
 type FormProps = PropsWithChildren & {
-	rows?: number;
-	columns?: number;
+	rows?: keyof typeof gridRowsClassesMap;
+	cols?: keyof typeof gridColsClassesMap;
 	onSubmit: (event: FormEvent<HTMLFormElement>) => void;
 };
 
-export function Form({ children, rows = 1, columns = 1, onSubmit }: FormProps) {
-	const gridRows = `grid-rows-${rows}`;
-	const gridCols = `grid-cols-${columns}`;
+export function Form({ children, rows = 1, cols = 1, onSubmit }: FormProps) {
+	const classNames = `grid h-1/2 w-1/4 ${gridColsClassesMap[cols]} ${gridRowsClassesMap[rows]} rounded-md bg-black p-4 opacity-80`;
 
 	return (
-		<form
-			className={`grid h-1/2 w-1/4 ${gridCols} ${gridRows} rounded-md bg-black p-4 opacity-80`}
-			onSubmit={onSubmit}
-		>
+		<form className={classNames} onSubmit={onSubmit}>
 			{children}
 		</form>
 	);
 }
 
 type FormFieldProps = PropsWithChildren & {
-	rowPosition?: number;
-	columnPosition?: number;
-	rowSpace?: number;
-	columnSpace?: number;
+	rowPosition?: keyof typeof gridRowStartClassesMap;
+	colPosition?: keyof typeof gridColStartClassesMap;
+	rowSpace?: keyof typeof gridRowSpanClassesMap;
+	colSpace?: keyof typeof gridColSpanClassesMap;
 };
 
 Form.Field = function FormField({
 	children,
 	rowPosition = 1,
-	columnPosition = 1,
+	colPosition = 1,
 	rowSpace = 1,
-	columnSpace = 1,
+	colSpace = 1,
 }: FormFieldProps) {
-	const rowStart = `row-start-${rowPosition}`;
-	const rowSpan = `row-span-${rowSpace}`;
-	const colStart = `col-start-${columnPosition}`;
-	const colSpan = `col-span-${columnSpace}`;
+	const classNames = `${gridRowStartClassesMap[rowPosition]} ${gridRowSpanClassesMap[rowSpace]} ${gridColStartClassesMap[colPosition]} ${gridColSpanClassesMap[colSpace]}`;
 
-	return <div className={`${rowStart} ${rowSpan} ${colStart} ${colSpan}`}>{children}</div>;
+	return <div className={classNames}>{children}</div>;
 };
 
 type FormTitleProps = {
@@ -55,13 +57,11 @@ Form.Title = function FormTitle({
 	position = 'center',
 	color = 'white',
 }: FormTitleProps) {
-	const textSize = `text-${size}`;
-	const textPosiion = `text-${position}`;
-	const textColor = `text-${color}`;
+	const classNames = `${textPositionClassesMap[position]} ${textSizeClassesMap[size]} ${textColorClassesMap[color]}`;
 
 	return (
 		<div className='h-fit w-full'>
-			<p className={`${textPosiion} ${textSize} ${textColor}`}>{text}</p>
+			<p className={classNames}>{text}</p>
 		</div>
 	);
 };
