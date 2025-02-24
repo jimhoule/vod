@@ -2,6 +2,7 @@ import type { MouseEvent } from 'react';
 import { Tile } from '@repo/ui/Tile';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import blankImage from '../../../../assets/blank.jpg';
+import { useProfile } from '../../../hooks/useProfile';
 import { getFetchProfilesQueryOptions } from '../../../queries/getFetchProfilesQueryOptions';
 
 export const Route = createFileRoute('/_protected/profiles/')({
@@ -23,16 +24,11 @@ function ProfilesPage() {
 	const { profiles } = Route.useLoaderData();
 
 	const navigate = useNavigate();
+	const { addProfile } = useProfile();
 
 	const handleClick = (event: MouseEvent<HTMLDivElement>): void => {
-		// TODO: Add profile ID to Jotai store
-
-		navigate({
-			to: '/profiles/$id',
-			params: {
-				id: event.currentTarget.id,
-			},
-		});
+		addProfile({ id: event.currentTarget.id });
+		navigate({ to: '/movies' });
 	};
 
 	return (
