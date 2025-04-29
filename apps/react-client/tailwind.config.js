@@ -16,6 +16,9 @@ export default {
 			'2xl': '1760px',
 		},
 		extend: {
+			backgroundImage: {
+				'blank-img': "url('../assets/blank.jpg')",
+			},
 			colors: {
 				brand: {
 					light: '#58A7DB',
