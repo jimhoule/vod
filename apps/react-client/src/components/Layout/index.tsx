@@ -2,27 +2,29 @@ import { Link, Outlet } from '@tanstack/react-router';
 
 const links = [
 	{ to: '/profiles', label: 'Profiles' },
-	{ to: '/movies', label: 'Movie' },
+	{ to: '/movies', label: 'Movies' },
 ];
 
 export function Layout() {
 	return (
-		<div className='flex h-full w-auto p-5'>
+		<div className='h-full w-auto'>
 			{/* Navbar */}
-			<div className='grid h-auto w-1/5 grid-cols-1 grid-rows-4 rounded-xl bg-cyan-500 opacity-80'>
-				{links.map((link) => (
-					<Link
-						key={link.to}
-						to={link.to}
-						className='flex items-center justify-center [&.active]:font-bold'
-					>
-						{link.label}
-					</Link>
-				))}
+			<div className='grid h-[10%] w-auto grid-cols-2 grid-rows-1 bg-cyan-500 opacity-80'>
+				<div className='col-span-1 row-span-1 flex items-center justify-start gap-4 bg-yellow-500 px-10'>
+					{links.map((link) => (
+						<Link
+							key={link.to}
+							to={link.to}
+							className='flex items-center justify-center [&.active]:font-bold'
+						>
+							{link.label}
+						</Link>
+					))}
+				</div>
 			</div>
 
 			{/* Views */}
-			<div className='h-auto w-4/5 bg-pink-500 pl-[5%] opacity-50'>
+			<div className='h-[90%] w-auto'>
 				<Outlet />
 			</div>
 		</div>
