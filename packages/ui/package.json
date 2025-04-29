@@ -5,7 +5,14 @@
   "private": true,
   "exports": {
     "./Form": "./src/components/Form/index.tsx",
-    "./Tile": "./src/components/Tile/index.tsx"
+	"./components/Slider": "./src/components/Slider/index.tsx",
+    "./Tile": "./src/components/Tile/index.tsx",
+	"./hooks/useIdledState": "./src/hooks/useIdledState.ts",
+	"./types/ChildlessHtmlAttributes": "./src/types/ChildlessHtmlAttributes.ts",
+	"./types/ChildlessHtmlDivElement": "./src/types/ChildlessHtmlDivElement.ts",
+	"./types/Children": "./src/types/Children.ts",
+	"./types/ChildrenFunction": "./src/types/ChildrenFunction.ts",
+	"./types/CustomChildren": "./src/types/CustomChildren.ts"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
