@@ -202,6 +202,21 @@ importers:
         specifier: ^8.15.0
         version: 8.15.0(eslint@9.15.0(jiti@1.21.7))(typescript@5.5.4)
 
+  packages/models:
+    devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      '@types/node':
+        specifier: ^20.11.24
+        version: 20.17.6
+      typescript:
+        specifier: 5.5.4
+        version: 5.5.4
+
   packages/tailwind-config:
     devDependencies:
       autoprefixer:

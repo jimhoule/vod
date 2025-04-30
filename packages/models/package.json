@@ -1,0 +1,21 @@
+{
+  "name": "@repo/models",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+    "./movies/Movie.ts": "./src/movies/Movie.ts",
+	"./profiles/Profile.ts": "./src/profiles/Profile.ts",
+	"./users/User.ts": "./src/users/User.ts"
+  },
+  "scripts": {
+    "lint": "eslint . --max-warnings 0",
+    "check-types": "tsc --noEmit"
+  },
+  "devDependencies": {
+	"@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "^20.11.24",
+    "typescript": "5.5.4"
+  }
+}
