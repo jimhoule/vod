@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
+import { MoviesInfiniteSlider } from '../../../components/MoviesInfiniteSlider';
 import { getFetchMoviesQueryOptions } from '../../../queries/getFetchMoviesQueryOptions';
 
 export const Route = createFileRoute('/_protected/movies/')({
@@ -14,12 +15,18 @@ function MoviesPage() {
 	const { movies } = Route.useLoaderData();
 
 	return (
-		<div>
-			<ul>
-				{movies.map((movie) => (
-					<li key={movie.id}>{movie.name}</li>
-				))}
-			</ul>
+		<div className='size-full overflow-x-hidden overflow-y-scroll'>
+			<div className='mt-40 h-1/4 w-full'>
+				<MoviesInfiniteSlider movies={movies} slideItemsCount={5} />
+			</div>
+
+			<div className='mt-40 h-1/4 w-full'>
+				<MoviesInfiniteSlider movies={movies} slideItemsCount={5} />
+			</div>
+
+			<div className='mt-40 h-1/4 w-full'>
+				<MoviesInfiniteSlider movies={movies} slideItemsCount={5} />
+			</div>
 		</div>
 	);
 }
