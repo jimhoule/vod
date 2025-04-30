@@ -3,8 +3,7 @@ import { useSliderInfiniteContext } from './hooks/useSliderInfiniteContext.js';
 import type { ChildlessHtmlDivElement } from '../../types/ChildlessHtmlDivElement.js';
 import type { CustomChildren } from '../../types/CustomChildren.js';
 import { SliderControl } from './SliderControl.js';
-
-const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(value, max));
+import { clamp } from '../../utils/clamp.js';
 
 type SliderInfiniteFloatingControlsContainerProps<TItem> = Omit<
 	ChildlessHtmlDivElement,
@@ -32,8 +31,8 @@ export function SliderInfiniteFloatingControlsContainer<TItem>({
 		setCurrentSlideIndex,
 	} = sliderInfiniteContext;
 
-	// NOTE: Prevents de slide index from being an unwanted value when spamming the buttons
-	const clampSlideIndex = (slideIndex: number) =>
+	// NOTE: Prevents slide index from being an unwanted value when spamming the buttons
+	const clampSlideIndex = (slideIndex: number): number =>
 		clamp(
 			slideIndex,
 			backwardSecretTranslationCheckpointIndex,
