@@ -1,6 +1,6 @@
 import { type ChangeEvent, type FocusEvent, type FormEvent, useState } from 'react';
 import { createFileRoute } from '@tanstack/react-router';
-import { Form } from '@repo/ui/Form';
+import { Form } from '@repo/ui/components/Form';
 import { z } from 'zod';
 import { useLoginMutation } from '../../hooks/useLoginMutation';
 

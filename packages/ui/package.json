@@ -4,9 +4,9 @@
   "type": "module",
   "private": true,
   "exports": {
-    "./Form": "./src/components/Form/index.tsx",
+    "./components/Form": "./src/components/Form/index.tsx",
 	"./components/Slider": "./src/components/Slider/index.tsx",
-    "./Tile": "./src/components/Tile/index.tsx",
+    "./components/Tile": "./src/components/Tile/index.tsx",
 	"./hooks/useIdledState": "./src/hooks/useIdledState.ts",
 	"./types/ChildlessHtmlAttributes": "./src/types/ChildlessHtmlAttributes.ts",
 	"./types/ChildlessHtmlDivElement": "./src/types/ChildlessHtmlDivElement.ts",
