@@ -1,6 +1,5 @@
 import { useIdledState } from '@repo/ui/hooks/useIdledState';
-
-type Movie = { id: string; name: string };
+import { Movie } from '@repo/models/movies/Movie';
 
 type MoviesSliderItemProps = {
 	movie: Movie;
@@ -53,7 +52,7 @@ export function MoviesInfiniteSliderItem({
 				onMouseEnter={handleMouseEnter}
 				onMouseLeave={handleMouseLeave}
 			>
-				<p className='size-full rounded-md bg-green-200'>{movie.name} image</p>
+				<p className='size-full rounded-md bg-green-200'>{movie.title} image</p>
 
 				<div className={`h-2/3 w-full rounded-b-md bg-gray-900 ${display}`}></div>
 			</div>

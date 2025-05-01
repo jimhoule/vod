@@ -104,6 +104,9 @@ importers:
 
   apps/react-client:
     dependencies:
+      '@repo/models':
+        specifier: workspace:*
+        version: link:../../packages/models
       '@repo/ui':
         specifier: workspace:*
         version: link:../../packages/ui
