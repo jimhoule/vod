@@ -4,9 +4,9 @@
   "type": "module",
   "private": true,
   "exports": {
-    "./movies/Movie.ts": "./src/movies/Movie.ts",
-	"./profiles/Profile.ts": "./src/profiles/Profile.ts",
-	"./users/User.ts": "./src/users/User.ts"
+    "./movies/Movie": "./src/movies/Movie.ts",
+	"./profiles/Profile": "./src/profiles/Profile.ts",
+	"./users/User": "./src/users/User.ts"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
