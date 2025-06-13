@@ -4,9 +4,11 @@ export default {
     ...tailwindcssConfig,
     content: [
 		...tailwindcssConfig.content,
-        './src/**/*.{js,ts,jsx,tsx}',
+        './src/components/**/*.{js,ts,jsx,tsx}',
+		'./src/routes/**/*.{js,ts,jsx,tsx}',
     ],
 	theme: {
+		...tailwindcssConfig.theme,
 		screens: {
 			xs: '350px',
 			sm: '480px',
@@ -16,15 +18,15 @@ export default {
 			'2xl': '1760px',
 		},
 		extend: {
+			...tailwindcssConfig.theme.extend,
 			backgroundImage: {
 				'blank-img': "url('../assets/blank.jpg')",
 			},
 			colors: {
-				brand: {
-					light: '#58A7DB',
-					dark: '#013C63',
-					neutral: '#ADD4ED'
-				},
+				light: '#58A7DB',
+				dark: '#013C63',
+				neutral: '#ADD4ED',
+				transparent: 'transparent',
 			},
 		},
 	},
