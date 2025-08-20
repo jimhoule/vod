@@ -11,8 +11,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@repo/models": "workspace:*",
     "@repo/ui": "workspace:*",
-	"@repo/models": "workspace:*",
     "@tanstack/react-query": "^5.66.0",
     "@tanstack/react-query-devtools": "^5.66.0",
     "@tanstack/react-router": "^1.99.0",
