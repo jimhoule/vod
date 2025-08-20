@@ -2,7 +2,7 @@
 export const tailwindcssConfig = {
     content: [
         // NOTE: UI package content relative path for an app in apps directory
-        '../../packages/ui/**/*.{js,ts,jsx,tsx}',
+        '../../packages/ui/src/**/*.{js,ts,jsx,tsx}',
     ],
     theme: {
 		extend: {
