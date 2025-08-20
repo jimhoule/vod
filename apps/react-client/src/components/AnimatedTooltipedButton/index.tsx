@@ -1,12 +1,12 @@
 import { AnimatedTooltip } from '@repo/ui/components/AnimatedTooltip';
-import type { Children } from '@repo/ui/types/Children'
+import type { Children } from '@repo/ui/types/Children';
 
 type AnimatedTooltipedButtonProps = {
 	buttonClassName: string;
 	children: Children;
 	tooltipContent: string;
-	onClick: () => void
-}
+	onClick: () => void;
+};
 
 export function AnimatedTooltipedButton({
 	buttonClassName,
@@ -30,10 +30,7 @@ export function AnimatedTooltipedButton({
 			{{
 				content: tooltipContent,
 				trigger: (
-					<button
-						className={buttonClassName}
-						onClick={onClick}
-					>
+					<button className={buttonClassName} onClick={onClick}>
 						{children}
 					</button>
 				),
