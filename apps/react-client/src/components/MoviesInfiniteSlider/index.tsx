@@ -14,7 +14,7 @@ export function MoviesInfiniteSlider({ movies, slideItemsCount }: MoviesSliderPr
 			slideItemsCount={slideItemsCount}
 			wasOneItemHoveredIdleTime={400}
 		>
-			<Slider.InfiniteIndicatorsContainer className=''>
+			<Slider.InfiniteIndicatorsContainer>
 				{({ indicator, isCurrentSlide }) => {
 					const opacity = !isCurrentSlide ? 'opacity-50' : '';
 

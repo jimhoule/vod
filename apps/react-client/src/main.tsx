@@ -1,4 +1,4 @@
-import '@repo/tailwind-config/styles';
+import './styles.css';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { AuthProvider } from './providers/AuthProvider.tsx';
