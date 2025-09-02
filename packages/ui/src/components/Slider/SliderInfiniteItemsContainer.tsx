@@ -18,7 +18,7 @@ type SliderInfiniteItemsContainerProps<TItem> = Omit<ChildlessHtmlDivElement, 'o
 
 export function SliderInfiniteItemsContainer<TItem>({
 	children,
-	className,
+	className = '',
 	...rest
 }: SliderInfiniteItemsContainerProps<TItem>) {
 	const sliderInfiniteContext = useSliderInfiniteContext<TItem>();

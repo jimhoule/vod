@@ -13,7 +13,7 @@ export function SliderInfinite<TItem>({
 	children,
 	items,
 	slideItemsCount,
-	className,
+	className = '',
 	wasOneItemHoveredIdleTime = 300,
 	...rest
 }: SliderInfiniteProps<TItem>) {
