@@ -1,5 +1,5 @@
-import { Slider } from '@repo/ui/components/Slider';
-import { Movie } from '@repo/models/movies/Movie';
+import { Slider } from '@packages/ui/components/Slider';
+import { Movie } from '@packages/models/movies/Movie';
 import { MoviesInfiniteSliderItem } from '../MoviesInfiniteSliderItem';
 
 type MoviesSliderProps = {

@@ -1,4 +1,4 @@
-@import '@repo/tailwind-config/tailwindcss';
+@import '@packages/tailwind-config/tailwindcss';
 
 /* NOTE: This is necessary for tailwind to be applied to the ui package */
 @source '../../../packages/ui';

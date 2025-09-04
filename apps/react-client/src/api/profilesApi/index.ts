@@ -1,4 +1,4 @@
-import { Profile } from '@repo/models/profiles/Profile';
+import { Profile } from '@packages/models/profiles/Profile';
 import { apiClient } from '../apiClient';
 
 export async function fetchProfiles(userId: string, accessToken: string): Promise<Profile[]> {

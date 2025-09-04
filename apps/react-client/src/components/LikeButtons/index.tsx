@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { AnimatedTooltipedButton } from '../AnimatedTooltipedButton';
-import { Icon } from '@repo/ui/components/Icon';
+import { Icon } from '@packages/ui/components/Icon';
 
 export function LikeButtons() {
 	const [isHovered, setIsHovered] = useState(false);

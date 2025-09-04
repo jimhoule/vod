@@ -1,5 +1,5 @@
 import type { MouseEvent } from 'react';
-import { Tile } from '@repo/ui/components/Tile';
+import { Tile } from '@packages/ui/components/Tile';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import blankImage from '../../../../assets/blank.jpg';
 import { useProfile } from '../../../hooks/useProfile';

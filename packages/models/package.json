@@ -1,5 +1,5 @@
 {
-  "name": "@repo/models",
+  "name": "@packages/models",
   "version": "0.0.0",
   "type": "module",
   "private": true,
@@ -13,8 +13,8 @@
     "check-types": "tsc --noEmit"
   },
   "devDependencies": {
-	"@repo/eslint-config": "workspace:*",
-    "@repo/typescript-config": "workspace:*",
+	"@packages/eslint-config": "workspace:*",
+    "@packages/typescript-config": "workspace:*",
     "@types/node": "^20.11.24",
     "typescript": "5.5.4"
   }

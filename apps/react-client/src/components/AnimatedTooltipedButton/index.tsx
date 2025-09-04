@@ -1,5 +1,5 @@
-import { AnimatedTooltip } from '@repo/ui/components/AnimatedTooltip';
-import type { Children } from '@repo/ui/types/Children';
+import { AnimatedTooltip } from '@packages/ui/components/AnimatedTooltip';
+import type { Children } from '@packages/ui/types/Children';
 
 type AnimatedTooltipedButtonProps = {
 	buttonClassName: string;

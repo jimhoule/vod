@@ -1,6 +1,6 @@
-import { Movie } from '@repo/models/movies/Movie';
-import { Icon } from '@repo/ui/components/Icon';
-import { useIdledState } from '@repo/ui/hooks/useIdledState';
+import { Movie } from '@packages/models/movies/Movie';
+import { Icon } from '@packages/ui/components/Icon';
+import { useIdledState } from '@packages/ui/hooks/useIdledState';
 import { AnimatedTooltipedButton } from '../AnimatedTooltipedButton';
 import { LikeButtons } from '../LikeButtons';
 

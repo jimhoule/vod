@@ -1,4 +1,4 @@
-import { Movie } from '@repo/models/movies/Movie';
+import { Movie } from '@packages/models/movies/Movie';
 
 export function fetchMovies(): Movie[] {
 	return [

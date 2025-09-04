@@ -24,7 +24,7 @@
     "postgres": "^3.4.5"
   },
   "devDependencies": {
-    "@repo/typescript-config": "workspace:*",
+    "@packages/typescript-config": "workspace:*",
     "@types/bcrypt": "^5.0.2",
     "@types/node": "^20.11.17",
     "drizzle-kit": "^0.30.1",

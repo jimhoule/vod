@@ -1,4 +1,4 @@
-import { tailwindcssConfig } from '@repo/tailwind-config/tailwindcss-config';
+import { tailwindcssConfig } from '@packages/tailwind-config/tailwindcss-config';
 
 export default {
     ...tailwindcssConfig,
