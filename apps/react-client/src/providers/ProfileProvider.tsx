@@ -1,5 +1,5 @@
 import { type PropsWithChildren, useState } from 'react';
-import { Profile } from '../api/profilesApi/types/Profile';
+import { Profile } from '@packages/models/profiles/Profile';
 import { ProfileContext } from '../contexts/ProfileContext';
 
 export const ProfileProvider = ({ children }: PropsWithChildren) => {

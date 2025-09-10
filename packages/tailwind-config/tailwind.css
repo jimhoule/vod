@@ -16,25 +16,24 @@
 	/* hsl(0, 0, 30) */
 	--color-brand-border: #4d4d4d;
 	/* hsl(0, 0, 60) */
-	--color-brand-border-highlight: #999999;
+	--color-brand-border-highlighted: #ffffff;
 	--color-brand-border-muted: #999999;
 
-	/* hsl(0, 0, 5) */
 	--color-brand-bg: #0d0d0d;
-	/* hsl(0, 0, 0) */
-	--color-brand-bg-dark: #000000;
-	/* hsl(0, 0, 10) */
-	--color-brand-bg-light: #1a1a1a;
+	--color-brand-bg-contrasted: #ffffff;
+	--color-brand-bg-dark: #0d0d0d;
+	--color-brand-bg-light: #222222;
 
 	--color-brand-gradient: linear-gradient(0deg, var(-color-brand-bg), 95%, var(-color-brand-bg-light));
 	--color-brand-gradient-hover: linear-gradient(0deg, var(-color-brand-bg), var(-color-brand-bg-light));
 
 	/* hsl(0, 0, 95) */
 	--color-brand-text: #f2f2f2;
+	--color-brand-text-contrasted: #000000;
 	/* hsl(0, 0, 70) */
 	--color-brand-text-muted: #b3b3b3;
 
-	--shadow: 0px 2px 2px hsla(0, 0%, 0%, 0.07), 0x 4px 4px hsla(0, 0%, 0%, 0.15);
+	--shadow-brand: 0px 2px 2px hsla(0, 0%, 0%, 0.07), 0x 4px 4px hsla(0, 0%, 0%, 0.15);
 
   	--animate-fade-in-slide-up: fade-in-slide-up 0.1s ease-out;
 	@keyframes fade-in-slide-up {
@@ -99,7 +98,7 @@
 			/* hsl(0, 0, 30) */
 			--color-brand-border: #4d4d4d;
 			/* hsl(0, 0, 60) */
-			--color-brand-border-highlight: #999999;
+			--color-brand-border-highlighted: #ffffff;
 			--color-brand-border-muted: #999999;
 
 			/* hsl(0, 0, 5) */

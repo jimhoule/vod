@@ -21,7 +21,7 @@ export function MoviesInfiniteSlider({ movies, slideItemsCount }: MoviesSliderPr
 					return (
 						<div
 							key={indicator.index}
-							className={`h-[4%] w-[1%] bg-white ${opacity}`}
+							className={`h-[4%] w-[1%] bg-brand-bg-contrasted ${opacity}`}
 						/>
 					);
 				}}

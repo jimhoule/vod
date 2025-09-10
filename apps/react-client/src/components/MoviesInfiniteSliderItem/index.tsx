@@ -55,30 +55,30 @@ export function MoviesInfiniteSliderItem({
 				onMouseEnter={handleMouseEnter}
 				onMouseLeave={handleMouseLeave}
 			>
-				<p className='size-full rounded-md bg-green-200'>{movie.title} image</p>
+				<p className='size-full rounded-md bg-brand-secondary text-brand-text'>{movie.title} image</p>
 
-				<div className={`h-3/4 w-full rounded-b-md bg-gray-900 p-4 ${display}`}>
+				<div className={`h-3/4 w-full rounded-b-md bg-brand-bg p-4 ${display}`}>
 					{/* Buttons */}
-					<div className='flex h-1/2 w-full items-center bg-red-300'>
+					<div className='flex h-1/2 w-full items-center'>
 						{/* Left Buttons */}
 						<div className='flex h-full w-1/2 items-center gap-1'>
 							<button
-								className='rounded-full bg-white p-2'
+								className='rounded-full bg-brand-bg-contrasted p-2'
 								onClick={(): void => {
 									alert('Play movie');
 								}}
 							>
-								<Icon name='solid-play' className='size-6 text-black' />
+								<Icon name='solid-play' className='size-6 text-brand-text-contrasted' />
 							</button>
 
 							<AnimatedTooltipedButton
-								buttonClassName='rounded-full border-2 border-solid border-green-700 bg-black p-2 hover:border-white'
+								buttonClassName='rounded-full border-2 border-solid border-brand-border-muted bg-brand-bg-light p-2 hover:border-brand-border-highlighted'
 								tooltipContent='Add to my list'
 								onClick={(): void => {
 									alert('adding to list');
 								}}
 							>
-								<Icon name='solid-plus' className='size-6 text-white' />
+								<Icon name='solid-plus' className='size-6 text-brand-text' />
 							</AnimatedTooltipedButton>
 
 							<LikeButtons />
@@ -87,18 +87,19 @@ export function MoviesInfiniteSliderItem({
 						{/* Right Buttons */}
 						<div className='flex h-full w-1/2 items-center justify-end'>
 							<AnimatedTooltipedButton
-								buttonClassName='rounded-full border-2 border-solid border-green-700 bg-black p-2 hover:border-white'
+								buttonClassName='rounded-full border-2 border-solid border-brand-border-muted bg-brand-bg-light p-2 hover:border-brand-border-highlighted'
 								tooltipContent='More Info'
 								onClick={(): void => {
 									alert('Showing item details');
 								}}
 							>
-								<Icon name='solid-chevron-down' className='size-6 text-white' />
+								<Icon name='solid-chevron-down' className='size-6 text-brand-text' />
 							</AnimatedTooltipedButton>
 						</div>
 					</div>
 
-					<div className='h-1/2 w-full bg-blue-300' />
+					{/* Description */}
+					<div className='h-1/2 w-full bg-brand-primary' />
 				</div>
 			</div>
 		</div>
