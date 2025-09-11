@@ -55,7 +55,9 @@ export function MoviesInfiniteSliderItem({
 				onMouseEnter={handleMouseEnter}
 				onMouseLeave={handleMouseLeave}
 			>
-				<p className='size-full rounded-md bg-brand-secondary text-brand-text'>{movie.title} image</p>
+				<p className='size-full rounded-md bg-brand-secondary text-brand-text'>
+					{movie.title} image
+				</p>
 
 				<div className={`h-3/4 w-full rounded-b-md bg-brand-bg p-4 ${display}`}>
 					{/* Buttons */}
@@ -68,7 +70,10 @@ export function MoviesInfiniteSliderItem({
 									alert('Play movie');
 								}}
 							>
-								<Icon name='solid-play' className='size-6 text-brand-text-contrasted' />
+								<Icon
+									name='solid-play'
+									className='size-6 text-brand-text-contrasted'
+								/>
 							</button>
 
 							<AnimatedTooltipedButton
@@ -93,7 +98,10 @@ export function MoviesInfiniteSliderItem({
 									alert('Showing item details');
 								}}
 							>
-								<Icon name='solid-chevron-down' className='size-6 text-brand-text' />
+								<Icon
+									name='solid-chevron-down'
+									className='size-6 text-brand-text'
+								/>
 							</AnimatedTooltipedButton>
 						</div>
 					</div>
