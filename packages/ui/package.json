@@ -4,12 +4,12 @@
   "type": "module",
   "private": true,
   "exports": {
-	"./components/AnimatedTooltip": "./src/components/AnimatedTooltip/index.tsx",
+    "./components/AnimatedTooltip": "./src/components/AnimatedTooltip/index.tsx",
     "./components/Form": "./src/components/Form/index.tsx",
-	"./components/Icon": "./src/components/Icon/index.tsx",
+    "./components/Icon": "./src/components/Icon/index.tsx",
     "./components/Slider": "./src/components/Slider/index.tsx",
     "./components/Tile": "./src/components/Tile/index.tsx",
-	"./components/Tooltip": "./src/components/Tooltip/index.tsx",
+    "./components/Tooltip": "./src/components/Tooltip/index.tsx",
     "./hooks/useIdledState": "./src/hooks/useIdledState.ts",
     "./types/ChildlessHtmlAttributes": "./src/types/ChildlessHtmlAttributes.ts",
     "./types/ChildlessHtmlDivElement": "./src/types/ChildlessHtmlDivElement.ts",
@@ -35,8 +35,10 @@
     "@heroicons/react": "^2.2.0",
     "@radix-ui/react-tooltip": "^1.2.4",
     "clsx": "^2.1.1",
+    "final-form": "^5.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-final-form": "^7.0.0",
     "tailwind-merge": "^3.0.2"
   }
 }
