@@ -33,20 +33,22 @@ function ProfilesPage() {
 
 	return (
 		<div className='flex h-full w-auto flex-col items-center justify-center'>
-			<p className='mb-8 text-6xl text-white'>{"Who's watching ?"}</p>
+			<p className='mb-8 text-6xl text-brand-text'>{"Who's watching ?"}</p>
 
 			<div className='grid size-fit grid-cols-3 grid-rows-2 gap-12'>
 				{profiles.map((profile) => (
 					<Tile
+						className='w-48 h-64'
 						id={profile.id}
 						key={profile.id}
-						height='64'
-						width='48'
 						onClick={handleClick}
 					>
-						<Tile.Image height='3/4' width='full' src={blankImage} alt='blank' />
+						<Tile.Image className='w-full h-3/4' src={blankImage} alt='blank' />
 
-						<Tile.Text height='1/4' size='3xl' color='white'>
+						<Tile.Text
+							containerClassName='h-1/4'
+							textClassName='text-3xl text-brand-text'
+						>
 							{profile.name}
 						</Tile.Text>
 					</Tile>
