@@ -1,6 +1,6 @@
 import { useField } from 'react-final-form';
 
-type FormErrorProps = {
+export type FormErrorProps = {
 	className?: string;
 	name: string;
 };

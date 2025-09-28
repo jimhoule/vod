@@ -6,7 +6,7 @@ import { FormField } from './FormField.js';
 import { FormInput } from './FormInput.js';
 import { FormSubmit } from './FormSubmit.js';
 
-type FormProps<TValidationSchema, TValues> = {
+export type FormProps<TValidationSchema, TValues> = {
 	children: Children;
 	className?: string;
 	initialValues: TValues;
@@ -59,3 +59,8 @@ Form.Error = FormError;
 Form.Field = FormField;
 Form.Input = FormInput;
 Form.Submit = FormSubmit;
+
+export type { FormErrorProps } from './FormError.js';
+export type { FormFieldProps } from './FormField.js';
+export type { FormInputProps } from './FormInput.js';
+export type { FormSubmitProps } from './FormSubmit.js';

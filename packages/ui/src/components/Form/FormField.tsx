@@ -1,7 +1,7 @@
 import { Field, type FieldRenderProps } from 'react-final-form';
 import type { ChildrenFunction } from '../../types/ChildrenFunction.js';
 
-type FormFieldProps = {
+export type FormFieldProps = {
 	children: ChildrenFunction<FieldRenderProps>;
 	className?: string;
 	name: string;

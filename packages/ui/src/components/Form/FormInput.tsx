@@ -1,7 +1,7 @@
 import { useField } from 'react-final-form';
 import { ChildrenFunction } from '../../types/ChildrenFunction.js';
 
-type FormInputProps = {
+export type FormInputProps = {
 	children?: ChildrenFunction<string>;
 	className?: string;
 	name: string;

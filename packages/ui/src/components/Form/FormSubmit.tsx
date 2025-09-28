@@ -1,6 +1,6 @@
 import { useFormState } from 'react-final-form';
 
-type FormSubmitProps = {
+export type FormSubmitProps = {
 	className?: string;
 	title: string;
 };
