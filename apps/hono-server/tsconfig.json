@@ -1,7 +1,6 @@
 {
   "extends": "@packages/typescript-config/node.json",
   "compilerOptions": {
-    "target": "ESNext",
     "verbatimModuleSyntax": true,
     "types": [
       "node"
@@ -10,5 +9,7 @@
     "jsxImportSource": "hono/jsx",
     "rootDir": "./src",
     "outDir": "./dist"
-  }
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
 }
