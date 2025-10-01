@@ -1,6 +1,6 @@
 import { expect, describe, it } from 'vitest';
-import { createUsersTestService } from '../users.module.js';
-import type { CreateUserPayload } from './payloads/create-user.payload.js';
+import { createUsersTestService } from '../users.module';
+import type { CreateUserPayload } from './payloads/create-user.payload';
 
 describe('UsersService', (): void => {
 	const getTestContext = async () => {

@@ -1,7 +1,7 @@
 import { expect, describe, it } from 'vitest';
-import { createMoviesTestService } from '../movies.module.js';
-import type { CreateMoviePayload } from './payloads/create-movie.payload.js';
-import type { UpdateMoviePayload } from './payloads/update-movie.payload.js';
+import { createMoviesTestService } from '../movies.module';
+import type { CreateMoviePayload } from './payloads/create-movie.payload';
+import type { UpdateMoviePayload } from './payloads/update-movie.payload';
 
 describe('MoviesService', (): void => {
 	const getTestContext = async () => {

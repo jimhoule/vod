@@ -1,8 +1,8 @@
 import { Hono } from 'hono';
-import { FakeMoviesRepository } from './repositories/fake-movies.repository.js';
-import { PostgresMoviesRepository } from './repositories/postgres-movies.repository.js';
-import { MoviesService } from './services/movies.service.js';
-import { MoviesController } from './controllers/movies.controller.js';
+import { FakeMoviesRepository } from './repositories/fake-movies.repository';
+import { PostgresMoviesRepository } from './repositories/postgres-movies.repository';
+import { MoviesService } from './services/movies.service';
+import { MoviesController } from './controllers/movies.controller';
 
 export const createMoviesTestService = () => new MoviesService(new FakeMoviesRepository());
 export const createMoviesController = (moviesService: MoviesService) =>

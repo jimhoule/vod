@@ -1,7 +1,7 @@
-import type { Movie } from '../models/movie.model.js';
-import type { MoviesRepository } from './movies.repository.js';
-import type { CreateMovieData } from './types/create-movie-data.type.js';
-import type { UpdateMovieData } from './types/update-movie-data.type.js';
+import type { Movie } from '../models/movie.model';
+import type { MoviesRepository } from './movies.repository';
+import type { CreateMovieData } from './types/create-movie-data.type';
+import type { UpdateMovieData } from './types/update-movie-data.type';
 
 export class FakeMoviesRepository implements MoviesRepository {
 	private movies: Movie[] = [];

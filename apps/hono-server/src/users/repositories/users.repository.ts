@@ -1,5 +1,5 @@
-import type { User } from '../models/user.model.js';
-import type { CreateUserData } from './types/create-user-data.type.js';
+import type { User } from '../models/user.model';
+import type { CreateUserData } from './types/create-user-data.type';
 
 export interface UsersRepository {
 	findAll(): Promise<User[]>;

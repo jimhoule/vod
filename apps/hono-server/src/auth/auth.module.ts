@@ -1,9 +1,9 @@
 import { Hono } from 'hono';
-import { AuthService } from './services/auth.service.js';
-import { AuthController } from './controllers/auth.controller.js';
-import { encryptionService } from '../encryption/encryption.module.js';
-import { tokensService } from '../tokens/tokens.module.js';
-import { usersService, createUsersTestService } from '../users/users.module.js';
+import { AuthService } from './services/auth.service';
+import { AuthController } from './controllers/auth.controller';
+import { encryptionService } from '../encryption/encryption.module';
+import { tokensService } from '../tokens/tokens.module';
+import { usersService, createUsersTestService } from '../users/users.module';
 
 export const createAuthTestService = () =>
 	new AuthService(encryptionService, tokensService, createUsersTestService());

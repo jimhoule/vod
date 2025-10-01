@@ -1,5 +1,5 @@
 import { HTTPException } from 'hono/http-exception';
-import { AppError, type StatusCode } from './app.error.js';
+import { AppError, type StatusCode } from './app.error';
 
 export class AppHttpError extends HTTPException {
 	constructor(statusCode: StatusCode, message: string, cause?: unknown) {

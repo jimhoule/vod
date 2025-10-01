@@ -1,6 +1,6 @@
-import type { Movie } from '../models/movie.model.js';
-import type { CreateMovieData } from './types/create-movie-data.type.js';
-import type { UpdateMovieData } from './types/update-movie-data.type.js';
+import type { Movie } from '../models/movie.model';
+import type { CreateMovieData } from './types/create-movie-data.type';
+import type { UpdateMovieData } from './types/update-movie-data.type';
 
 export interface MoviesRepository {
 	findAll(): Promise<Movie[]>;

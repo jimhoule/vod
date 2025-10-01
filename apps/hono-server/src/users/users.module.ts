@@ -1,9 +1,9 @@
 import { Hono } from 'hono';
-import { FakeUsersRepository } from './repositories/fake-users.repository.js';
-import { PostgresUsersRepository } from './repositories/postgres-users.repository.js';
-import { UsersService } from './services/users.service.js';
-import { UsersController } from './controllers/users.controller.js';
-import { profilesService, createProfilesTestService } from '../profiles/profiles.module.js';
+import { FakeUsersRepository } from './repositories/fake-users.repository';
+import { PostgresUsersRepository } from './repositories/postgres-users.repository';
+import { UsersService } from './services/users.service';
+import { UsersController } from './controllers/users.controller';
+import { profilesService, createProfilesTestService } from '../profiles/profiles.module';
 
 export const createUsersTestService = () =>
 	new UsersService(new FakeUsersRepository(), createProfilesTestService());

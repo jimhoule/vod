@@ -1,12 +1,8 @@
 import { testClient } from 'hono/testing';
 import { describe, expect, it } from 'vitest';
-import {
-	createUsersTestService,
-	createUsersController,
-	createUsersRoutes,
-} from '../users.module.js';
-import type { CreateUserPayload } from '../services/payloads/create-user.payload.js';
-import { tokensService } from '../../tokens/tokens.module.js';
+import { createUsersTestService, createUsersController, createUsersRoutes } from '../users.module';
+import type { CreateUserPayload } from '../services/payloads/create-user.payload';
+import { tokensService } from '../../tokens/tokens.module';
 
 describe('UsersController', async (): Promise<void> => {
 	const getTestContext = async () => {
