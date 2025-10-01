@@ -1,4 +1,4 @@
-import type { Profile } from '../models/profile.model';
+import type { Profile } from '@packages/models/profiles/Profile';
 import type { ProfilesRepository } from '../repositories/profiles.repository';
 import type { CreateProfilePayload } from './payloads/create-profile.payload';
 import type { UpdateProfilePayload } from './payloads/update-profile.payload';

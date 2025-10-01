@@ -1,7 +1,7 @@
-import { eq } from 'drizzle-orm';
 import { db } from '@packages/db';
+import { eq } from '@packages/db/orm';
 import { ProfilesTable } from '@packages/db/schema/ProfilesTable';
-import type { Profile } from '../models/profile.model';
+import type { Profile } from '@packages/models/profiles/Profile';
 import type { ProfilesRepository } from './profiles.repository';
 import type { CreateProfileData } from './types/create-profile-data.type';
 import type { UpdateProfileData } from './types/update-profile-data.type';

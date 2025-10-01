@@ -1,4 +1,4 @@
-import type { User } from '../models/user.model';
+import type { User } from '@packages/models/users/User';
 import type { UsersRepository } from '../repositories/users.repository';
 import type { CreateUserPayload } from './payloads/create-user.payload';
 import type { ProfilesService } from '../../profiles/services/profiles.service';

@@ -1,11 +1,11 @@
 import { testClient } from 'hono/testing';
 import { describe, expect, it } from 'vitest';
+import type { Profile } from '@packages/models/profiles/Profile';
 import {
 	createProfilesTestService,
 	createProfilesController,
 	createProfilesRoutes,
 } from '../profiles.module';
-import type { Profile } from '../models/profile.model';
 import { tokensService } from '../../tokens/tokens.module';
 
 describe('ProfilesController', async (): Promise<void> => {

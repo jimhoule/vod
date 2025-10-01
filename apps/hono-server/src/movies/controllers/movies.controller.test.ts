@@ -1,11 +1,11 @@
 import { testClient } from 'hono/testing';
 import { describe, expect, it } from 'vitest';
+import type { Movie } from '@packages/models/movies/Movie';
 import {
 	createMoviesTestService,
 	createMoviesController,
 	createMoviesRoutes,
 } from '../movies.module';
-import type { Movie } from '../models/movie.model';
 import { tokensService } from '../../tokens/tokens.module';
 
 describe('MoviesController', async (): Promise<void> => {

@@ -1,3 +1,3 @@
-import type { Movie } from '../../models/movie.model';
+import type { Movie } from '@packages/models/movies/Movie';
 
 export type CreateMovieData = Movie;

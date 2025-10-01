@@ -1,3 +1,3 @@
-import type { User } from '../../models/user.model';
+import type { User } from '@packages/models/users/User';
 
 export type CreateUserPayload = Omit<User, 'id'>;

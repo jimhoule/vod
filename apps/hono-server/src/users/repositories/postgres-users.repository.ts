@@ -1,7 +1,7 @@
-import { eq } from 'drizzle-orm';
 import { db } from '@packages/db';
+import { eq } from '@packages/db/orm';
 import { UsersTable } from '@packages/db/schema/UsersTable';
-import type { User } from '../models/user.model';
+import type { User } from '@packages/models/users/User';
 import type { UsersRepository } from './users.repository';
 import type { CreateUserData } from './types/create-user-data.type';
 

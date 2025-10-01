@@ -1,4 +1,4 @@
-import type { Movie } from '../models/movie.model';
+import type { Movie } from '@packages/models/movies/Movie';
 import type { CreateMovieData } from './types/create-movie-data.type';
 import type { UpdateMovieData } from './types/update-movie-data.type';
 

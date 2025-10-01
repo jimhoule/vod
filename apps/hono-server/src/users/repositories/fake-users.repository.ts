@@ -1,4 +1,4 @@
-import type { User } from '../models/user.model';
+import type { User } from '@packages/models/users/User';
 import type { UsersRepository } from './users.repository';
 import type { CreateUserData } from './types/create-user-data.type';
 

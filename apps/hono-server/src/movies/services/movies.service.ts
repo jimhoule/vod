@@ -1,4 +1,4 @@
-import type { Movie } from '../models/movie.model';
+import type { Movie } from '@packages/models/movies/Movie';
 import type { MoviesRepository } from '../repositories/movies.repository';
 import type { CreateMoviePayload } from './payloads/create-movie.payload';
 import type { UpdateMoviePayload } from './payloads/update-movie.payload';
