@@ -161,7 +161,6 @@ describe('ProfilesController', async (): Promise<void> => {
 				},
 				json: {
 					name: 'Updated fake title',
-					userId: 'f7130603-c6d6-4309-85e3-ecd93321436a',
 				},
 			},
 			{

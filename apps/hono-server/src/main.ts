@@ -1,15 +1,15 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { serve } from '@hono/node-server';
-import { appConfigs } from './app/app.configs.js';
-import { AppHttpError } from './app/app.http-error.js';
-import { authRoutes } from './auth/auth.module.js';
-import { moviesRoutes } from './movies/movies.module.js';
-import { profilesRoutes } from './profiles/profiles.module.js';
-import { usersRoutes } from './users/users.module.js';
+import { env } from '@packages/env';
+import { AppHttpError } from './app/app.http-error';
+import { authRoutes } from './auth/auth.module';
+import { moviesRoutes } from './movies/movies.module';
+import { profilesRoutes } from './profiles/profiles.module';
+import { usersRoutes } from './users/users.module';
 
 export const app = new Hono()
-	.use(cors({ origin: appConfigs.http.allowed_origins }))
+	.use(cors({ origin: env.HTTP_ALLOWED_ORIGINS }))
 	.route('/', authRoutes)
 	.route('/', moviesRoutes)
 	.route('/', profilesRoutes)
@@ -23,7 +23,7 @@ export const app = new Hono()
 		return c.json(err);
 	});
 
-const port = appConfigs.http.port;
+const port = env.HTTP_PORT;
 console.log(`Server is running on http://localhost:${port}`);
 
 serve({

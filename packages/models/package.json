@@ -4,11 +4,21 @@
   "type": "module",
   "private": true,
   "exports": {
-    "./movies/Movie": "./src/movies/Movie.ts",
-	"./profiles/Profile": "./src/profiles/Profile.ts",
-	"./users/User": "./src/users/User.ts"
+    "./movies/Movie": {
+		"types": "./src/movies/Movie.ts",
+		"default": "./dist/movies/Movie.js"
+	},
+	"./profiles/Profile": {
+		"types": "./src/profiles/Profile.ts",
+		"default": "./dist/profiles/Profile.js"
+	},
+	"./users/User": {
+		"types": "./src/users/User.ts",
+		"default": "./dist/users/User.js"
+	}
   },
   "scripts": {
+	"build": "tsup",
     "lint": "eslint . --max-warnings 0",
     "check-types": "tsc --noEmit"
   },

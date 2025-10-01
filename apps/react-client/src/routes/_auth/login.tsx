@@ -1,17 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { Form } from '@packages/ui/components/Form';
-import { z } from 'zod';
+import { Form, type FormInputProps } from '@packages/ui/components/Form';
+import { getLoginValidationSchema } from '@packages/validations/auth/getLoginValidationSchema';
 import { useLoginMutation } from '../../hooks/useLoginMutation';
 
 export const Route = createFileRoute('/_auth/login')({
 	component: LoginPage,
-});
-
-const emailValidationSchema = z.email({ message: '* Invalid email' }).default('');
-const passwordValidationSchema = z.string().min(1, { message: '* Invalid password' }).default('');
-const loginFormValidationSchema = z.object({
-	email: emailValidationSchema,
-	password: passwordValidationSchema,
 });
 
 function LoginPage() {
@@ -20,10 +13,28 @@ function LoginPage() {
 		password: '',
 	};
 
+	const loginValidationSchema = getLoginValidationSchema({
+		emailErrorMessage: '* Invalid email',
+		passwordErrorMessage: '* Invalid password',
+	});
+
 	const loginMutation = useLoginMutation();
 
-	const renderErrorComponent = (name: string) => (
-		<Form.Error className='w-3/4 mt-2 text-red-500' name={name} />
+	const renderFormInput = (
+		name: FormInputProps['name'],
+		placeholder: FormInputProps['placeholder'],
+		type: FormInputProps['type'],
+	) => (
+		<Form.Input
+			className='h-16 w-3/4 rounded-md border-2 border-brand-border-muted bg-brand-bg-dark px-2 text-brand-text outline-none transition-all duration-200 ease-in-out focus:w-full focus:border-brand-border-highlighted'
+			name={name}
+			placeholder={placeholder}
+			type={type}
+		>
+			{(name: FormInputProps['name']) => (
+				<Form.Error className='w-3/4 mt-2 text-brand-alert-danger' name={name} />
+			)}
+		</Form.Input>
 	);
 
 	const handleSubmit = (values: typeof initialValues): void => {
@@ -32,41 +43,27 @@ function LoginPage() {
 
 	return (
 		<div className='flex h-full w-auto items-center justify-center'>
-			<Form<typeof loginFormValidationSchema, typeof initialValues>
-				className='grid grid-cols-1 grid-rows-1 grid-rows-7 h-1/2 w-1/4 rounded-md bg-black p-4 opacity-80'
+			<Form<typeof loginValidationSchema, typeof initialValues>
+				className='grid grid-cols-1 grid-rows-1 grid-rows-7 h-1/2 w-1/4 rounded-md bg-brand-bg-dark p-4 opacity-80'
 				initialValues={initialValues}
 				onSubmit={handleSubmit}
-				validationSchema={loginFormValidationSchema}
+				validationSchema={loginValidationSchema}
 			>
 				<div className='row-start-1 h-fit w-full'>
 					<p className='text-center text-4xl text-brand-text'>Login</p>
 				</div>
 
 				<div className='row-start-2 row-span-2'>
-					<Form.Input
-						className='h-16 w-3/4 rounded-md border-2 border-cyan-300 bg-black px-2 text-white outline-none transition-all duration-200 ease-in-out focus:w-full focus:border-pink-500'
-						type='text'
-						name='email'
-						placeholder='Enter email'
-					>
-						{renderErrorComponent}
-					</Form.Input>
+					{renderFormInput('email', 'Enter email', 'text')}
 				</div>
 
 				<div className='row-start-4 row-span-2'>
-					<Form.Input
-						className='h-16 w-3/4 rounded-md border-2 border-cyan-300 bg-black px-2 text-white outline-none transition-all duration-200 ease-in-out focus:w-full focus:border-pink-500'
-						type='password'
-						name='password'
-						placeholder='Enter password'
-					>
-						{renderErrorComponent}
-					</Form.Input>
+					{renderFormInput('password', 'Enter password', 'password')}
 				</div>
 
 				<div className='flex justify-center row-start-6 row-span-'>
 					<Form.Submit
-						className='w-3/4 cursor-pointer rounded-md border-2 border-cyan-300 bg-black p-4 text-xl text-white transition-all duration-200 ease-in-out hover:w-full hover:border-pink-500 hover:bg-pink-500 hover:text-2xl'
+						className='w-3/4 cursor-pointer rounded-md bg-brand-primary p-4 text-xl text-brand-text transition-all duration-200 ease-in-out hover:w-full hover:text-2xl'
 						title='Login'
 					/>
 				</div>

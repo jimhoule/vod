@@ -7,7 +7,7 @@
     "start": "node  ./dist/main.js",
     "trace": "node --trace_gc ./dist/main.js",
     "dev": "tsx watch src/main.ts",
-    "build": "tsc",
+    "build": "tsup",
     "test": "vitest run",
     "test:watch": "vitest",
     "db:generate": "npx drizzle-kit generate",
@@ -17,13 +17,16 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.13.7",
-    "@hono/zod-validator": "^0.4.2",
+    "@hono/zod-validator": "^0.7.3",
+    "@packages/env": "workspace:*",
+    "@packages/models": "workspace:*",
+    "@packages/validations": "workspace:*",
     "bcrypt": "^5.1.1",
-    "dotenv": "^16.4.7",
     "drizzle-orm": "^0.38.3",
     "postgres": "^3.4.5"
   },
   "devDependencies": {
+    "@packages/eslint-config": "workspace:*",
     "@packages/typescript-config": "workspace:*",
     "@types/bcrypt": "^5.0.2",
     "@types/node": "^20.11.17",

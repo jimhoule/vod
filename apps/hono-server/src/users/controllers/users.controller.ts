@@ -1,14 +1,10 @@
-import { zValidator } from '@hono/zod-validator';
-import { z } from 'zod';
-import { AppHttpError } from '../../app/app.http-error.js';
-import { createHandlers } from '../../app/app.factory.js';
-import { throwHttpError } from '../../app/app.http-error.js';
-import { isAuthenticated } from '../../auth/middlewares/is-authenticated.middleware.js';
-import { UsersService } from '../services/users.service.js';
-
-const findByIdValidationSchema = z.object({
-	id: z.string().uuid(),
-});
+import { getIdValidationSchema } from '@packages/validations/common/getIdValidationSchema';
+import { AppHttpError } from '../../app/app.http-error';
+import { createHandlers } from '../../app/app.factory';
+import { throwHttpError } from '../../app/app.http-error';
+import { validateZodSchema } from '../../app/middlewares/validate-zod-schema.middleware';
+import { isAuthenticated } from '../../auth/middlewares/is-authenticated.middleware';
+import { UsersService } from '../services/users.service';
 
 export class UsersController {
 	constructor(private readonly usersService: UsersService) {}
@@ -26,9 +22,11 @@ export class UsersController {
 	}
 
 	findById() {
+		const idValidationSchema = getIdValidationSchema('* Invalid id');
+
 		return createHandlers(
 			isAuthenticated,
-			zValidator('param', findByIdValidationSchema),
+			validateZodSchema('param', idValidationSchema),
 			async (c) => {
 				try {
 					const { id } = c.req.valid('param');

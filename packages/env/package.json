@@ -1,0 +1,26 @@
+{
+  "name": "@packages/env",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": {
+		"types": "./src/env.ts",
+		"default": "./dist/env.js"
+	}
+  },
+  "scripts": {
+	"build": "tsup",
+    "lint": "eslint . --max-warnings 0",
+    "check-types": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@packages/eslint-config": "workspace:*",
+    "@packages/typescript-config": "workspace:*",
+    "@types/node": "^24.6.0"
+  },
+  "dependencies": {
+    "@dotenvx/dotenvx": "^1.51.0",
+    "@packages/validations": "workspace:*"
+  }
+}

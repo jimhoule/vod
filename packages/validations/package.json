@@ -1,0 +1,68 @@
+{
+  "name": "@packages/validations",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+    "./auth/getLoginValidationSchema": {
+		"types": "./src/auth/getLoginValidationSchema.ts",
+		"default": "./dist/auth/getLoginValidationSchema.js"
+	},
+	"./auth/getRegisterValidationSchema": {
+		"types": "./src/auth/getRegisterValidationSchema.ts",
+		"default": "./dist/auth/getRegisterValidationSchema.js"
+	},
+
+	"./common/getEmailValidationSchema": {
+		"types": "./src/common/getEmailValidationSchema.ts",
+		"default": "./dist/common/getEmailValidationSchema.js"
+	},
+	"./common/getIdValidationSchema": {
+		"types": "./src/common/getIdValidationSchema.ts",
+		"default": "./dist/common/getIdValidationSchema.js"
+	},
+	"./common/getNameValidationSchema": {
+		"types": "./src/common/getNameValidationSchema.ts",
+		"default": "./dist/common/getNameValidationSchema.js"
+	},
+	"./common/getUserIdValidationSchema": {
+		"types": "./src/common/getUserIdValidationSchema.ts",
+		"default": "./dist/common/getUserIdValidationSchema.js"
+	},
+
+	"./env/getEnvValidationSchema": {
+		"types": "./src/env/getEnvValidationSchema.ts",
+		"default": "./dist/env/getEnvValidationSchema.js"
+	},
+
+	"./movies/getCreateMovieValidationSchema": {
+		"types": "./src/movies/getCreateMovieValidationSchema.ts",
+		"default": "./dist/movies/getCreateMovieValidationSchema.js"
+	},
+	"./movies/getUpdateMovieValidationSchema": {
+		"types": "./src/movies/getUpdateMovieValidationSchema.ts",
+		"default": "./dist/movies/getUpdateMovieValidationSchema.js"
+	},
+
+	"./profiles/getCreateProfileValidationSchema": {
+		"types": "./src/profiles/getCreateProfileValidationSchema.ts",
+		"default": "./dist/profiles/getCreateProfileValidationSchema.js"
+	},
+	"./profiles/getUpdateProfileValidationSchema": {
+		"types": "./src/profiles/getUpdateProfileValidationSchema.ts",
+		"default": "./dist/profiles/getUpdateProfileValidationSchema.js"
+	}
+  },
+  "scripts": {
+	"build": "tsup",
+    "lint": "eslint . --max-warnings 0",
+    "check-types": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@packages/eslint-config": "workspace:*",
+    "@packages/typescript-config": "workspace:*"
+  },
+  "dependencies": {
+    "zod": "^4.1.11"
+  }
+}

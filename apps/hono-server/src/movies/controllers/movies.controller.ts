@@ -1,24 +1,12 @@
-import { zValidator } from '@hono/zod-validator';
-import { z } from 'zod';
-import { AppHttpError } from '../../app/app.http-error.js';
-import { createHandlers } from '../../app/app.factory.js';
-import { throwHttpError } from '../../app/app.http-error.js';
-import { isAuthenticated } from '../../auth/middlewares/is-authenticated.middleware.js';
-import { MoviesService } from '../services/movies.service.js';
-
-const idValidationSchema = z.object({
-	id: z.string().uuid(),
-});
-
-const createValidationSchema = z.object({
-	title: z.string(),
-	description: z.string(),
-});
-
-const updateValidationSchema = z.object({
-	title: z.string().optional(),
-	description: z.string().optional(),
-});
+import { getCreateMovieValidationSchema } from '@packages/validations/movies/getCreateMovieValidationSchema';
+import { getIdValidationSchema } from '@packages/validations/common/getIdValidationSchema';
+import { getUpdateMovieValidationSchema } from '@packages/validations/movies/getUpdateMovieValidationSchema';
+import { AppHttpError } from '../../app/app.http-error';
+import { createHandlers } from '../../app/app.factory';
+import { throwHttpError } from '../../app/app.http-error';
+import { validateZodSchema } from '../../app/middlewares/validate-zod-schema.middleware';
+import { isAuthenticated } from '../../auth/middlewares/is-authenticated.middleware';
+import { MoviesService } from '../services/movies.service';
 
 export class MoviesController {
 	constructor(private readonly moviesService: MoviesService) {}
@@ -36,9 +24,11 @@ export class MoviesController {
 	}
 
 	findById() {
+		const idValidationSchema = getIdValidationSchema('* Invalid id');
+
 		return createHandlers(
 			isAuthenticated,
-			zValidator('param', idValidationSchema),
+			validateZodSchema('param', idValidationSchema),
 			async (c) => {
 				try {
 					const { id } = c.req.valid('param');
@@ -56,9 +46,14 @@ export class MoviesController {
 	}
 
 	create() {
+		const createMovieValidationSchema = getCreateMovieValidationSchema({
+			titleErrorMessage: '* Invalid title',
+			descriptionErrorMessage: '* Invalid description',
+		});
+
 		return createHandlers(
 			isAuthenticated,
-			zValidator('json', createValidationSchema),
+			validateZodSchema('json', createMovieValidationSchema),
 			async (c) => {
 				try {
 					const createMovieDto = c.req.valid('json');
@@ -73,10 +68,16 @@ export class MoviesController {
 	}
 
 	update() {
+		const idValidationSchema = getIdValidationSchema('* Invalid id');
+		const updateMovieValidationSchema = getUpdateMovieValidationSchema({
+			titleErrorMessage: '* Invalid title',
+			descriptionErrorMessage: '* Invalid description',
+		});
+
 		return createHandlers(
 			isAuthenticated,
-			zValidator('param', idValidationSchema),
-			zValidator('json', updateValidationSchema),
+			validateZodSchema('param', idValidationSchema),
+			validateZodSchema('json', updateMovieValidationSchema),
 			async (c) => {
 				try {
 					const { id } = c.req.valid('param');
@@ -92,9 +93,11 @@ export class MoviesController {
 	}
 
 	delete() {
+		const idValidationSchema = getIdValidationSchema('* Invalid id');
+
 		return createHandlers(
 			isAuthenticated,
-			zValidator('param', idValidationSchema),
+			validateZodSchema('param', idValidationSchema),
 			async (c) => {
 				try {
 					const { id } = c.req.valid('param');

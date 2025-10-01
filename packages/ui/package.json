@@ -4,23 +4,62 @@
   "type": "module",
   "private": true,
   "exports": {
-    "./components/AnimatedTooltip": "./src/components/AnimatedTooltip/index.tsx",
-    "./components/Form": "./src/components/Form/index.tsx",
-    "./components/Icon": "./src/components/Icon/index.tsx",
-    "./components/Slider": "./src/components/Slider/index.tsx",
-    "./components/Tile": "./src/components/Tile/index.tsx",
-    "./components/Tooltip": "./src/components/Tooltip/index.tsx",
-    "./hooks/useIdledState": "./src/hooks/useIdledState.ts",
-    "./types/ChildlessHtmlAttributes": "./src/types/ChildlessHtmlAttributes.ts",
-    "./types/ChildlessHtmlDivElement": "./src/types/ChildlessHtmlDivElement.ts",
-    "./types/Children": "./src/types/Children.ts",
-    "./types/ChildrenFunction": "./src/types/ChildrenFunction.ts",
-    "./types/CustomChildren": "./src/types/CustomChildren.ts"
+    "./components/AnimatedTooltip": {
+		"types": "./src/components/AnimatedTooltip/index.tsx",
+		"default": "./dist/components/AnimatedTooltip/index.js"
+	},
+    "./components/Form": {
+		"types": "./src/components/Form/index.tsx",
+		"default": "./dist/components/Form/index.js"
+	},
+    "./components/Icon": {
+		"types": "./src/components/Icon/index.tsx",
+		"default": "./dist/components/Icon/index.js"
+	},
+    "./components/Slider": {
+		"types": "./src/components/Slider/index.tsx",
+		"default": "./dist/components/Slider/index.js"
+	},
+    "./components/Tile": {
+		"types": "./src/components/Tile/index.tsx",
+		"default": "./dist/components/Tile/index.js"
+	},
+    "./components/Tooltip": {
+		"types": "./src/components/Tooltip/index.tsx",
+		"default": "./dist/components/Tooltip/index.js"
+	},
+
+    "./hooks/useIdledState": {
+		"types": "./src/hooks/useIdledState.ts",
+		"default": "./dist/hooks/useIdledState.js"
+	},
+
+    "./types/ChildlessHtmlAttributes": {
+		"types": "./src/types/ChildlessHtmlAttributes.ts",
+		"default": "./dist/types/ChildlessHtmlAttributes.js"
+	},
+    "./types/ChildlessHtmlDivElement": {
+		"types": "./src/types/ChildlessHtmlDivElement.ts",
+		"default": "./dist/types/ChildlessHtmlDivElement.js"
+	},
+    "./types/Children": {
+		"types": "./src/types/Children.ts",
+		"default": "./default/types/Children.js"
+	},
+    "./types/ChildrenFunction": {
+		"types": "./src/types/ChildrenFunction.ts",
+		"default": "./dist/types/ChildrenFunction.js"
+	},
+    "./types/CustomChildren": {
+		"types": "./src/types/CustomChildren.ts",
+		"default": "./dist/types/CustomChildren.js"
+	}
   },
   "scripts": {
-    "lint": "eslint . --max-warnings 0",
-    "generate:component": "turbo gen react-component",
-    "check-types": "tsc --noEmit"
+	"build": "tsup",
+	"check-types": "tsc --noEmit",
+	"generate:component": "turbo gen react-component",
+    "lint": "eslint . --max-warnings 0"
   },
   "devDependencies": {
     "@packages/eslint-config": "workspace:*",

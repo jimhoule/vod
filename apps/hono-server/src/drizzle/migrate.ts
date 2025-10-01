@@ -1,9 +1,8 @@
 import { drizzle } from 'drizzle-orm/postgres-js';
 import { migrate } from 'drizzle-orm/postgres-js/migrator';
 import postgres from 'postgres';
-import { appConfigs } from '../app/app.configs.js';
-
-const migrationClient = postgres(appConfigs.db.url, {
+import { env } from '@packages/env';
+const migrationClient = postgres(env.DB_URL, {
 	max: 1,
 });
 

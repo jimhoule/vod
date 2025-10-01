@@ -1,5 +1,5 @@
 import { Form as InternalForm } from 'react-final-form';
-import type { z } from 'zod';
+import type { ZodObject } from 'zod';
 import type { Children } from '../../types/Children.js';
 import { FormError } from './FormError.js';
 import { FormField } from './FormField.js';
@@ -14,7 +14,7 @@ export type FormProps<TValidationSchema, TValues> = {
 	validationSchema: TValidationSchema;
 };
 
-export function Form<TValidationSchema extends z.ZodObject, TValues extends object>({
+export function Form<TValidationSchema extends ZodObject, TValues extends object>({
 	children,
 	className = '',
 	initialValues,

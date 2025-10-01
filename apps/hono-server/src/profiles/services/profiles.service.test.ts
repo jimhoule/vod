@@ -62,7 +62,6 @@ describe('ProfilesService', (): void => {
 
 		const updateProfilePayload: UpdateProfilePayload = {
 			name: 'Updated fake name',
-			userId: 'Udb0f8889-8b16-4ee8-a330-2ee7e6bfd657',
 		};
 		const updatedProfile = await profilesService.update(profile.id, updateProfilePayload);
 
@@ -70,7 +69,6 @@ describe('ProfilesService', (): void => {
 		expect(updatedProfile).toBeDefined();
 		expect(updatedProfile.id).toEqual(profile.id);
 		expect(updatedProfile.name).toEqual(updateProfilePayload.name);
-		expect(updatedProfile.userId).toEqual(updateProfilePayload.userId);
 	});
 
 	it('should delete profile', async () => {

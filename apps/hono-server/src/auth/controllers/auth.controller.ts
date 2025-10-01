@@ -1,26 +1,19 @@
-import { zValidator } from '@hono/zod-validator';
-import { z } from 'zod';
-import { createHandlers } from '../../app/app.factory.js';
-import { throwHttpError } from '../../app/app.http-error.js';
-import { AuthService } from '../services/auth.service.js';
-
-const loginValidationSchema = z.object({
-	email: z.string().email(),
-	password: z.string(),
-});
-
-const registerValidationSchema = z.object({
-	firstName: z.string(),
-	lastName: z.string(),
-	email: z.string().email(),
-	password: z.string(),
-});
-
+import { getLoginValidationSchema } from '@packages/validations/auth/getLoginValidationSchema';
+import { getRegisterValidationSchema } from '@packages/validations/auth/getRegisterValidationSchema';
+import { createHandlers } from '../../app/app.factory';
+import { throwHttpError } from '../../app/app.http-error';
+import { validateZodSchema } from '../../app/middlewares/validate-zod-schema.middleware';
+import { AuthService } from '../services/auth.service';
 export class AuthController {
 	constructor(private readonly authService: AuthService) {}
 
 	login() {
-		return createHandlers(zValidator('json', loginValidationSchema), async (c) => {
+		const loginValidationSchema = getLoginValidationSchema({
+			emailErrorMessage: '* Invalid email',
+			passwordErrorMessage: '* Invalid password',
+		});
+
+		return createHandlers(validateZodSchema('json', loginValidationSchema), async (c) => {
 			try {
 				// Validates request body
 				const loginDto = c.req.valid('json');
@@ -35,7 +28,14 @@ export class AuthController {
 	}
 
 	register() {
-		return createHandlers(zValidator('json', registerValidationSchema), async (c) => {
+		const registerValidationSchema = getRegisterValidationSchema({
+			emailErrorMessage: '* Invalid email',
+			firstNameErrorMessage: '* Invalid first name',
+			lastNameErrorMessage: '* Invalid last name',
+			passwordErrorMessage: '* Invalid password',
+		});
+
+		return createHandlers(validateZodSchema('json', registerValidationSchema), async (c) => {
 			try {
 				// Validates request body
 				const registerDto = c.req.valid('json');
