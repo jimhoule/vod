@@ -34,12 +34,13 @@ WORKDIR /app
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 hono
 USER hono
+
 # Copies everything from installer phase
 COPY --from=installer /app .
 # Executes entrypoint executable
 COPY --chmod=0755 ./apps/hono-server/docker-entrypoint.sh /docker-entrypoint.sh
-ENTRYPOINT ["/docker-entrypoint.sh"]
+
 # Exposes port for external use
 EXPOSE 3002
-# Starts app
-CMD node apps/hono-server/dist/main.js
+
+ENTRYPOINT ["/docker-entrypoint.sh"]

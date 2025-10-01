@@ -1,6 +1,7 @@
 # NOTE: Runs tests in docker container
 
 FROM node:22-alpine
+
 RUN apk update
 RUN apk add --no-cache libc6-compat
 # Adds pnpm
@@ -11,4 +12,4 @@ WORKDIR /app
 COPY . .
 RUN pnpm install --frozen-lockfile
 
-CMD pnpm run test:watch
+CMD ["pnpm", "test:watch"]
