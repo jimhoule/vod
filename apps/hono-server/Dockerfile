@@ -37,10 +37,11 @@ USER hono
 
 # Copies everything from installer phase
 COPY --from=installer /app .
-# Executes entrypoint executable
+# Copies entrypoint shell script
 COPY --chmod=0755 ./apps/hono-server/docker-entrypoint.sh /docker-entrypoint.sh
 
 # Exposes port for external use
 EXPOSE 3002
 
+# Executes entry point shell script
 ENTRYPOINT ["/docker-entrypoint.sh"]
