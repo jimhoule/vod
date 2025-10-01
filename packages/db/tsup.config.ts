@@ -3,7 +3,7 @@ import { defineConfig } from 'tsup';
 export default defineConfig({
 	clean: true,
 	dts: true,
-	entry: ['./src/db.ts', './src/schema/*.ts'],
+	entry: ['./src/db.ts', './src/orm.ts', './src/schema/*.ts'],
 	format: ['esm'],
 	outDir: './dist',
 	sourcemap: true,
