@@ -1,10 +1,10 @@
 import { eq } from 'drizzle-orm';
-import { db } from '../../drizzle/db.js';
-import { ProfilesTable } from '../../drizzle/schema.js';
-import type { Profile } from '../models/profile.model.js';
-import type { ProfilesRepository } from './profiles.repository.js';
-import type { CreateProfileData } from './types/create-profile-data.type.js';
-import type { UpdateProfileData } from './types/update-profile-data.type.js';
+import { db } from '@packages/db';
+import { ProfilesTable } from '@packages/db/schema/ProfilesTable';
+import type { Profile } from '../models/profile.model';
+import type { ProfilesRepository } from './profiles.repository';
+import type { CreateProfileData } from './types/create-profile-data.type';
+import type { UpdateProfileData } from './types/update-profile-data.type';
 
 export class PostgresProfilesRepository implements ProfilesRepository {
 	async findAllByUserId(userId: Profile['userId']): Promise<Profile[]> {

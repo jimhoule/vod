@@ -1,10 +1,10 @@
 import { eq } from 'drizzle-orm';
-import { db } from '../../drizzle/db.js';
-import { MoviesTable } from '../../drizzle/schema.js';
-import type { Movie } from '../models/movie.model.js';
-import type { MoviesRepository } from './movies.repository.js';
-import type { CreateMovieData } from './types/create-movie-data.type.js';
-import type { UpdateMovieData } from './types/update-movie-data.type.js';
+import { db } from '@packages/db';
+import { MoviesTable } from '@packages/db/schema/MoviesTable';
+import type { Movie } from '../models/movie.model';
+import type { MoviesRepository } from './movies.repository';
+import type { CreateMovieData } from './types/create-movie-data.type';
+import type { UpdateMovieData } from './types/update-movie-data.type';
 
 export class PostgresMoviesRepository implements MoviesRepository {
 	async findAll(): Promise<Movie[]> {

@@ -9,28 +9,23 @@
     "dev": "tsx watch src/main.ts",
     "build": "tsup",
     "test": "vitest run",
-    "test:watch": "vitest",
-    "db:generate": "npx drizzle-kit generate",
-    "db:drop": "npx drizzle-kit drop",
-    "db:migrate": "tsx ./src/drizzle/migrate.ts",
-    "db:studio": "npx drizzle-kit studio"
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@hono/node-server": "^1.13.7",
     "@hono/zod-validator": "^0.7.3",
+    "@packages/db": "workspace:*",
     "@packages/env": "workspace:*",
     "@packages/models": "workspace:*",
     "@packages/validations": "workspace:*",
     "bcrypt": "^5.1.1",
-    "drizzle-orm": "^0.38.3",
-    "postgres": "^3.4.5"
+    "drizzle-orm": "^0.38.3"
   },
   "devDependencies": {
     "@packages/eslint-config": "workspace:*",
     "@packages/typescript-config": "workspace:*",
     "@types/bcrypt": "^5.0.2",
     "@types/node": "^20.11.17",
-    "drizzle-kit": "^0.30.1",
     "tsx": "^4.7.1"
   }
 }

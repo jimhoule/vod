@@ -1,9 +1,9 @@
 import { eq } from 'drizzle-orm';
-import { db } from '../../drizzle/db.js';
-import { UsersTable } from '../../drizzle/schema.js';
-import type { User } from '../models/user.model.js';
-import type { UsersRepository } from './users.repository.js';
-import type { CreateUserData } from './types/create-user-data.type.js';
+import { db } from '@packages/db';
+import { UsersTable } from '@packages/db/schema/UsersTable';
+import type { User } from '../models/user.model';
+import type { UsersRepository } from './users.repository';
+import type { CreateUserData } from './types/create-user-data.type';
 
 export class PostgresUsersRepository implements UsersRepository {
 	async findAll(): Promise<User[]> {
