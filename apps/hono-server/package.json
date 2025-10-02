@@ -6,10 +6,11 @@
     "check-types": "tsc --noEmit",
     "start": "node ./dist/main.js",
     "trace": "node --trace_gc ./dist/main.js",
-    "dev": "dotenvx run -f ../../.env -- tsx watch src/main.ts",
+    "dev": "pnpm dotenvx -- tsx watch src/main.ts",
     "build": "tsup",
-    "test": "vitest run",
-    "test:watch": "vitest"
+    "test": "pnpm dotenvx -- vitest run",
+    "test:watch": "pnpm dotenvx -- vitest",
+	"dotenvx": "dotenvx run -f ../../.env"
   },
   "dependencies": {
     "@hono/node-server": "^1.13.7",
