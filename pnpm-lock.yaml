@@ -15,6 +15,9 @@ importers:
         specifier: ^4.1.11
         version: 4.1.11
     devDependencies:
+      '@dotenvx/dotenvx':
+        specifier: ^1.51.0
+        version: 1.51.0
       husky:
         specifier: ^9.1.7
         version: 9.1.7
@@ -205,9 +208,6 @@ importers:
 
   packages/env:
     dependencies:
-      '@dotenvx/dotenvx':
-        specifier: ^1.51.0
-        version: 1.51.0
       '@packages/validations':
         specifier: workspace:*
         version: link:../validations
