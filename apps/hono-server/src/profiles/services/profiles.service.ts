@@ -1,8 +1,8 @@
 import type { Profile } from '@packages/models/profiles/Profile';
-import type { ProfilesRepository } from '../repositories/profiles.repository';
-import type { CreateProfilePayload } from './payloads/create-profile.payload';
-import type { UpdateProfilePayload } from './payloads/update-profile.payload';
-import { withId } from '../../utils/with-id';
+import type { ProfilesRepository } from '@profiles/repositories/profiles.repository';
+import type { CreateProfilePayload } from '@profiles/services/payloads/create-profile.payload';
+import type { UpdateProfilePayload } from '@profiles/services/payloads/update-profile.payload';
+import { withId } from '@utils/with-id';
 
 export class ProfilesService {
 	constructor(private readonly profilesRepository: ProfilesRepository) {}

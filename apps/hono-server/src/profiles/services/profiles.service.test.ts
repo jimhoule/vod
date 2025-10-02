@@ -1,7 +1,7 @@
 import { expect, describe, it } from 'vitest';
-import { createProfilesTestService } from '../profiles.module';
-import type { CreateProfilePayload } from './payloads/create-profile.payload';
-import type { UpdateProfilePayload } from './payloads/update-profile.payload';
+import { createProfilesTestService } from '@profiles/profiles.module';
+import type { CreateProfilePayload } from '@profiles/services/payloads/create-profile.payload';
+import type { UpdateProfilePayload } from '@profiles/services/payloads/update-profile.payload';
 
 describe('ProfilesService', (): void => {
 	const getTestContext = async () => {

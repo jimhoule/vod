@@ -5,8 +5,8 @@ import {
 	createMoviesTestService,
 	createMoviesController,
 	createMoviesRoutes,
-} from '../movies.module';
-import { tokensService } from '../../tokens/tokens.module';
+} from '@movies/movies.module';
+import { tokensService } from '@tokens/tokens.module';
 
 describe('MoviesController', async (): Promise<void> => {
 	const getTestContext = async () => {

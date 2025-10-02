@@ -1,5 +1,5 @@
 import { hash, compare } from 'bcrypt';
-import type { EncryptionService } from './encryption.service';
+import type { EncryptionService } from '@encryption/services/encryption.service';
 
 export class BcryptEncryptionService implements EncryptionService {
 	hashPassword(password: string): Promise<string> {

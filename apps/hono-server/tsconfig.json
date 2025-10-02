@@ -1,15 +1,26 @@
 {
-  "extends": "@packages/typescript-config/tsconfig.node.json",
-  "compilerOptions": {
-    "verbatimModuleSyntax": true,
-    "types": [
-      "node"
-    ],
-    "jsx": "react-jsx",
-    "jsxImportSource": "hono/jsx",
-    "rootDir": "./src",
-    "outDir": "./dist"
-  },
-  "include": ["src"],
-  "exclude": ["node_modules", "dist"]
+	"extends": "@packages/typescript-config/tsconfig.node.json",
+	"compilerOptions": {
+		"verbatimModuleSyntax": true,
+		"types": [
+			"node"
+		],
+		"jsx": "react-jsx",
+		"jsxImportSource": "hono/jsx",
+		"rootDir": "./src",
+		"outDir": "./dist",
+		"baseUrl": "./src",
+		"paths": {
+			"@app/*": ["app/*"],
+			"@auth/*": ["auth/*"],
+			"@encryption/*": ["encryption/*"],
+			"@movies/*": ["movies/*"],
+			"@profiles/*": ["profiles/*"],
+			"@tokens/*": ["tokens/*"],
+			"@users/*": ["users/*"],
+			"@utils/*": ["utils/*"]
+		}
+	},
+	"include": ["src"],
+	"exclude": ["node_modules", "dist"],
 }

@@ -1,9 +1,9 @@
 import { getLoginValidationSchema } from '@packages/validations/auth/getLoginValidationSchema';
 import { getRegisterValidationSchema } from '@packages/validations/auth/getRegisterValidationSchema';
-import { createHandlers } from '../../app/app.factory';
-import { throwHttpError } from '../../app/app.http-error';
-import { validateZodSchema } from '../../app/middlewares/validate-zod-schema.middleware';
-import { AuthService } from '../services/auth.service';
+import { createHandlers } from '@app/app.factory';
+import { throwHttpError } from '@app/app.http-error';
+import { validateZodSchema } from '@app/middlewares/validate-zod-schema.middleware';
+import { AuthService } from '@auth/services/auth.service';
 export class AuthController {
 	constructor(private readonly authService: AuthService) {}
 

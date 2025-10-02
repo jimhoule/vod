@@ -1,3 +1,3 @@
-import { BcryptEncryptionService } from './services/bcrypt-encryption.service';
+import { BcryptEncryptionService } from '@encryption/services/bcrypt-encryption.service';
 
 export const encryptionService = new BcryptEncryptionService();

@@ -1,8 +1,8 @@
 import { Hono } from 'hono';
-import { FakeProfilesRepository } from './repositories/fake-profiles.repository';
-import { PostgresProfilesRepository } from './repositories/postgres-profiles.repository';
-import { ProfilesService } from './services/profiles.service';
-import { ProfilesController } from './controllers/profiles.controller';
+import { ProfilesController } from '@profiles/controllers/profiles.controller';
+import { FakeProfilesRepository } from '@profiles/repositories/fake-profiles.repository';
+import { PostgresProfilesRepository } from '@profiles/repositories/postgres-profiles.repository';
+import { ProfilesService } from '@profiles/services/profiles.service';
 
 export const createProfilesTestService = () => new ProfilesService(new FakeProfilesRepository());
 export const createProfilesController = (profilesService: ProfilesService) =>

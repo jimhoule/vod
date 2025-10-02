@@ -1,8 +1,8 @@
 import type { Movie } from '@packages/models/movies/Movie';
-import type { MoviesRepository } from '../repositories/movies.repository';
-import type { CreateMoviePayload } from './payloads/create-movie.payload';
-import type { UpdateMoviePayload } from './payloads/update-movie.payload';
-import { withId } from '../../utils/with-id';
+import type { MoviesRepository } from '@movies/repositories/movies.repository';
+import type { CreateMoviePayload } from '@movies/services/payloads/create-movie.payload';
+import type { UpdateMoviePayload } from '@movies/services/payloads/update-movie.payload';
+import { withId } from '@utils/with-id';
 
 export class MoviesService {
 	constructor(private readonly moviesRepository: MoviesRepository) {}

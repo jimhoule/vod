@@ -1,12 +1,12 @@
 import { getCreateMovieValidationSchema } from '@packages/validations/movies/getCreateMovieValidationSchema';
 import { getIdValidationSchema } from '@packages/validations/common/getIdValidationSchema';
 import { getUpdateMovieValidationSchema } from '@packages/validations/movies/getUpdateMovieValidationSchema';
-import { AppHttpError } from '../../app/app.http-error';
-import { createHandlers } from '../../app/app.factory';
-import { throwHttpError } from '../../app/app.http-error';
-import { validateZodSchema } from '../../app/middlewares/validate-zod-schema.middleware';
-import { isAuthenticated } from '../../auth/middlewares/is-authenticated.middleware';
-import { MoviesService } from '../services/movies.service';
+import { AppHttpError } from '@app/app.http-error';
+import { createHandlers } from '@app/app.factory';
+import { throwHttpError } from '@app/app.http-error';
+import { validateZodSchema } from '@app/middlewares/validate-zod-schema.middleware';
+import { isAuthenticated } from '@auth/middlewares/is-authenticated.middleware';
+import { MoviesService } from '@movies/services/movies.service';
 
 export class MoviesController {
 	constructor(private readonly moviesService: MoviesService) {}

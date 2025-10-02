@@ -1,6 +1,6 @@
 import { expect, describe, it } from 'vitest';
 import { testClient } from 'hono/testing';
-import { createAuthTestService, createAuthController, createAuthRoutes } from '../auth.module';
+import { createAuthTestService, createAuthController, createAuthRoutes } from '@auth/auth.module';
 
 describe('AuthController', (): void => {
 	const getTestContext = async () => {

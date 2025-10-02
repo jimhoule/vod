@@ -2,8 +2,8 @@ import { db } from '@packages/db';
 import { eq } from '@packages/db/orm';
 import { UsersTable } from '@packages/db/schema/UsersTable';
 import type { User } from '@packages/models/users/User';
-import type { UsersRepository } from './users.repository';
-import type { CreateUserData } from './types/create-user-data.type';
+import type { UsersRepository } from '@users/repositories/users.repository';
+import type { CreateUserData } from '@users/repositories/types/create-user-data.type';
 
 export class PostgresUsersRepository implements UsersRepository {
 	async findAll(): Promise<User[]> {

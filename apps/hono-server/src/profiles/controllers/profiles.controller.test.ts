@@ -5,8 +5,8 @@ import {
 	createProfilesTestService,
 	createProfilesController,
 	createProfilesRoutes,
-} from '../profiles.module';
-import { tokensService } from '../../tokens/tokens.module';
+} from '@profiles/profiles.module';
+import { tokensService } from '@tokens/tokens.module';
 
 describe('ProfilesController', async (): Promise<void> => {
 	const getTestContext = async () => {

@@ -2,9 +2,9 @@ import { db } from '@packages/db';
 import { eq } from '@packages/db/orm';
 import { ProfilesTable } from '@packages/db/schema/ProfilesTable';
 import type { Profile } from '@packages/models/profiles/Profile';
-import type { ProfilesRepository } from './profiles.repository';
-import type { CreateProfileData } from './types/create-profile-data.type';
-import type { UpdateProfileData } from './types/update-profile-data.type';
+import type { ProfilesRepository } from '@profiles/repositories//profiles.repository';
+import type { CreateProfileData } from '@profiles/repositories//types/create-profile-data.type';
+import type { UpdateProfileData } from '@profiles/repositories//types/update-profile-data.type';
 
 export class PostgresProfilesRepository implements ProfilesRepository {
 	async findAllByUserId(userId: Profile['userId']): Promise<Profile[]> {

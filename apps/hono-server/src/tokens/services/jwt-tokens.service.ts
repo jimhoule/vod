@@ -1,7 +1,7 @@
 import { sign, decode } from 'hono/jwt';
 import type { JWTPayload } from 'hono/utils/jwt/types';
 import { env } from '@packages/env';
-import type { TokensService } from './tokens.service';
+import type { TokensService } from '@tokens/services/tokens.service';
 
 export class JwtTokensService implements TokensService {
 	generate<TPayload>(payload: TPayload): Promise<string> {

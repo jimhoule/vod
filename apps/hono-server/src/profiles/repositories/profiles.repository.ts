@@ -1,6 +1,6 @@
 import type { Profile } from '@packages/models/profiles/Profile';
-import type { CreateProfileData } from './types/create-profile-data.type';
-import type { UpdateProfileData } from './types/update-profile-data.type';
+import type { CreateProfileData } from '@profiles/repositories//types/create-profile-data.type';
+import type { UpdateProfileData } from '@profiles/repositories//types/update-profile-data.type';
 
 export interface ProfilesRepository {
 	findAllByUserId(userId: Profile['userId']): Promise<Profile[]>;

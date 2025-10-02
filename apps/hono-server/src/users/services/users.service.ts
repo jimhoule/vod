@@ -1,8 +1,8 @@
 import type { User } from '@packages/models/users/User';
-import type { UsersRepository } from '../repositories/users.repository';
-import type { CreateUserPayload } from './payloads/create-user.payload';
-import type { ProfilesService } from '../../profiles/services/profiles.service';
-import { withId } from '../../utils/with-id';
+import type { UsersRepository } from '@users/repositories/users.repository';
+import type { CreateUserPayload } from '@users/services/payloads/create-user.payload';
+import type { ProfilesService } from '@profiles/services/profiles.service';
+import { withId } from '@utils/with-id';
 
 export class UsersService {
 	constructor(

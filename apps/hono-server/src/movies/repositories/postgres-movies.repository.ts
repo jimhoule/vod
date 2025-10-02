@@ -2,9 +2,9 @@ import { db } from '@packages/db';
 import { eq } from '@packages/db/orm';
 import { MoviesTable } from '@packages/db/schema/MoviesTable';
 import type { Movie } from '@packages/models/movies/Movie';
-import type { MoviesRepository } from './movies.repository';
-import type { CreateMovieData } from './types/create-movie-data.type';
-import type { UpdateMovieData } from './types/update-movie-data.type';
+import type { MoviesRepository } from '@movies/repositories/movies.repository';
+import type { CreateMovieData } from '@movies/repositories/types/create-movie-data.type';
+import type { UpdateMovieData } from '@movies/repositories/types/update-movie-data.type';
 
 export class PostgresMoviesRepository implements MoviesRepository {
 	async findAll(): Promise<Movie[]> {

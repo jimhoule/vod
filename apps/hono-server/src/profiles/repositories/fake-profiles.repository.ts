@@ -1,7 +1,7 @@
 import type { Profile } from '@packages/models/profiles/Profile';
-import type { ProfilesRepository } from './profiles.repository';
-import type { CreateProfileData } from './types/create-profile-data.type';
-import type { UpdateProfileData } from './types/update-profile-data.type';
+import type { ProfilesRepository } from '@profiles/repositories/profiles.repository';
+import type { CreateProfileData } from '@profiles/repositories//types/create-profile-data.type';
+import type { UpdateProfileData } from '@profiles/repositories//types/update-profile-data.type';
 
 export class FakeProfilesRepository implements ProfilesRepository {
 	private profiles: Profile[] = [];

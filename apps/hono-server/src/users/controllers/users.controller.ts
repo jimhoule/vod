@@ -1,10 +1,10 @@
 import { getIdValidationSchema } from '@packages/validations/common/getIdValidationSchema';
-import { AppHttpError } from '../../app/app.http-error';
-import { createHandlers } from '../../app/app.factory';
-import { throwHttpError } from '../../app/app.http-error';
-import { validateZodSchema } from '../../app/middlewares/validate-zod-schema.middleware';
-import { isAuthenticated } from '../../auth/middlewares/is-authenticated.middleware';
-import { UsersService } from '../services/users.service';
+import { AppHttpError } from '@app/app.http-error';
+import { createHandlers } from '@app/app.factory';
+import { throwHttpError } from '@app/app.http-error';
+import { validateZodSchema } from '@app/middlewares/validate-zod-schema.middleware';
+import { isAuthenticated } from '@auth/middlewares/is-authenticated.middleware';
+import { UsersService } from '@users/services/users.service';
 
 export class UsersController {
 	constructor(private readonly usersService: UsersService) {}

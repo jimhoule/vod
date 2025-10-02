@@ -1,9 +1,9 @@
 import { expect, describe, it } from 'vitest';
 import type { User } from '@packages/models/users/User';
-import { createAuthTestService } from '../auth.module';
-import type { LoginPayload } from './payloads/login.payload';
-import type { RegisterPayload } from './payloads/register.payload';
-import { tokensService } from '../../tokens/tokens.module';
+import { createAuthTestService } from '@auth/auth.module';
+import type { LoginPayload } from '@auth/services/payloads/login.payload';
+import type { RegisterPayload } from '@auth/services/payloads/register.payload';
+import { tokensService } from '@tokens/tokens.module';
 
 describe('AuthService', (): void => {
 	const getTestContext = async () => {

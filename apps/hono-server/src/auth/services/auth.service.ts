@@ -1,9 +1,9 @@
-import { AppError } from '../../app/app.error';
-import type { LoginPayload } from './payloads/login.payload';
-import type { RegisterPayload } from './payloads/register.payload';
-import type { EncryptionService } from '../../encryption/services/encryption.service';
-import type { TokensService } from '../../tokens/services/tokens.service';
-import type { UsersService } from '../../users/services/users.service';
+import { AppError } from '@app/app.error';
+import type { LoginPayload } from '@auth/services/payloads/login.payload';
+import type { RegisterPayload } from '@auth/services//payloads/register.payload';
+import type { EncryptionService } from '@encryption/services/encryption.service';
+import type { TokensService } from '@tokens/services/tokens.service';
+import type { UsersService } from '@users/services/users.service';
 
 export class AuthService {
 	constructor(

@@ -2,12 +2,12 @@ import { getCreateProfileValidationSchema } from '@packages/validations/profiles
 import { getIdValidationSchema } from '@packages/validations/common/getIdValidationSchema';
 import { getUpdateProfileValidationSchema } from '@packages/validations/profiles/getUpdateProfileValidationSchema';
 import { getUserIdValidationSchema } from '@packages/validations/common/getUserIdValidationSchema';
-import { AppHttpError } from '../../app/app.http-error';
-import { createHandlers } from '../../app/app.factory';
-import { throwHttpError } from '../../app/app.http-error';
-import { validateZodSchema } from '../../app/middlewares/validate-zod-schema.middleware';
-import { isAuthenticated } from '../../auth/middlewares/is-authenticated.middleware';
-import { ProfilesService } from '../services/profiles.service';
+import { AppHttpError } from '@app/app.http-error';
+import { createHandlers } from '@app/app.factory';
+import { throwHttpError } from '@app/app.http-error';
+import { validateZodSchema } from '@app/middlewares/validate-zod-schema.middleware';
+import { isAuthenticated } from '@auth/middlewares/is-authenticated.middleware';
+import { ProfilesService } from '@profiles/services/profiles.service';
 
 export class ProfilesController {
 	constructor(private readonly profilesService: ProfilesService) {}

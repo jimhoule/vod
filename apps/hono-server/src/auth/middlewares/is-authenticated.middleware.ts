@@ -1,6 +1,6 @@
 import { bearerAuth } from 'hono/bearer-auth';
-import { createMiddleware } from '../../app/app.factory';
-import { tokensService } from '../../tokens/tokens.module';
+import { createMiddleware } from '@app/app.factory';
+import { tokensService } from '@tokens/tokens.module';
 
 export const isAuthenticated = createMiddleware((c, next) => {
 	const token = c.req.header('Authorization') as string;

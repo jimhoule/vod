@@ -1,5 +1,5 @@
 import type { User } from '@packages/models/users/User';
-import type { CreateUserData } from './types/create-user-data.type';
+import type { CreateUserData } from '@users/repositories/types/create-user-data.type';
 
 export interface UsersRepository {
 	findAll(): Promise<User[]>;
