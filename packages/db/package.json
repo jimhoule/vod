@@ -8,24 +8,22 @@
       "types": "./src/db.ts",
       "default": "./dist/db.js"
     },
-
-	"./orm": {
+    "./orm": {
       "types": "./src/orm.ts",
       "default": "./dist/orm.js"
     },
-
-	"./schema/MoviesTable": {
-		"types": "./src/schema/MoviesTable.ts",
-		"default": "./dist/schema/MoviesTable.js"
-	},
-	"./schema/ProfilesTable": {
-		"types": "./src/schema/ProfilesTable.ts",
-		"default": "./dist/schema/ProfilesTable.js"
-	},
-	"./schema/UsersTable": {
-		"types": "./src/schema/UsersTable.ts",
-		"default": "./dist/schema/UsersTable.js"
-	}
+    "./schema/MoviesTable": {
+      "types": "./src/schema/MoviesTable.ts",
+      "default": "./dist/schema/MoviesTable.js"
+    },
+    "./schema/ProfilesTable": {
+      "types": "./src/schema/ProfilesTable.ts",
+      "default": "./dist/schema/ProfilesTable.js"
+    },
+    "./schema/UsersTable": {
+      "types": "./src/schema/UsersTable.ts",
+      "default": "./dist/schema/UsersTable.js"
+    }
   },
   "scripts": {
     "build": "tsup",
@@ -39,11 +37,11 @@
   "devDependencies": {
     "@packages/eslint-config": "workspace:*",
     "@packages/typescript-config": "workspace:*",
-    "@types/node": "^24.6.0",
-    "drizzle-kit": "^0.30.1"
+    "@types/node": "^24.6.0"
   },
   "dependencies": {
-	"@packages/env": "workspace:*",
+    "@packages/env": "workspace:*",
+    "drizzle-kit": "^0.31.5",
     "drizzle-orm": "^0.38.3",
     "postgres": "^3.4.5"
   }
