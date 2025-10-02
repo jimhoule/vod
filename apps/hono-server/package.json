@@ -9,6 +9,7 @@
     "dev": "pnpm dotenvx -- tsx watch src/main.ts",
     "build": "tsup",
     "test": "pnpm dotenvx -- vitest run",
+	"test:coverage": "pnpm dotenvx -- vitest run --coverage",
     "test:watch": "pnpm dotenvx -- vitest",
 	"dotenvx": "dotenvx run -f ../../.env"
   },

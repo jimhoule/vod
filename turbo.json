@@ -17,6 +17,10 @@
     "test": {
       "dependsOn": ["^test"]
     },
+	 "test:coverage": {
+      "dependsOn": ["^test:coverage"],
+      "cache": false
+    },
     "test:watch": {
       "dependsOn": ["^test:watch"],
       "cache": false
