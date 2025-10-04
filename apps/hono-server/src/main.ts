@@ -3,10 +3,10 @@ import { cors } from 'hono/cors';
 import { serve } from '@hono/node-server';
 import { env } from '@packages/env';
 import { AppHttpError } from '@app/app.http-error';
-import { authRoutes } from '@auth/auth.module';
-import { moviesRoutes } from '@movies/movies.module';
-import { profilesRoutes } from '@profiles/profiles.module';
-import { usersRoutes } from '@users/users.module';
+import { authRoutes } from '@auth/authModule';
+import { moviesRoutes } from '@movies/moviesModule';
+import { profilesRoutes } from '@profiles/profilesModule';
+import { usersRoutes } from '@users/usersModule';
 
 export const app = new Hono()
 	.use(cors({ origin: env.HTTP_ALLOWED_ORIGINS }))
