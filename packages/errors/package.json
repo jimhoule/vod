@@ -1,0 +1,50 @@
+{
+  "name": "@packages/errors",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+	"./BaseError": {
+		"types": "./src/BaseError.ts",
+		"default": "./dist/BaseError.js"
+	},
+
+	"./application/ApplicationError": {
+		"types": "./src/application/ApplicationError.ts",
+		"default": "./dist/application/ApplicationError.js"
+	},
+
+	"./infrastructure/InfrastructureError": {
+		"types": "./src/infrastructure/InfrastructureError.ts",
+		"default": "./dist/infrastructure/InfrastructureError.js"
+	},
+	"./infrastructure/repositories/ForeignKeyViolationError": {
+		"types": "./src/infrastructure/repositories/ForeignKeyViolationError.ts",
+		"default": "./dist/infrastructure/repositories/ForeignKeyViolationError.js"
+	},
+	"./infrastructure/repositories/UniqueViolationError": {
+		"types": "./src/infrastructure/repositories/UniqueViolationError.ts",
+		"default": "./dist/infrastructure/repositories/UniqueViolationError.js"
+	},
+	"./infrastructure/repositories/mappers/PostgresRepositoryErrorMapper": {
+		"types": "./src/infrastructure/repositories/mappers/PostgresRepositoryErrorMapper.ts",
+		"default": "./dist/infrastructure/repositories/mappers/PostgresRepositoryErrorMapper.js"
+	},
+
+	"./presentation/PresentationError": {
+		"types": "./src/presentation/PresentationError.ts",
+		"default": "./dist/presentation/PresentationError.js"
+	}
+  },
+  "scripts": {
+	"build": "tsup",
+    "lint": "eslint . --max-warnings 0",
+    "check-types": "tsc --noEmit"
+  },
+  "devDependencies": {
+	"@packages/eslint-config": "workspace:*",
+    "@packages/typescript-config": "workspace:*",
+    "@types/node": "^20.11.24",
+    "typescript": "5.5.4"
+  }
+}
