@@ -1,0 +1,23 @@
+{
+  "name": "@packages/core",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+    "./async": {
+		"types": "./src/async.ts",
+		"default": "./dist/async.js"
+	}
+  },
+  "scripts": {
+	"build": "tsup",
+    "lint": "eslint . --max-warnings 0",
+    "check-types": "tsc --noEmit"
+  },
+  "devDependencies": {
+	"@packages/eslint-config": "workspace:*",
+    "@packages/typescript-config": "workspace:*",
+    "@types/node": "^20.11.24",
+    "typescript": "5.5.4"
+  }
+}
