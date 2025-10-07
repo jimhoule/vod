@@ -1,7 +1,8 @@
 import { Hono } from 'hono';
+import { PostgresRepositoryErrorMapper } from '@packages/errors/infrastructure/repositories/mappers/PostgresRepositoryErrorMapper';
 import { MoviesService } from '@movies/application/services/MoviesService';
-import { FakeMoviesRepository } from '@movies/infrastructure/repositories/FakeMoviesRepository';
-import { PostgresMoviesRepository } from '@movies/infrastructure/repositories/PostgresMoviesRepository';
+import { FakeMoviesRepository } from '@movies/infrastructure/repositories/fake/FakeMoviesRepository';
+import { PostgresMoviesRepository } from '@movies/infrastructure/repositories/postgres/PostgresMoviesRepository';
 import { MoviesController } from '@movies/presentation/http/controllers/MoviesController';
 
 export const createMoviesTestService = () => new MoviesService(new FakeMoviesRepository());
@@ -17,5 +18,7 @@ export const createMoviesRoutes = (moviesController: MoviesController) => {
 		.delete('/:id', ...moviesController.delete());
 };
 
-export const moviesService = new MoviesService(new PostgresMoviesRepository());
+export const moviesService = new MoviesService(
+	new PostgresMoviesRepository(new PostgresRepositoryErrorMapper()),
+);
 export const moviesRoutes = createMoviesRoutes(createMoviesController(moviesService));

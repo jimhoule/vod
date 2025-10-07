@@ -2,6 +2,7 @@ import { expect, describe, it } from 'vitest';
 import { createMoviesTestService } from '@movies/moviesModule';
 import type { CreateMoviePayload } from '@movies/application/services/payloads/CreateMoviePayload';
 import type { UpdateMoviePayload } from '@movies/application/services/payloads/UpdateMoviePayload';
+import type { Movie } from '@packages/models/movies/Movie';
 
 describe('MoviesService', (): void => {
 	const getTestContext = async () => {
@@ -11,10 +12,10 @@ describe('MoviesService', (): void => {
 			title: 'Fake title',
 			description: 'Fake description',
 		};
-		const movie = await moviesService.create(createMoviePayload);
+		const [movie] = await moviesService.create(createMoviePayload);
 
 		return {
-			movie,
+			movie: movie as Movie,
 			createMoviePayload,
 			moviesService,
 		};
@@ -31,18 +32,19 @@ describe('MoviesService', (): void => {
 	it('should find all movies', async () => {
 		const { movie, moviesService } = await getTestContext();
 
-		const movies = await moviesService.findAll();
+		const [movies] = await moviesService.findAll();
+		const castedMovies = movies as Movie[];
 
-		expect(movie).toBeDefined();
-		expect(movies).toBeDefined();
-		expect(movies).toHaveLength(1);
-		expect(movies[0]).toEqual(movie);
+		expect(castedMovies).toBeDefined();
+		expect(castedMovies).toBeDefined();
+		expect(castedMovies).toHaveLength(1);
+		expect(castedMovies[0]).toEqual(movie);
 	});
 
 	it('should find movie by ID', async () => {
 		const { movie, moviesService } = await getTestContext();
 
-		const foundMovie = await moviesService.findById(movie.id);
+		const [foundMovie] = await moviesService.findById(movie.id);
 
 		expect(movie).toBeDefined();
 		expect(foundMovie).toBeDefined();
@@ -52,7 +54,7 @@ describe('MoviesService', (): void => {
 	it('should not find movie by ID', async () => {
 		const { moviesService } = await getTestContext();
 
-		const movie = await moviesService.findById('340f82f1-0e78-4a5c-b7ab-c26bcf56cf09');
+		const [movie] = await moviesService.findById('340f82f1-0e78-4a5c-b7ab-c26bcf56cf09');
 
 		expect(movie).not.toBeDefined();
 	});
@@ -64,24 +66,26 @@ describe('MoviesService', (): void => {
 			title: 'Updated fake title',
 			description: 'Updated fake description',
 		};
-		const updatedMovie = await moviesService.update(movie.id, updateMoviePayload);
+		const [updatedMovie] = await moviesService.update(movie.id, updateMoviePayload);
+		const castedUpdatedMovie = updatedMovie as Movie;
 
 		expect(movie).toBeDefined();
-		expect(updatedMovie).toBeDefined();
-		expect(updatedMovie.id).toEqual(movie.id);
-		expect(updatedMovie.title).toEqual(updateMoviePayload.title);
-		expect(updatedMovie.description).toEqual(updateMoviePayload.description);
+		expect(castedUpdatedMovie).toBeDefined();
+		expect(castedUpdatedMovie.id).toEqual(movie.id);
+		expect(castedUpdatedMovie.title).toEqual(updateMoviePayload.title);
+		expect(castedUpdatedMovie.description).toEqual(updateMoviePayload.description);
 	});
 
 	it('should delete movie', async () => {
 		const { movie, moviesService } = await getTestContext();
 
-		const deletedMovie = await moviesService.delete(movie.id);
+		const [deletedMovie] = await moviesService.delete(movie.id);
+		const castedDeletedMovie = deletedMovie as Movie;
 
 		expect(movie).toBeDefined();
-		expect(deletedMovie).toBeDefined();
-		expect(deletedMovie.id).toEqual(movie.id);
-		expect(deletedMovie.title).toEqual(movie.title);
-		expect(deletedMovie.description).toEqual(movie.description);
+		expect(castedDeletedMovie).toBeDefined();
+		expect(castedDeletedMovie.id).toEqual(movie.id);
+		expect(castedDeletedMovie.title).toEqual(movie.title);
+		expect(castedDeletedMovie.description).toEqual(movie.description);
 	});
 });
