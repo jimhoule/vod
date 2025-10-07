@@ -12,6 +12,10 @@
       "types": "./src/orm.ts",
       "default": "./dist/orm.js"
     },
+	"./postgres": {
+      "types": "./src/postgres.ts",
+      "default": "./dist/postgres.js"
+    },
     "./schema/MoviesTable": {
       "types": "./src/schema/MoviesTable.ts",
       "default": "./dist/schema/MoviesTable.js"
