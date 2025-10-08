@@ -1,4 +1,5 @@
 import { expect, describe, it } from 'vitest';
+import type { Profile } from '@packages/models/profiles/Profile';
 import { createProfilesTestService } from '@profiles/profilesModule';
 import type { CreateProfilePayload } from '@profiles/application/services/payloads/CreateProfilePayload';
 import type { UpdateProfilePayload } from '@profiles/application/services/payloads/UpdateProfilePayload';
@@ -11,10 +12,10 @@ describe('ProfilesService', (): void => {
 			name: 'Fake name',
 			userId: 'b9e93783-b6ea-4342-a9fb-b2ccfd680f11',
 		};
-		const profile = await profilesService.create(createProfilePayload);
+		const [profile] = await profilesService.create(createProfilePayload);
 
 		return {
-			profile,
+			profile: profile as Profile,
 			createProfilePayload,
 			profilesService,
 		};
@@ -31,18 +32,19 @@ describe('ProfilesService', (): void => {
 	it('should find all profiles by user ID', async () => {
 		const { profile, profilesService } = await getTestContext();
 
-		const profiles = await profilesService.findAllByUserId(profile.userId);
+		const [profiles] = await profilesService.findAllByUserId(profile.userId);
+		const castProfiles = profiles as Profile[];
 
 		expect(profile).toBeDefined();
-		expect(profiles).toBeDefined();
-		expect(profiles).toHaveLength(1);
-		expect(profiles[0]).toEqual(profile);
+		expect(castProfiles).toBeDefined();
+		expect(castProfiles).toHaveLength(1);
+		expect(castProfiles[0]).toEqual(profile);
 	});
 
 	it('should find profile by ID', async () => {
 		const { profile, profilesService } = await getTestContext();
 
-		const foundProfile = await profilesService.findById(profile.id);
+		const [foundProfile] = await profilesService.findById(profile.id);
 
 		expect(profile).toBeDefined();
 		expect(foundProfile).toBeDefined();
@@ -52,7 +54,7 @@ describe('ProfilesService', (): void => {
 	it('should not find profile by ID', async () => {
 		const { profilesService } = await getTestContext();
 
-		const profile = await profilesService.findById('340f82f1-0e78-4a5c-b7ab-c26bcf56cf09');
+		const [profile] = await profilesService.findById('340f82f1-0e78-4a5c-b7ab-c26bcf56cf09');
 
 		expect(profile).not.toBeDefined();
 	});
@@ -63,23 +65,25 @@ describe('ProfilesService', (): void => {
 		const updateProfilePayload: UpdateProfilePayload = {
 			name: 'Updated fake name',
 		};
-		const updatedProfile = await profilesService.update(profile.id, updateProfilePayload);
+		const [updatedProfile] = await profilesService.update(profile.id, updateProfilePayload);
+		const castUpdatedProfile = updatedProfile as Profile;
 
 		expect(profile).toBeDefined();
-		expect(updatedProfile).toBeDefined();
-		expect(updatedProfile.id).toEqual(profile.id);
-		expect(updatedProfile.name).toEqual(updateProfilePayload.name);
+		expect(castUpdatedProfile).toBeDefined();
+		expect(castUpdatedProfile.id).toEqual(profile.id);
+		expect(castUpdatedProfile.name).toEqual(updateProfilePayload.name);
 	});
 
 	it('should delete profile', async () => {
 		const { profile, profilesService } = await getTestContext();
 
-		const deletedProfile = await profilesService.delete(profile.id);
+		const [deletedProfile] = await profilesService.delete(profile.id);
+		const castDeletedProfile = deletedProfile as Profile;
 
 		expect(profile).toBeDefined();
-		expect(deletedProfile).toBeDefined();
-		expect(deletedProfile.id).toEqual(profile.id);
-		expect(deletedProfile.name).toEqual(profile.name);
-		expect(deletedProfile.userId).toEqual(profile.userId);
+		expect(castDeletedProfile).toBeDefined();
+		expect(castDeletedProfile.id).toEqual(profile.id);
+		expect(castDeletedProfile.name).toEqual(profile.name);
+		expect(castDeletedProfile.userId).toEqual(profile.userId);
 	});
 });

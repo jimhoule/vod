@@ -1,7 +1,8 @@
 import { Hono } from 'hono';
+import { PostgresRepositoryErrorMapper } from '@packages/errors/infrastructure/repositories/mappers/PostgresRepositoryErrorMapper';
 import { ProfilesService } from '@profiles/application/services/ProfilesService';
-import { FakeProfilesRepository } from '@profiles/infrastructure/repositories/FakeProfilesRepository';
-import { PostgresProfilesRepository } from '@profiles/infrastructure/repositories/PostgresProfilesRepository';
+import { FakeProfilesRepository } from '@profiles/infrastructure/repositories/fake/FakeProfilesRepository';
+import { PostgresProfilesRepository } from '@profiles/infrastructure/repositories/postgres/PostgresProfilesRepository';
 import { ProfilesController } from '@profiles/presentation/http/controllers/ProfilesController';
 
 export const createProfilesTestService = () => new ProfilesService(new FakeProfilesRepository());
@@ -17,5 +18,7 @@ export const createProfilesRoutes = (profilesController: ProfilesController) => 
 		.delete('/:id', ...profilesController.delete());
 };
 
-export const profilesService = new ProfilesService(new PostgresProfilesRepository());
+export const profilesService = new ProfilesService(
+	new PostgresProfilesRepository(new PostgresRepositoryErrorMapper()),
+);
 export const profilesRoutes = createProfilesRoutes(createProfilesController(profilesService));

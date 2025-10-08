@@ -1,10 +1,9 @@
+import { PresentationError } from '@packages/errors/presentation/PresentationError';
 import { getCreateProfileValidationSchema } from '@packages/validations/profiles/getCreateProfileValidationSchema';
 import { getIdValidationSchema } from '@packages/validations/common/getIdValidationSchema';
 import { getUpdateProfileValidationSchema } from '@packages/validations/profiles/getUpdateProfileValidationSchema';
 import { getUserIdValidationSchema } from '@packages/validations/common/getUserIdValidationSchema';
-import { AppHttpError } from '@app/app.http-error';
 import { createHandlers } from '@app/app.factory';
-import { throwHttpError } from '@app/app.http-error';
 import { validateZodSchema } from '@app/middlewares/validateZodSchema';
 import { isAuthenticated } from '@auth/presentation/http/middlewares/isAuthenticated';
 import { ProfilesService } from '@profiles/application/services/ProfilesService';
@@ -19,14 +18,19 @@ export class ProfilesController {
 			isAuthenticated,
 			validateZodSchema('param', userIdValidationSchema),
 			async (c) => {
-				try {
-					const { userId } = c.req.valid('param');
-					const profiles = await this.profilesService.findAllByUserId(userId);
-
-					return c.json(profiles, 200);
-				} catch (err) {
-					throwHttpError(err);
+				const { userId } = c.req.valid('param');
+				const [profiles, error] = await this.profilesService.findAllByUserId(userId);
+				if (error) {
+					const presentationError = new PresentationError(
+						500,
+						'ProfilesController/findAllByUserId',
+						'',
+						error,
+					);
+					return c.json(presentationError, 500);
 				}
+
+				return c.json(profiles, 200);
 			},
 		);
 	}
@@ -38,17 +42,28 @@ export class ProfilesController {
 			isAuthenticated,
 			validateZodSchema('param', idValidationSchema),
 			async (c) => {
-				try {
-					const { id } = c.req.valid('param');
-					const profile = await this.profilesService.findById(id);
-					if (!profile) {
-						throw new AppHttpError(404, `Profile with ID ${id} not found`);
-					}
-
-					return c.json(profile, 200);
-				} catch (err) {
-					throwHttpError(err);
+				const { id } = c.req.valid('param');
+				const [profile, error] = await this.profilesService.findById(id);
+				if (error) {
+					const presentationError = new PresentationError(
+						500,
+						'ProfilesController/findById',
+						'',
+						error,
+					);
+					return c.json(presentationError, 500);
 				}
+
+				if (!profile) {
+					const presentationError = new PresentationError(
+						404,
+						'ProfilesController/findById',
+						'Movie not found',
+					);
+					return c.json(presentationError, 404);
+				}
+
+				return c.json(profile, 200);
 			},
 		);
 	}
@@ -63,14 +78,19 @@ export class ProfilesController {
 			isAuthenticated,
 			validateZodSchema('json', createProfileValidationSchema),
 			async (c) => {
-				try {
-					const createProfileDto = c.req.valid('json');
-					const profile = await this.profilesService.create(createProfileDto);
-
-					return c.json(profile, 201);
-				} catch (err) {
-					throwHttpError(err);
+				const createProfileDto = c.req.valid('json');
+				const [profile, error] = await this.profilesService.create(createProfileDto);
+				if (error) {
+					const presentationError = new PresentationError(
+						500,
+						'ProfilesController/create',
+						'',
+						error,
+					);
+					return c.json(presentationError, 500);
 				}
+
+				return c.json(profile, 201);
 			},
 		);
 	}
@@ -86,15 +106,20 @@ export class ProfilesController {
 			validateZodSchema('param', idValidationSchema),
 			validateZodSchema('json', updateProfileValidationSchema),
 			async (c) => {
-				try {
-					const { id } = c.req.valid('param');
-					const updateProfileDto = c.req.valid('json');
-					const profile = await this.profilesService.update(id, updateProfileDto);
-
-					return c.json(profile, 200);
-				} catch (err) {
-					throwHttpError(err);
+				const { id } = c.req.valid('param');
+				const updateProfileDto = c.req.valid('json');
+				const [profile, error] = await this.profilesService.update(id, updateProfileDto);
+				if (error) {
+					const presentationError = new PresentationError(
+						500,
+						'ProfilesController/create',
+						'',
+						error,
+					);
+					return c.json(presentationError, 500);
 				}
+
+				return c.json(profile, 200);
 			},
 		);
 	}
@@ -106,14 +131,10 @@ export class ProfilesController {
 			isAuthenticated,
 			validateZodSchema('param', idValidationSchema),
 			async (c) => {
-				try {
-					const { id } = c.req.valid('param');
-					await this.profilesService.delete(id);
+				const { id } = c.req.valid('param');
+				await this.profilesService.delete(id);
 
-					return c.body(null, 204);
-				} catch (err) {
-					throwHttpError(err);
-				}
+				return c.body(null, 204);
 			},
 		);
 	}
