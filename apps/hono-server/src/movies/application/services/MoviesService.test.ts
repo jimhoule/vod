@@ -1,8 +1,8 @@
 import { expect, describe, it } from 'vitest';
+import type { Movie } from '@packages/models/movies/Movie';
 import { createMoviesTestService } from '@movies/moviesModule';
 import type { CreateMoviePayload } from '@movies/application/services/payloads/CreateMoviePayload';
 import type { UpdateMoviePayload } from '@movies/application/services/payloads/UpdateMoviePayload';
-import type { Movie } from '@packages/models/movies/Movie';
 
 describe('MoviesService', (): void => {
 	const getTestContext = async () => {
@@ -33,12 +33,12 @@ describe('MoviesService', (): void => {
 		const { movie, moviesService } = await getTestContext();
 
 		const [movies] = await moviesService.findAll();
-		const castedMovies = movies as Movie[];
+		const castMovies = movies as Movie[];
 
-		expect(castedMovies).toBeDefined();
-		expect(castedMovies).toBeDefined();
-		expect(castedMovies).toHaveLength(1);
-		expect(castedMovies[0]).toEqual(movie);
+		expect(movie).toBeDefined();
+		expect(castMovies).toBeDefined();
+		expect(castMovies).toHaveLength(1);
+		expect(castMovies[0]).toEqual(movie);
 	});
 
 	it('should find movie by ID', async () => {
@@ -67,25 +67,23 @@ describe('MoviesService', (): void => {
 			description: 'Updated fake description',
 		};
 		const [updatedMovie] = await moviesService.update(movie.id, updateMoviePayload);
-		const castedUpdatedMovie = updatedMovie as Movie;
+		const castUpdatedMovie = updatedMovie as Movie;
 
 		expect(movie).toBeDefined();
-		expect(castedUpdatedMovie).toBeDefined();
-		expect(castedUpdatedMovie.id).toEqual(movie.id);
-		expect(castedUpdatedMovie.title).toEqual(updateMoviePayload.title);
-		expect(castedUpdatedMovie.description).toEqual(updateMoviePayload.description);
+		expect(castUpdatedMovie).toBeDefined();
+		expect(castUpdatedMovie.id).toEqual(movie.id);
+		expect(castUpdatedMovie.title).toEqual(updateMoviePayload.title);
+		expect(castUpdatedMovie.description).toEqual(updateMoviePayload.description);
 	});
 
 	it('should delete movie', async () => {
 		const { movie, moviesService } = await getTestContext();
 
 		const [deletedMovie] = await moviesService.delete(movie.id);
-		const castedDeletedMovie = deletedMovie as Movie;
+		const castDeletedMovie = deletedMovie as Movie;
 
 		expect(movie).toBeDefined();
-		expect(castedDeletedMovie).toBeDefined();
-		expect(castedDeletedMovie.id).toEqual(movie.id);
-		expect(castedDeletedMovie.title).toEqual(movie.title);
-		expect(castedDeletedMovie.description).toEqual(movie.description);
+		expect(castDeletedMovie).toBeDefined();
+		expect(castDeletedMovie).toEqual(movie);
 	});
 });
