@@ -82,8 +82,6 @@ describe('ProfilesService', (): void => {
 
 		expect(profile).toBeDefined();
 		expect(castDeletedProfile).toBeDefined();
-		expect(castDeletedProfile.id).toEqual(profile.id);
-		expect(castDeletedProfile.name).toEqual(profile.name);
-		expect(castDeletedProfile.userId).toEqual(profile.userId);
+		expect(castDeletedProfile).toEqual(profile);
 	});
 });
