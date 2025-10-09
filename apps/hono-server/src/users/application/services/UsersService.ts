@@ -4,12 +4,13 @@ import type { User } from '@packages/models/users/User';
 import type { ProfilesService } from '@profiles/application/services/ProfilesService';
 import type { CreateUserPayload } from '@users/application/services/payloads/CreateUserPayload';
 import type { UsersRepository } from '@users/infrastructure/repositories/UsersRepository';
-import { withId } from '@utils/mixins/withId';
+import type { UuidService } from '@uuid/application/services/UuidService';
 
 export class UsersService {
 	constructor(
 		private readonly usersRepository: UsersRepository,
 		private readonly profilesService: ProfilesService,
+		private readonly uuidService: UuidService,
 	) {}
 
 	async findAll(): Promise<AsyncResult<User[], ApplicationError>> {
@@ -47,9 +48,10 @@ export class UsersService {
 	async create(
 		createUserPayload: CreateUserPayload,
 	): Promise<AsyncResult<User, ApplicationError>> {
-		const [user, createUserError] = await this.usersRepository.create(
-			withId(createUserPayload),
-		);
+		const [user, createUserError] = await this.usersRepository.create({
+			...createUserPayload,
+			id: this.uuidService.generate(),
+		});
 		if (createUserError) {
 			const applicationError = new ApplicationError(
 				'UsersService/create',

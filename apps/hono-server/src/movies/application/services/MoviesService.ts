@@ -4,10 +4,13 @@ import type { Movie } from '@packages/models/movies/Movie';
 import type { CreateMoviePayload } from '@movies/application/services/payloads/CreateMoviePayload';
 import type { UpdateMoviePayload } from '@movies/application/services/payloads/UpdateMoviePayload';
 import type { MoviesRepository } from '@movies/infrastructure/repositories/MoviesRepository';
-import { withId } from '@utils/mixins/withId';
+import type { UuidService } from '@uuid/application/services/UuidService';
 
 export class MoviesService {
-	constructor(private readonly moviesRepository: MoviesRepository) {}
+	constructor(
+		private readonly moviesRepository: MoviesRepository,
+		private readonly uuidService: UuidService,
+	) {}
 
 	async findAll(): Promise<AsyncResult<Movie[], ApplicationError>> {
 		const [movies, error] = await this.moviesRepository.findAll();
@@ -32,7 +35,10 @@ export class MoviesService {
 	async create(
 		createMoviePayload: CreateMoviePayload,
 	): Promise<AsyncResult<Movie, ApplicationError>> {
-		const [movie, error] = await this.moviesRepository.create(withId(createMoviePayload));
+		const [movie, error] = await this.moviesRepository.create({
+			...createMoviePayload,
+			id: this.uuidService.generate(),
+		});
 		if (error) {
 			const applicationError = new ApplicationError('MoviesService/create', '', error);
 			return [null, applicationError];

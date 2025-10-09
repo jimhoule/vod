@@ -12,7 +12,7 @@ export default defineConfig({
 			'@profiles': resolve(__dirname, './src/profiles'),
 			'@tokens': resolve(__dirname, './src/tokens'),
 			'@users': resolve(__dirname, './src/users'),
-			'@utils': resolve(__dirname, './src/utils'),
+			'@uuid': resolve(__dirname, './src/uuid'),
 		},
 	},
 });

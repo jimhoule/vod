@@ -4,8 +4,10 @@ import { MoviesService } from '@movies/application/services/MoviesService';
 import { FakeMoviesRepository } from '@movies/infrastructure/repositories/fake/FakeMoviesRepository';
 import { PostgresMoviesRepository } from '@movies/infrastructure/repositories/postgres/PostgresMoviesRepository';
 import { MoviesController } from '@movies/presentation/http/controllers/MoviesController';
+import { uuidService } from '@uuid/uuidModule';
 
-export const createMoviesTestService = () => new MoviesService(new FakeMoviesRepository());
+export const createMoviesTestService = () =>
+	new MoviesService(new FakeMoviesRepository(), uuidService);
 export const createMoviesController = (moviesService: MoviesService) =>
 	new MoviesController(moviesService);
 export const createMoviesRoutes = (moviesController: MoviesController) => {
@@ -20,5 +22,6 @@ export const createMoviesRoutes = (moviesController: MoviesController) => {
 
 export const moviesService = new MoviesService(
 	new PostgresMoviesRepository(new PostgresRepositoryErrorMapper()),
+	uuidService,
 );
 export const moviesRoutes = createMoviesRoutes(createMoviesController(moviesService));

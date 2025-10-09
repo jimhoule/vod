@@ -4,8 +4,10 @@ import { ProfilesService } from '@profiles/application/services/ProfilesService'
 import { FakeProfilesRepository } from '@profiles/infrastructure/repositories/fake/FakeProfilesRepository';
 import { PostgresProfilesRepository } from '@profiles/infrastructure/repositories/postgres/PostgresProfilesRepository';
 import { ProfilesController } from '@profiles/presentation/http/controllers/ProfilesController';
+import { uuidService } from '@uuid/uuidModule';
 
-export const createProfilesTestService = () => new ProfilesService(new FakeProfilesRepository());
+export const createProfilesTestService = () =>
+	new ProfilesService(new FakeProfilesRepository(), uuidService);
 export const createProfilesController = (profilesService: ProfilesService) =>
 	new ProfilesController(profilesService);
 export const createProfilesRoutes = (profilesController: ProfilesController) => {
@@ -20,5 +22,6 @@ export const createProfilesRoutes = (profilesController: ProfilesController) => 
 
 export const profilesService = new ProfilesService(
 	new PostgresProfilesRepository(new PostgresRepositoryErrorMapper()),
+	uuidService,
 );
 export const profilesRoutes = createProfilesRoutes(createProfilesController(profilesService));
