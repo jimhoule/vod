@@ -1,5 +1,6 @@
+import type { AsyncResult } from '@packages/core/async';
+import { ApplicationError } from '@packages/errors/application/ApplicationError';
 import type { User } from '@packages/models/users/User';
-import { AppError } from '@app/app.error';
 import type { LoginPayload } from '@auth/application/services/payloads/LoginPayload';
 import type { RegisterPayload } from '@auth/application/services/payloads/RegisterPayload';
 import type { EncryptionService } from '@encryption/application/services/EncryptionService';
@@ -13,53 +14,91 @@ export class AuthService {
 		private readonly usersService: UsersService,
 	) {}
 
-	private generateAccessToken(id: User['id'], email: User['email']): Promise<string> {
-		return this.tokensService.generate({
+	private async generateAccessToken(
+		id: User['id'],
+		email: User['email'],
+	): Promise<AsyncResult<string, ApplicationError>> {
+		const accessToken = await this.tokensService.generate({
 			payload: {
 				id,
 				email,
 			},
 		});
+
+		return [accessToken, null];
 	}
 
-	async login(loginPayload: LoginPayload): Promise<string> {
+	async login(loginPayload: LoginPayload): Promise<AsyncResult<string, ApplicationError>> {
 		// Gets user by email
-		const user = await this.usersService.findByEmail(loginPayload.email);
-		if (!user) {
-			throw new AppError('Email or password invalid', 400);
+		const [user, error] = await this.usersService.findByEmail(loginPayload.email);
+		if (error) {
+			const applicationError = new ApplicationError(
+				'AuthService/login',
+				'Email or password invalid',
+				error,
+			);
+			return [null, applicationError];
 		}
+
+		const castUser = user as User;
 
 		// Validates password
 		const isPasswordValid = await this.encryptionService.comparePassword({
-			password: user.password,
+			password: castUser.password,
 			hashedPassword: loginPayload.password,
 		});
 		if (!isPasswordValid) {
-			throw new AppError('Email or password invalid', 400);
+			const applicationError = new ApplicationError(
+				'AuthService/login',
+				'Email or password invalid',
+			);
+			return [null, applicationError];
 		}
 
 		// Generates access token
-		return this.generateAccessToken(user.id, user.email);
+		return this.generateAccessToken(castUser.id, castUser.email);
 	}
 
-	async register(registerPayload: RegisterPayload): Promise<string> {
+	async register(
+		registerPayload: RegisterPayload,
+	): Promise<AsyncResult<string, ApplicationError>> {
 		// Validates email
-		const doesAlreadyExist = await this.usersService.findByEmail(registerPayload.email);
+		const [doesAlreadyExist, findUserByEmailError] = await this.usersService.findByEmail(
+			registerPayload.email,
+		);
+		if (findUserByEmailError) {
+			const applicationError = new ApplicationError(
+				'AuthService/login',
+				'',
+				findUserByEmailError,
+			);
+			return [null, applicationError];
+		}
+
 		if (doesAlreadyExist) {
-			throw new AppError('Email or password invalid', 400);
+			const applicationError = new ApplicationError(
+				'AuthService/login',
+				'User already exists',
+			);
+			return [null, applicationError];
 		}
 
 		// Hashes password
 		const hashedPassword = await this.encryptionService.hashPassword({
 			password: registerPayload.password,
 		});
+
 		// Creates user
-		const user = await this.usersService.create({
+		const [user, createUserError] = await this.usersService.create({
 			...registerPayload,
 			password: hashedPassword,
 		});
+		if (createUserError) {
+			const applicationError = new ApplicationError('AuthService/login', '', createUserError);
+			return [null, applicationError];
+		}
 
-		// Gets access token
+		// Generates access token
 		return this.generateAccessToken(user.id, user.email);
 	}
 }

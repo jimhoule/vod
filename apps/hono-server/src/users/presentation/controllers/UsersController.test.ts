@@ -1,5 +1,6 @@
 import { testClient } from 'hono/testing';
 import { describe, expect, it } from 'vitest';
+import type { User } from '@packages/models/users/User';
 import {
 	createUsersTestService,
 	createUsersController,
@@ -20,18 +21,19 @@ describe('UsersController', async (): Promise<void> => {
 			email: 'test@test.com',
 			password: 'password',
 		};
-		const user = await usersService.create(createUserPayload);
+		const [user] = await usersService.create(createUserPayload);
+		const castUser = user as User;
 
 		const accessToken = await tokensService.generate({
 			payload: {
-				id: user.id,
-				email: user.email,
+				id: castUser.id,
+				email: castUser.email,
 			},
 		});
 
 		return {
 			mockClient,
-			user,
+			user: castUser,
 			accessToken,
 		};
 	};

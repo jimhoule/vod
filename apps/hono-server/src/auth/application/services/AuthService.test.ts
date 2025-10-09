@@ -15,9 +15,9 @@ describe('AuthService', (): void => {
 			email: 'test@test.com',
 			password: 'password',
 		};
-		const accessToken = await authService.register(registerPayload);
+		const [accessToken] = await authService.register(registerPayload);
 		const accessTokenPayload = tokensService.decode<Pick<User, 'id' | 'email'>>({
-			token: accessToken,
+			token: accessToken as string,
 		});
 
 		const user: User = {

@@ -1,3 +1,5 @@
+import type { AsyncResult } from '@packages/core/async';
+import { ApplicationError } from '@packages/errors/application/ApplicationError';
 import type { User } from '@packages/models/users/User';
 import type { ProfilesService } from '@profiles/application/services/ProfilesService';
 import type { CreateUserPayload } from '@users/application/services/payloads/CreateUserPayload';
@@ -10,25 +12,66 @@ export class UsersService {
 		private readonly profilesService: ProfilesService,
 	) {}
 
-	findAll(): Promise<User[]> {
-		return this.usersRepository.findAll();
+	async findAll(): Promise<AsyncResult<User[], ApplicationError>> {
+		const [users, error] = await this.usersRepository.findAll();
+		if (error) {
+			const applicationError = new ApplicationError('UsersService/findAll', '', error);
+			return [null, applicationError];
+		}
+
+		return [users, null];
 	}
 
-	findById(id: User['id']): Promise<User | undefined> {
-		return this.usersRepository.findById(id);
+	async findById(id: User['id']): Promise<AsyncResult<User | undefined, ApplicationError>> {
+		const [user, error] = await this.usersRepository.findById(id);
+		if (error) {
+			const applicationError = new ApplicationError('UsersService/findById', '', error);
+			return [null, applicationError];
+		}
+
+		return [user, null];
 	}
 
-	findByEmail(email: User['email']): Promise<User | undefined> {
-		return this.usersRepository.findByEmail(email);
+	async findByEmail(
+		email: User['email'],
+	): Promise<AsyncResult<User | undefined, ApplicationError>> {
+		const [user, error] = await this.usersRepository.findByEmail(email);
+		if (error) {
+			const applicationError = new ApplicationError('UsersService/findByEmail', '', error);
+			return [null, applicationError];
+		}
+
+		return [user, null];
 	}
 
-	async create(createUserPayload: CreateUserPayload): Promise<User> {
-		const user = await this.usersRepository.create(withId(createUserPayload));
-		await this.profilesService.create({
+	async create(
+		createUserPayload: CreateUserPayload,
+	): Promise<AsyncResult<User, ApplicationError>> {
+		const [user, createUserError] = await this.usersRepository.create(
+			withId(createUserPayload),
+		);
+		if (createUserError) {
+			const applicationError = new ApplicationError(
+				'UsersService/create',
+				'',
+				createUserError,
+			);
+			return [null, applicationError];
+		}
+
+		const [, createProfileError] = await this.profilesService.create({
 			name: user.firstName,
 			userId: user.id,
 		});
+		if (createProfileError) {
+			const applicationError = new ApplicationError(
+				'UsersService/create',
+				'',
+				createProfileError,
+			);
+			return [null, applicationError];
+		}
 
-		return user;
+		return [user, null];
 	}
 }

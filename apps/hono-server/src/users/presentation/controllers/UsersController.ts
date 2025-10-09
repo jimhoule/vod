@@ -1,7 +1,6 @@
+import { PresentationError } from '@packages/errors/presentation/PresentationError';
 import { getIdValidationSchema } from '@packages/validations/common/getIdValidationSchema';
-import { AppHttpError } from '@app/app.http-error';
 import { createHandlers } from '@app/app.factory';
-import { throwHttpError } from '@app/app.http-error';
 import { validateZodSchema } from '@app/middlewares/validateZodSchema';
 import { isAuthenticated } from '@auth/presentation/http/middlewares/isAuthenticated';
 import { UsersService } from '@users/application/services/UsersService';
@@ -11,13 +10,19 @@ export class UsersController {
 
 	findAll() {
 		return createHandlers(isAuthenticated, async (c) => {
-			try {
-				const users = await this.usersService.findAll();
+			const [users, error] = await this.usersService.findAll();
+			if (error) {
+				const presentationError = new PresentationError(
+					500,
+					'UsersController/findAll',
+					'',
+					error,
+				);
 
-				return c.json(users, 200);
-			} catch (err) {
-				throwHttpError(err);
+				return c.json(presentationError, 500);
 			}
+
+			return c.json(users, 200);
 		});
 	}
 
@@ -28,17 +33,30 @@ export class UsersController {
 			isAuthenticated,
 			validateZodSchema('param', idValidationSchema),
 			async (c) => {
-				try {
-					const { id } = c.req.valid('param');
-					const user = await this.usersService.findById(id);
-					if (!user) {
-						throw new AppHttpError(404, `User with ID ${id} not found`);
-					}
+				const { id } = c.req.valid('param');
+				const [user, error] = await this.usersService.findById(id);
+				if (error) {
+					const presentationError = new PresentationError(
+						500,
+						'UsersController/findById',
+						'',
+						error,
+					);
 
-					return c.json(user, 200);
-				} catch (err) {
-					throwHttpError(err);
+					return c.json(presentationError, 500);
 				}
+
+				if (!user) {
+					const presentationError = new PresentationError(
+						404,
+						'UsersController/findById',
+						'User not found',
+					);
+
+					return c.json(presentationError, 404);
+				}
+
+				return c.json(user, 200);
 			},
 		);
 	}

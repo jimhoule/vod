@@ -1,7 +1,7 @@
+import { PresentationError } from '@packages/errors/presentation/PresentationError';
 import { getLoginValidationSchema } from '@packages/validations/auth/getLoginValidationSchema';
 import { getRegisterValidationSchema } from '@packages/validations/auth/getRegisterValidationSchema';
 import { createHandlers } from '@app/app.factory';
-import { throwHttpError } from '@app/app.http-error';
 import { validateZodSchema } from '@app/middlewares/validateZodSchema';
 import { AuthService } from '@auth/application/services/AuthService';
 export class AuthController {
@@ -14,16 +14,22 @@ export class AuthController {
 		});
 
 		return createHandlers(validateZodSchema('json', loginValidationSchema), async (c) => {
-			try {
-				// Validates request body
-				const loginDto = c.req.valid('json');
-				// Gets access token
-				const accessToken = await this.authService.login(loginDto);
+			// Validates request body
+			const loginDto = c.req.valid('json');
+			// Gets access token
+			const [accessToken, error] = await this.authService.login(loginDto);
+			if (error) {
+				const presentationError = new PresentationError(
+					400,
+					'AuthController/login',
+					'',
+					error,
+				);
 
-				return c.json({ accessToken }, 200);
-			} catch (err) {
-				throwHttpError(err);
+				return c.json(presentationError, 400);
 			}
+
+			return c.json({ accessToken }, 200);
 		});
 	}
 
@@ -36,16 +42,22 @@ export class AuthController {
 		});
 
 		return createHandlers(validateZodSchema('json', registerValidationSchema), async (c) => {
-			try {
-				// Validates request body
-				const registerDto = c.req.valid('json');
-				// Gets access token
-				const accessToken = await this.authService.register(registerDto);
+			// Validates request body
+			const registerDto = c.req.valid('json');
+			// Gets access token
+			const [accessToken, error] = await this.authService.register(registerDto);
+			if (error) {
+				const presentationError = new PresentationError(
+					400,
+					'AuthController/register',
+					'',
+					error,
+				);
 
-				return c.json({ accessToken }, 201);
-			} catch (err) {
-				throwHttpError(err);
+				return c.json(presentationError, 400);
 			}
+
+			return c.json({ accessToken }, 201);
 		});
 	}
 }
