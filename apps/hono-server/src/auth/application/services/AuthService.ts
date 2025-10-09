@@ -30,12 +30,14 @@ export class AuthService {
 
 	async login(loginPayload: LoginPayload): Promise<AsyncResult<string, ApplicationError>> {
 		// Gets user by email
-		const [user, error] = await this.usersService.findByEmail(loginPayload.email);
-		if (error) {
+		const [user, findUserByEmailError] = await this.usersService.findByEmail(
+			loginPayload.email,
+		);
+		if (findUserByEmailError) {
 			const applicationError = new ApplicationError(
 				'AuthService/login',
 				'Email or password invalid',
-				error,
+				findUserByEmailError,
 			);
 			return [null, applicationError];
 		}
@@ -43,10 +45,20 @@ export class AuthService {
 		const castUser = user as User;
 
 		// Validates password
-		const isPasswordValid = await this.encryptionService.comparePassword({
-			password: castUser.password,
-			hashedPassword: loginPayload.password,
-		});
+		const [isPasswordValid, comparePasswordError] =
+			await this.encryptionService.comparePassword({
+				password: castUser.password,
+				hashedPassword: loginPayload.password,
+			});
+		if (comparePasswordError) {
+			const applicationError = new ApplicationError(
+				'AuthService/login',
+				comparePasswordError.message,
+				comparePasswordError,
+			);
+			return [null, applicationError];
+		}
+
 		if (!isPasswordValid) {
 			const applicationError = new ApplicationError(
 				'AuthService/login',
@@ -84,9 +96,17 @@ export class AuthService {
 		}
 
 		// Hashes password
-		const hashedPassword = await this.encryptionService.hashPassword({
+		const [hashedPassword, hashPasswordError] = await this.encryptionService.hashPassword({
 			password: registerPayload.password,
 		});
+		if (hashPasswordError) {
+			const applicationError = new ApplicationError(
+				'AuthService/login',
+				hashPasswordError.message,
+				hashPasswordError,
+			);
+			return [null, applicationError];
+		}
 
 		// Creates user
 		const [user, createUserError] = await this.usersService.create({
