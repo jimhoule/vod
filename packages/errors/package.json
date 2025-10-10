@@ -22,6 +22,7 @@
 		"types": "./src/infrastructure/InfrastructureError.ts",
 		"default": "./dist/infrastructure/InfrastructureError.js"
 	},
+
 	"./infrastructure/repositories/ForeignKeyViolationError": {
 		"types": "./src/infrastructure/repositories/ForeignKeyViolationError.ts",
 		"default": "./dist/infrastructure/repositories/ForeignKeyViolationError.js"
@@ -38,6 +39,35 @@
 	"./presentation/PresentationError": {
 		"types": "./src/presentation/PresentationError.ts",
 		"default": "./dist/presentation/PresentationError.js"
+	},
+
+	"./presentation/http/BadRequestError": {
+		"types": "./src/presentation/http/BadRequestError.ts",
+		"default": "./dist/presentation/http/BadRequestError.js"
+	},
+	"./presentation/http/ForbiddenError": {
+		"types": "./src/presentation/http/ForbiddenError.ts",
+		"default": "./dist/presentation/http/ForbiddenError.js"
+	},
+	"./presentation/http/HttpError": {
+		"types": "./src/presentation/http/HttpError.ts",
+		"default": "./dist/presentation/http/HttpError.js"
+	},
+	"./presentation/http/InternalServerError": {
+		"types": "./src/presentation/http/InternalServerError.ts",
+		"default": "./dist/presentation/http/InternalServerError.js"
+	},
+	"./presentation/http/NotFoundError": {
+		"types": "./src/presentation/http/NotFoundError.ts",
+		"default": "./dist/presentation/http/NotFoundError.js"
+	},
+	"./presentation/http/UnauthorizedError": {
+		"types": "./src/presentation/http/UnauthorizedError.ts",
+		"default": "./dist/presentation/http/UnauthorizedError.js"
+	},
+	"./presentation/http/mappers/HttpPresentationErrorMapper": {
+		"types": "./src/presentation/http/mappers/HttpPresentationErrorMapper.ts",
+		"default": "./dist/presentation/http/mappers/HttpPresentationErrorMapper.js"
 	}
   },
   "scripts": {

@@ -1,4 +1,6 @@
-import { PresentationError } from '@packages/errors/presentation/PresentationError';
+import type { ContentfulStatusCode } from 'hono/utils/http-status';
+import { NotFoundError } from '@packages/errors/presentation/http/NotFoundError';
+import type { HttpPresentationErrorMapper } from '@packages/errors/presentation/http/mappers/HttpPresentationErrorMapper';
 import { getCreateMovieValidationSchema } from '@packages/validations/movies/getCreateMovieValidationSchema';
 import { getIdValidationSchema } from '@packages/validations/common/getIdValidationSchema';
 import { getUpdateMovieValidationSchema } from '@packages/validations/movies/getUpdateMovieValidationSchema';
@@ -8,19 +10,21 @@ import { isAuthenticated } from '@auth/presentation/http/middlewares/isAuthentic
 import { MoviesService } from '@movies/application/services/MoviesService';
 
 export class MoviesController {
-	constructor(private readonly moviesService: MoviesService) {}
+	constructor(
+		private readonly httpPresentationErrorMapper: HttpPresentationErrorMapper,
+		private readonly moviesService: MoviesService,
+	) {}
 
 	findAll() {
 		return createHandlers(isAuthenticated, async (c) => {
 			const [movies, error] = await this.moviesService.findAll();
 			if (error) {
-				const presentationError = new PresentationError(
-					500,
+				const presentationError = this.httpPresentationErrorMapper.toPresentationError(
 					'MoviesController/findAll',
 					'',
 					error,
 				);
-				return c.json(presentationError, 500);
+				return c.json(presentationError, presentationError.status as ContentfulStatusCode);
 			}
 
 			return c.json(movies, 200);
@@ -37,22 +41,26 @@ export class MoviesController {
 				const { id } = c.req.valid('param');
 				const [movie, error] = await this.moviesService.findById(id);
 				if (error) {
-					const presentationError = new PresentationError(
-						500,
+					const presentationError = this.httpPresentationErrorMapper.toPresentationError(
 						'MoviesController/findById',
 						'',
 						error,
 					);
-					return c.json(presentationError, 500);
+					return c.json(
+						presentationError,
+						presentationError.status as ContentfulStatusCode,
+					);
 				}
 
 				if (!movie) {
-					const presentationError = new PresentationError(
-						404,
+					const presentationError = new NotFoundError(
 						'MoviesController/findById',
 						'Movie not found',
 					);
-					return c.json(presentationError, 404);
+					return c.json(
+						presentationError,
+						presentationError.status as ContentfulStatusCode,
+					);
 				}
 
 				return c.json(movie, 200);
@@ -73,13 +81,15 @@ export class MoviesController {
 				const createMovieDto = c.req.valid('json');
 				const [movie, error] = await this.moviesService.create(createMovieDto);
 				if (error) {
-					const presentationError = new PresentationError(
-						500,
-						'MoviesController/findById',
+					const presentationError = this.httpPresentationErrorMapper.toPresentationError(
+						'MoviesController/create',
 						'',
 						error,
 					);
-					return c.json(presentationError, 500);
+					return c.json(
+						presentationError,
+						presentationError.status as ContentfulStatusCode,
+					);
 				}
 
 				return c.json(movie, 201);
@@ -103,13 +113,15 @@ export class MoviesController {
 				const updateMovieDto = c.req.valid('json');
 				const [movie, error] = await this.moviesService.update(id, updateMovieDto);
 				if (error) {
-					const presentationError = new PresentationError(
-						500,
-						'MoviesController/findById',
+					const presentationError = this.httpPresentationErrorMapper.toPresentationError(
+						'MoviesController/update',
 						'',
 						error,
 					);
-					return c.json(presentationError, 500);
+					return c.json(
+						presentationError,
+						presentationError.status as ContentfulStatusCode,
+					);
 				}
 
 				return c.json(movie, 200);

@@ -1,6 +1,7 @@
 import { Hono } from 'hono';
 import { ApplicationErrorMapper } from '@packages/errors/application/mappers/ApplicationErrorMapper';
 import { PostgresRepositoryInfrastructureErrorMapper } from '@packages/errors/infrastructure/repositories/mappers/PostgresRepositoryInfrastructureErrorMapper';
+import { HttpPresentationErrorMapper } from '@packages/errors/presentation/http/mappers/HttpPresentationErrorMapper';
 import { ProfilesService } from '@profiles/application/services/ProfilesService';
 import { FakeProfilesRepository } from '@profiles/infrastructure/repositories/fake/FakeProfilesRepository';
 import { PostgresProfilesRepository } from '@profiles/infrastructure/repositories/postgres/PostgresProfilesRepository';
@@ -10,7 +11,7 @@ import { uuidService } from '@uuid/uuidModule';
 export const createProfilesTestService = () =>
 	new ProfilesService(new ApplicationErrorMapper(), new FakeProfilesRepository(), uuidService);
 export const createProfilesController = (profilesService: ProfilesService) =>
-	new ProfilesController(profilesService);
+	new ProfilesController(new HttpPresentationErrorMapper(), profilesService);
 export const createProfilesRoutes = (profilesController: ProfilesController) => {
 	return new Hono()
 		.basePath('/profiles')
