@@ -1,4 +1,5 @@
-import { async, type AsyncResult } from '@packages/core/async';
+import { async } from '@packages/core/async';
+import type { Either } from '@packages/core/types/Either';
 import type { PostgresError } from '@packages/db/postgres';
 import type { InfrastructureError } from '@packages/errors/infrastructure/InfrastructureError';
 import type { PostgresRepositoryErrorMapper } from '@packages/errors/infrastructure/repositories/mappers/PostgresRepositoryErrorMapper';
@@ -15,7 +16,7 @@ import {
 export class PostgresUsersRepository implements UsersRepository {
 	constructor(private readonly postgresRepositoryErrorMapper: PostgresRepositoryErrorMapper) {}
 
-	async findAll(): Promise<AsyncResult<User[], InfrastructureError>> {
+	async findAll(): Promise<Either<User[], InfrastructureError>> {
 		const [users, error] = await async(findAllUsers());
 		if (error) {
 			const postgresError = error.cause as PostgresError;
@@ -32,7 +33,7 @@ export class PostgresUsersRepository implements UsersRepository {
 		return [users, null];
 	}
 
-	async findById(id: User['id']): Promise<AsyncResult<User | undefined, InfrastructureError>> {
+	async findById(id: User['id']): Promise<Either<User | undefined, InfrastructureError>> {
 		const [user, error] = await async(findUserById(id));
 		if (error) {
 			const postgresError = error.cause as PostgresError;
@@ -51,7 +52,7 @@ export class PostgresUsersRepository implements UsersRepository {
 
 	async findByEmail(
 		email: User['email'],
-	): Promise<AsyncResult<User | undefined, InfrastructureError>> {
+	): Promise<Either<User | undefined, InfrastructureError>> {
 		const [user, error] = await async(findUserByEmail(email));
 		if (error) {
 			const postgresError = error.cause as PostgresError;
@@ -68,7 +69,7 @@ export class PostgresUsersRepository implements UsersRepository {
 		return [user, null];
 	}
 
-	async create(createUserData: CreateUserData): Promise<AsyncResult<User, InfrastructureError>> {
+	async create(createUserData: CreateUserData): Promise<Either<User, InfrastructureError>> {
 		const [user, error] = await async(createUser(createUserData));
 		if (error) {
 			const postgresError = error.cause as PostgresError;

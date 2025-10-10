@@ -1,4 +1,4 @@
-import type { AsyncResult } from '@packages/core/async';
+import type { Either } from '@packages/core/types/Either';
 import { ApplicationError } from '@packages/errors/application/ApplicationError';
 import type { Profile } from '@packages/models/profiles/Profile';
 import type { CreateProfilePayload } from '@profiles/application/services/payloads/CreateProfilePayload';
@@ -12,9 +12,7 @@ export class ProfilesService {
 		private readonly uuidService: UuidService,
 	) {}
 
-	async findAllByUserId(
-		userId: Profile['userId'],
-	): Promise<AsyncResult<Profile[], ApplicationError>> {
+	async findAllByUserId(userId: Profile['userId']): Promise<Either<Profile[], ApplicationError>> {
 		const [profiles, error] = await this.profilesRepository.findAllByUserId(userId);
 		if (error) {
 			const applicationError = new ApplicationError(
@@ -28,7 +26,7 @@ export class ProfilesService {
 		return [profiles, null];
 	}
 
-	async findById(id: Profile['id']): Promise<AsyncResult<Profile | undefined, ApplicationError>> {
+	async findById(id: Profile['id']): Promise<Either<Profile | undefined, ApplicationError>> {
 		const [profile, error] = await this.profilesRepository.findById(id);
 		if (error) {
 			const applicationError = new ApplicationError('ProfilesService/findById', '', error);
@@ -40,7 +38,7 @@ export class ProfilesService {
 
 	async create(
 		createProfilePayload: CreateProfilePayload,
-	): Promise<AsyncResult<Profile, ApplicationError>> {
+	): Promise<Either<Profile, ApplicationError>> {
 		const [profile, error] = await this.profilesRepository.create({
 			...createProfilePayload,
 			id: this.uuidService.generate(),
@@ -56,7 +54,7 @@ export class ProfilesService {
 	async update(
 		id: Profile['id'],
 		updateProfilePayload: UpdateProfilePayload,
-	): Promise<AsyncResult<Profile, ApplicationError>> {
+	): Promise<Either<Profile, ApplicationError>> {
 		const [profile, error] = await this.profilesRepository.update(id, updateProfilePayload);
 		if (error) {
 			const applicationError = new ApplicationError('ProfilesService/update', '', error);
@@ -66,7 +64,7 @@ export class ProfilesService {
 		return [profile, null];
 	}
 
-	async delete(id: Profile['id']): Promise<AsyncResult<Profile, ApplicationError>> {
+	async delete(id: Profile['id']): Promise<Either<Profile, ApplicationError>> {
 		const [profile, error] = await this.profilesRepository.delete(id);
 		if (error) {
 			const applicationError = new ApplicationError('ProfilesService/delete', '', error);

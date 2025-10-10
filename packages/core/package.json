@@ -7,6 +7,24 @@
     "./async": {
 		"types": "./src/async.ts",
 		"default": "./dist/async.js"
+	},
+
+	"./sync": {
+		"types": "./src/sync.ts",
+		"default": "./dist/sync.js"
+	},
+
+	"./types/Either": {
+		"types": "./src/types/Either.ts",
+		"default": "./dist/types/Either.js"
+	},
+	"./types/Failure": {
+		"types": "./src/types/Failure.ts",
+		"default": "./dist/types/Failure.js"
+	},
+	"./types/Success": {
+		"types": "./src/types/Success.ts",
+		"default": "./dist/types/Success.js"
 	}
   },
   "scripts": {

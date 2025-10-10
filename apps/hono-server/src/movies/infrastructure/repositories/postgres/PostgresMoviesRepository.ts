@@ -1,4 +1,5 @@
-import { async, type AsyncResult } from '@packages/core/async';
+import { async } from '@packages/core/async';
+import type { Either } from '@packages/core/types/Either';
 import { PostgresError } from '@packages/db/postgres';
 import type { InfrastructureError } from '@packages/errors/infrastructure/InfrastructureError';
 import type { PostgresRepositoryErrorMapper } from '@packages/errors/infrastructure/repositories/mappers/PostgresRepositoryErrorMapper';
@@ -17,7 +18,7 @@ import type { UpdateMovieData } from '@movies/infrastructure/repositories/types/
 export class PostgresMoviesRepository implements MoviesRepository {
 	constructor(private readonly postgresRepositoryErrorMapper: PostgresRepositoryErrorMapper) {}
 
-	async findAll(): Promise<AsyncResult<Movie[], InfrastructureError>> {
+	async findAll(): Promise<Either<Movie[], InfrastructureError>> {
 		const [movies, error] = await async(findAllMovies());
 		if (error) {
 			const postgresError = error.cause as PostgresError;
@@ -34,7 +35,7 @@ export class PostgresMoviesRepository implements MoviesRepository {
 		return [movies, null];
 	}
 
-	async findById(id: Movie['id']): Promise<AsyncResult<Movie | undefined, InfrastructureError>> {
+	async findById(id: Movie['id']): Promise<Either<Movie | undefined, InfrastructureError>> {
 		const [movie, error] = await async(findMovieById(id));
 		if (error) {
 			const postgresError = error.cause as PostgresError;
@@ -51,9 +52,7 @@ export class PostgresMoviesRepository implements MoviesRepository {
 		return [movie, null];
 	}
 
-	async create(
-		createMovieData: CreateMovieData,
-	): Promise<AsyncResult<Movie, InfrastructureError>> {
+	async create(createMovieData: CreateMovieData): Promise<Either<Movie, InfrastructureError>> {
 		const [movie, error] = await async(createMovie(createMovieData));
 		if (error) {
 			const postgresError = error.cause as PostgresError;
@@ -73,7 +72,7 @@ export class PostgresMoviesRepository implements MoviesRepository {
 	async update(
 		id: Movie['id'],
 		updateMovieData: UpdateMovieData,
-	): Promise<AsyncResult<Movie, InfrastructureError>> {
+	): Promise<Either<Movie, InfrastructureError>> {
 		const [movie, error] = await async(updateMovie(id, updateMovieData));
 		if (error) {
 			const postgresError = error.cause as PostgresError;
@@ -90,7 +89,7 @@ export class PostgresMoviesRepository implements MoviesRepository {
 		return [movie, null];
 	}
 
-	async delete(id: Movie['id']): Promise<AsyncResult<Movie, InfrastructureError>> {
+	async delete(id: Movie['id']): Promise<Either<Movie, InfrastructureError>> {
 		const [movie, error] = await async(deleteMovie(id));
 		if (error) {
 			const postgresError = error.cause as PostgresError;

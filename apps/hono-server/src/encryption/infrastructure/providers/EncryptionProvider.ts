@@ -1,10 +1,10 @@
-import type { AsyncResult } from '@packages/core/async';
+import type { Either } from '@packages/core/types/Either';
 import type { InfrastructureError } from '@packages/errors/infrastructure/InfrastructureError';
 
 export interface EncryptionProvider {
-	hashPassword(password: string): Promise<AsyncResult<string, InfrastructureError>>;
+	hashPassword(password: string): Promise<Either<string, InfrastructureError>>;
 	comparePassword(
 		password: string,
 		hashedPassword: string,
-	): Promise<AsyncResult<boolean, InfrastructureError>>;
+	): Promise<Either<boolean, InfrastructureError>>;
 }

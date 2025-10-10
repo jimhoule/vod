@@ -1,4 +1,4 @@
-import type { AsyncResult } from '@packages/core/async';
+import type { Either } from '@packages/core/types/Either';
 import { ApplicationError } from '@packages/errors/application/ApplicationError';
 import type { User } from '@packages/models/users/User';
 import type { ProfilesService } from '@profiles/application/services/ProfilesService';
@@ -13,7 +13,7 @@ export class UsersService {
 		private readonly uuidService: UuidService,
 	) {}
 
-	async findAll(): Promise<AsyncResult<User[], ApplicationError>> {
+	async findAll(): Promise<Either<User[], ApplicationError>> {
 		const [users, error] = await this.usersRepository.findAll();
 		if (error) {
 			const applicationError = new ApplicationError('UsersService/findAll', '', error);
@@ -23,7 +23,7 @@ export class UsersService {
 		return [users, null];
 	}
 
-	async findById(id: User['id']): Promise<AsyncResult<User | undefined, ApplicationError>> {
+	async findById(id: User['id']): Promise<Either<User | undefined, ApplicationError>> {
 		const [user, error] = await this.usersRepository.findById(id);
 		if (error) {
 			const applicationError = new ApplicationError('UsersService/findById', '', error);
@@ -33,9 +33,7 @@ export class UsersService {
 		return [user, null];
 	}
 
-	async findByEmail(
-		email: User['email'],
-	): Promise<AsyncResult<User | undefined, ApplicationError>> {
+	async findByEmail(email: User['email']): Promise<Either<User | undefined, ApplicationError>> {
 		const [user, error] = await this.usersRepository.findByEmail(email);
 		if (error) {
 			const applicationError = new ApplicationError('UsersService/findByEmail', '', error);
@@ -45,9 +43,7 @@ export class UsersService {
 		return [user, null];
 	}
 
-	async create(
-		createUserPayload: CreateUserPayload,
-	): Promise<AsyncResult<User, ApplicationError>> {
+	async create(createUserPayload: CreateUserPayload): Promise<Either<User, ApplicationError>> {
 		const [user, createUserError] = await this.usersRepository.create({
 			...createUserPayload,
 			id: this.uuidService.generate(),

@@ -1,4 +1,4 @@
-import type { AsyncResult } from '@packages/core/async';
+import type { Either } from '@packages/core/types/Either';
 import type { InfrastructureError } from '@packages/errors/infrastructure/InfrastructureError';
 import type { Profile } from '@packages/models/profiles/Profile';
 import type { ProfilesRepository } from '@profiles/infrastructure/repositories/ProfilesRepository';
@@ -10,7 +10,7 @@ export class FakeProfilesRepository implements ProfilesRepository {
 
 	async findAllByUserId(
 		userId: Profile['userId'],
-	): Promise<AsyncResult<Profile[], InfrastructureError>> {
+	): Promise<Either<Profile[], InfrastructureError>> {
 		const profiles = this.profiles.filter(
 			(profile: Profile): boolean => profile.userId === userId,
 		);
@@ -18,9 +18,7 @@ export class FakeProfilesRepository implements ProfilesRepository {
 		return [profiles, null];
 	}
 
-	async findById(
-		id: Profile['id'],
-	): Promise<AsyncResult<Profile | undefined, InfrastructureError>> {
+	async findById(id: Profile['id']): Promise<Either<Profile | undefined, InfrastructureError>> {
 		const profile = this.profiles.find((profile: Profile): boolean => profile.id === id);
 
 		return [profile, null];
@@ -28,7 +26,7 @@ export class FakeProfilesRepository implements ProfilesRepository {
 
 	async create(
 		createProfileData: CreateProfileData,
-	): Promise<AsyncResult<Profile, InfrastructureError>> {
+	): Promise<Either<Profile, InfrastructureError>> {
 		const profile = createProfileData;
 		// NOTE: Creates a copy with a new reference
 		this.profiles.push(JSON.parse(JSON.stringify(profile)));
@@ -39,7 +37,7 @@ export class FakeProfilesRepository implements ProfilesRepository {
 	async update(
 		id: Profile['id'],
 		updateProfileData: UpdateProfileData,
-	): Promise<AsyncResult<Profile, InfrastructureError>> {
+	): Promise<Either<Profile, InfrastructureError>> {
 		const [profile, error] = await this.findById(id);
 		if (error) {
 			return [null, error];
@@ -50,7 +48,7 @@ export class FakeProfilesRepository implements ProfilesRepository {
 		return [profile as Profile, null];
 	}
 
-	async delete(id: Profile['id']): Promise<AsyncResult<Profile, InfrastructureError>> {
+	async delete(id: Profile['id']): Promise<Either<Profile, InfrastructureError>> {
 		const [profile, error] = await this.findById(id);
 		if (error) {
 			return [null, error];

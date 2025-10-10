@@ -1,4 +1,4 @@
-import type { AsyncResult } from '@packages/core/async';
+import type { Either } from '@packages/core/types/Either';
 import { ApplicationError } from '@packages/errors/application/ApplicationError';
 import type { User } from '@packages/models/users/User';
 import type { LoginPayload } from '@auth/application/services/payloads/LoginPayload';
@@ -17,7 +17,7 @@ export class AuthService {
 	private async generateAccessToken(
 		id: User['id'],
 		email: User['email'],
-	): Promise<AsyncResult<string, ApplicationError>> {
+	): Promise<Either<string, ApplicationError>> {
 		const accessToken = await this.tokensService.generate({
 			payload: {
 				id,
@@ -28,7 +28,7 @@ export class AuthService {
 		return [accessToken, null];
 	}
 
-	async login(loginPayload: LoginPayload): Promise<AsyncResult<string, ApplicationError>> {
+	async login(loginPayload: LoginPayload): Promise<Either<string, ApplicationError>> {
 		// Gets user by email
 		const [user, findUserByEmailError] = await this.usersService.findByEmail(
 			loginPayload.email,
@@ -71,9 +71,7 @@ export class AuthService {
 		return this.generateAccessToken(castUser.id, castUser.email);
 	}
 
-	async register(
-		registerPayload: RegisterPayload,
-	): Promise<AsyncResult<string, ApplicationError>> {
+	async register(registerPayload: RegisterPayload): Promise<Either<string, ApplicationError>> {
 		// Validates email
 		const [doesAlreadyExist, findUserByEmailError] = await this.usersService.findByEmail(
 			registerPayload.email,

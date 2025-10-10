@@ -1,4 +1,4 @@
-import type { AsyncResult } from '@packages/core/async';
+import type { Either } from '@packages/core/types/Either';
 import { ApplicationError } from '@packages/errors/application/ApplicationError';
 import type { Movie } from '@packages/models/movies/Movie';
 import type { CreateMoviePayload } from '@movies/application/services/payloads/CreateMoviePayload';
@@ -12,7 +12,7 @@ export class MoviesService {
 		private readonly uuidService: UuidService,
 	) {}
 
-	async findAll(): Promise<AsyncResult<Movie[], ApplicationError>> {
+	async findAll(): Promise<Either<Movie[], ApplicationError>> {
 		const [movies, error] = await this.moviesRepository.findAll();
 		if (error) {
 			const applicationError = new ApplicationError('MoviesService/findAll', '', error);
@@ -22,7 +22,7 @@ export class MoviesService {
 		return [movies, null];
 	}
 
-	async findById(id: Movie['id']): Promise<AsyncResult<Movie | undefined, ApplicationError>> {
+	async findById(id: Movie['id']): Promise<Either<Movie | undefined, ApplicationError>> {
 		const [movie, error] = await this.moviesRepository.findById(id);
 		if (error) {
 			const applicationError = new ApplicationError('MoviesService/findById', '', error);
@@ -32,9 +32,7 @@ export class MoviesService {
 		return [movie, null];
 	}
 
-	async create(
-		createMoviePayload: CreateMoviePayload,
-	): Promise<AsyncResult<Movie, ApplicationError>> {
+	async create(createMoviePayload: CreateMoviePayload): Promise<Either<Movie, ApplicationError>> {
 		const [movie, error] = await this.moviesRepository.create({
 			...createMoviePayload,
 			id: this.uuidService.generate(),
@@ -50,7 +48,7 @@ export class MoviesService {
 	async update(
 		id: Movie['id'],
 		updateMoviePayload: UpdateMoviePayload,
-	): Promise<AsyncResult<Movie, ApplicationError>> {
+	): Promise<Either<Movie, ApplicationError>> {
 		const [movie, error] = await this.moviesRepository.update(id, updateMoviePayload);
 		if (error) {
 			const applicationError = new ApplicationError('MoviesService/update', '', error);
@@ -60,7 +58,7 @@ export class MoviesService {
 		return [movie, null];
 	}
 
-	async delete(id: Movie['id']): Promise<AsyncResult<Movie, ApplicationError>> {
+	async delete(id: Movie['id']): Promise<Either<Movie, ApplicationError>> {
 		const [movie, error] = await this.moviesRepository.delete(id);
 		if (error) {
 			const applicationError = new ApplicationError('MoviesService/delete', '', error);

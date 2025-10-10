@@ -1,4 +1,4 @@
-import type { AsyncResult } from '@packages/core/async';
+import type { Either } from '@packages/core/types/Either';
 import type { InfrastructureError } from '@packages/errors/infrastructure/InfrastructureError';
 import { UniqueViolationError } from '@packages/errors/infrastructure/repositories/UniqueViolationError';
 import type { User } from '@packages/models/users/User';
@@ -8,11 +8,11 @@ import type { CreateUserData } from '@users/infrastructure/repositories/types/Cr
 export class FakeUsersRepository implements UsersRepository {
 	private users: User[] = [];
 
-	async findAll(): Promise<AsyncResult<User[], InfrastructureError>> {
+	async findAll(): Promise<Either<User[], InfrastructureError>> {
 		return [this.users, null];
 	}
 
-	async findById(id: User['id']): Promise<AsyncResult<User | undefined, InfrastructureError>> {
+	async findById(id: User['id']): Promise<Either<User | undefined, InfrastructureError>> {
 		const user = this.users.find((user: User): boolean => user.id === id);
 
 		return [user, null];
@@ -20,13 +20,13 @@ export class FakeUsersRepository implements UsersRepository {
 
 	async findByEmail(
 		email: User['email'],
-	): Promise<AsyncResult<User | undefined, InfrastructureError>> {
+	): Promise<Either<User | undefined, InfrastructureError>> {
 		const user = this.users.find((user: User): boolean => user.email === email);
 
 		return [user, null];
 	}
 
-	async create(createUserData: CreateUserData): Promise<AsyncResult<User, InfrastructureError>> {
+	async create(createUserData: CreateUserData): Promise<Either<User, InfrastructureError>> {
 		const [doesAlreadyExist, error] = await this.findByEmail(createUserData.email);
 		if (error) {
 			return [null, error];

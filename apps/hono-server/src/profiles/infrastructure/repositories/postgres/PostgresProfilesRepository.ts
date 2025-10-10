@@ -1,4 +1,5 @@
-import { async, type AsyncResult } from '@packages/core/async';
+import { async } from '@packages/core/async';
+import type { Either } from '@packages/core/types/Either';
 import type { PostgresError } from '@packages/db/postgres';
 import type { InfrastructureError } from '@packages/errors/infrastructure/InfrastructureError';
 import type { PostgresRepositoryErrorMapper } from '@packages/errors/infrastructure/repositories/mappers/PostgresRepositoryErrorMapper';
@@ -19,7 +20,7 @@ export class PostgresProfilesRepository implements ProfilesRepository {
 
 	async findAllByUserId(
 		userId: Profile['userId'],
-	): Promise<AsyncResult<Profile[], InfrastructureError>> {
+	): Promise<Either<Profile[], InfrastructureError>> {
 		const [profiles, error] = await async(findAllProfilesByUserId(userId));
 		if (error) {
 			const postgresError = error.cause as PostgresError;
@@ -36,9 +37,7 @@ export class PostgresProfilesRepository implements ProfilesRepository {
 		return [profiles, null];
 	}
 
-	async findById(
-		id: Profile['id'],
-	): Promise<AsyncResult<Profile | undefined, InfrastructureError>> {
+	async findById(id: Profile['id']): Promise<Either<Profile | undefined, InfrastructureError>> {
 		const [profile, error] = await async(findProfileById(id));
 		if (error) {
 			const postgresError = error.cause as PostgresError;
@@ -57,7 +56,7 @@ export class PostgresProfilesRepository implements ProfilesRepository {
 
 	async create(
 		createProfileData: CreateProfileData,
-	): Promise<AsyncResult<Profile, InfrastructureError>> {
+	): Promise<Either<Profile, InfrastructureError>> {
 		const [profile, error] = await async(createProfile(createProfileData));
 		if (error) {
 			const postgresError = error.cause as PostgresError;
@@ -77,7 +76,7 @@ export class PostgresProfilesRepository implements ProfilesRepository {
 	async update(
 		id: Profile['id'],
 		updateProfileData: UpdateProfileData,
-	): Promise<AsyncResult<Profile, InfrastructureError>> {
+	): Promise<Either<Profile, InfrastructureError>> {
 		const [profile, error] = await async(updateProfile(id, updateProfileData));
 		if (error) {
 			const postgresError = error.cause as PostgresError;
@@ -94,7 +93,7 @@ export class PostgresProfilesRepository implements ProfilesRepository {
 		return [profile, null];
 	}
 
-	async delete(id: Profile['id']): Promise<AsyncResult<Profile, InfrastructureError>> {
+	async delete(id: Profile['id']): Promise<Either<Profile, InfrastructureError>> {
 		const [profile, error] = await async(deleteProfile(id));
 		if (error) {
 			const postgresError = error.cause as PostgresError;

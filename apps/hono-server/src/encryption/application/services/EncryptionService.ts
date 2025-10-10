@@ -1,4 +1,4 @@
-import type { AsyncResult } from '@packages/core/async';
+import type { Either } from '@packages/core/types/Either';
 import { ApplicationError } from '@packages/errors/application/ApplicationError';
 import type { ComparePasswordPayload } from '@encryption/application/services/payloads/ComparePasswordPayload';
 import type { HashPasswordPayload } from '@encryption/application/services/payloads/HashPasswordPayload';
@@ -9,7 +9,7 @@ export class EncryptionService {
 
 	async hashPassword(
 		hashPasswordPayload: HashPasswordPayload,
-	): Promise<AsyncResult<string, ApplicationError>> {
+	): Promise<Either<string, ApplicationError>> {
 		const [hashedPassword, error] = await this.encryptionProvider.hashPassword(
 			hashPasswordPayload.password,
 		);
@@ -27,7 +27,7 @@ export class EncryptionService {
 
 	async comparePassword(
 		comparePasswordPayload: ComparePasswordPayload,
-	): Promise<AsyncResult<boolean, ApplicationError>> {
+	): Promise<Either<boolean, ApplicationError>> {
 		const [isPasswordValid, error] = await this.encryptionProvider.comparePassword(
 			comparePasswordPayload.password,
 			comparePasswordPayload.hashedPassword,
