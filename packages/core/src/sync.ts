@@ -4,8 +4,8 @@ export const sync = <TData, TError = Error>(func: () => TData): Either<TData, TE
 	try {
 		const data = func();
 
-		return [data, null];
+		return [data, null] as const;
 	} catch (error) {
-		return [null, error as TError];
+		return [null, error as TError] as const;
 	}
 };

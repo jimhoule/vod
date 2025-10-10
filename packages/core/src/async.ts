@@ -6,8 +6,8 @@ export const async = async <TData, TError = Error>(
 	try {
 		const data = await promise;
 
-		return [data, null];
+		return [data, null] as const;
 	} catch (error) {
-		return [null, error as TError];
+		return [null, error as TError] as const;
 	}
 };
