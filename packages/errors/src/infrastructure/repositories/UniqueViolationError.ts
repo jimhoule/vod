@@ -5,10 +5,9 @@ export class UniqueViolationError extends InfrastructureError {
 		'Attempts to insert a duplicate value into a column or set of columns with a UNIQUE constraint';
 
 	constructor(
-		public message: InfrastructureError['message'],
 		public context: InfrastructureError['context'],
+		public message: InfrastructureError['message'],
 	) {
-		super(context, message);
-		super.name = 'UniqueViolationError';
+		super('UniqueViolationError', context, message);
 	}
 }

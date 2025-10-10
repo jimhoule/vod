@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
 import { ApplicationErrorMapper } from '@packages/errors/application/mappers/ApplicationErrorMapper';
-import { PostgresRepositoryErrorMapper } from '@packages/errors/infrastructure/repositories/mappers/PostgresRepositoryErrorMapper';
+import { PostgresRepositoryInfrastructureErrorMapper } from '@packages/errors/infrastructure/repositories/mappers/PostgresRepositoryInfrastructureErrorMapper';
 import { ProfilesService } from '@profiles/application/services/ProfilesService';
 import { FakeProfilesRepository } from '@profiles/infrastructure/repositories/fake/FakeProfilesRepository';
 import { PostgresProfilesRepository } from '@profiles/infrastructure/repositories/postgres/PostgresProfilesRepository';
@@ -23,7 +23,7 @@ export const createProfilesRoutes = (profilesController: ProfilesController) => 
 
 export const profilesService = new ProfilesService(
 	new ApplicationErrorMapper(),
-	new PostgresProfilesRepository(new PostgresRepositoryErrorMapper()),
+	new PostgresProfilesRepository(new PostgresRepositoryInfrastructureErrorMapper()),
 	uuidService,
 );
 export const profilesRoutes = createProfilesRoutes(createProfilesController(profilesService));

@@ -10,6 +10,7 @@ export class BcryptEncryptionProvider implements EncryptionProvider {
 		const [hashedPassword, error] = await async(hash(password, 10));
 		if (error) {
 			const infrastructureError = new InfrastructureError(
+				'InfrastructureError',
 				'BcryptEncryptionProvider/comparePassword',
 				'Error hasing password',
 			);
@@ -26,6 +27,7 @@ export class BcryptEncryptionProvider implements EncryptionProvider {
 		const [isPasswordValid, error] = await async(compare(hashedPassword, password));
 		if (error) {
 			const infrastructureError = new InfrastructureError(
+				'InfrastructureError',
 				'BcryptEncryptionProvider/comparePassword',
 				'Error comparing password',
 			);

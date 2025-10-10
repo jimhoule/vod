@@ -5,10 +5,9 @@ export class ForeignKeyViolationError extends InfrastructureError {
 		'Violates a foreign key constraint, often by trying to reference a non-existent primary key or deleting a referenced primary key';
 
 	constructor(
-		public message: InfrastructureError['message'],
 		public context: InfrastructureError['context'],
+		public message: InfrastructureError['message'],
 	) {
-		super(context, message);
-		super.name = 'ForeignKeyViolationError';
+		super('ForeignKeyViolationError', context, message);
 	}
 }

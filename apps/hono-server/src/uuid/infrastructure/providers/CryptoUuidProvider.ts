@@ -9,6 +9,7 @@ export class CryptoUuidProvider implements UuidProvider {
 		const [uuid, error] = sync(randomUUID);
 		if (error) {
 			const infrastructureError = new InfrastructureError(
+				'InfrastructureError',
 				'CryptoUuidProvider/generate',
 				'Error generating uuid',
 			);

@@ -30,9 +30,9 @@
 		"types": "./src/infrastructure/repositories/UniqueViolationError.ts",
 		"default": "./dist/infrastructure/repositories/UniqueViolationError.js"
 	},
-	"./infrastructure/repositories/mappers/PostgresRepositoryErrorMapper": {
-		"types": "./src/infrastructure/repositories/mappers/PostgresRepositoryErrorMapper.ts",
-		"default": "./dist/infrastructure/repositories/mappers/PostgresRepositoryErrorMapper.js"
+	"./infrastructure/repositories/mappers/PostgresRepositoryInfrastructureErrorMapper": {
+		"types": "./src/infrastructure/repositories/mappers/PostgresRepositoryInfrastructureErrorMapper.ts",
+		"default": "./dist/infrastructure/repositories/mappers/PostgresRepositoryInfrastructureErrorMapper.js"
 	},
 
 	"./presentation/PresentationError": {
@@ -50,5 +50,8 @@
     "@packages/typescript-config": "workspace:*",
     "@types/node": "^20.11.24",
     "typescript": "5.5.4"
+  },
+  "dependencies": {
+    "@packages/db": "workspace:*"
   }
 }

@@ -244,6 +244,10 @@ importers:
         version: 24.6.0
 
   packages/errors:
+    dependencies:
+      '@packages/db':
+        specifier: workspace:*
+        version: link:../db
     devDependencies:
       '@packages/eslint-config':
         specifier: workspace:*

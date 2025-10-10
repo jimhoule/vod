@@ -12,6 +12,7 @@ export class JwtTokensProvider implements TokensProvider {
 		const [jwtToken, error] = await async(sign(payload as JWTPayload, env.JWT_SECRET));
 		if (error) {
 			const infrastructureError = new InfrastructureError(
+				'InfrastructureError',
 				'JwtTokensProvider/generate',
 				'Error generating jwt token',
 			);
@@ -28,6 +29,7 @@ export class JwtTokensProvider implements TokensProvider {
 		});
 		if (error) {
 			const infrastructureError = new InfrastructureError(
+				'InfrastructureError',
 				'JwtTokensProvider/generate',
 				'Error generating jwt token',
 			);
