@@ -44,9 +44,19 @@ export class UsersService {
 	}
 
 	async create(createUserPayload: CreateUserPayload): Promise<Either<User, ApplicationError>> {
+		const [uuid, generateUuidError] = this.uuidService.generate();
+		if (generateUuidError) {
+			const applicationError = new ApplicationError(
+				'UsersService/create',
+				'',
+				generateUuidError,
+			);
+			return [null, applicationError];
+		}
+
 		const [user, createUserError] = await this.usersRepository.create({
 			...createUserPayload,
-			id: this.uuidService.generate(),
+			id: uuid,
 		});
 		if (createUserError) {
 			const applicationError = new ApplicationError(

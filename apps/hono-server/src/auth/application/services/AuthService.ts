@@ -17,13 +17,22 @@ export class AuthService {
 	private async generateAccessToken(
 		id: User['id'],
 		email: User['email'],
+		context: string,
 	): Promise<Either<string, ApplicationError>> {
-		const accessToken = await this.tokensService.generate({
+		const [accessToken, error] = await this.tokensService.generate({
 			payload: {
 				id,
 				email,
 			},
 		});
+		if (error) {
+			const applicationError = new ApplicationError(
+				context,
+				'Email or password invalid',
+				error,
+			);
+			return [null, applicationError];
+		}
 
 		return [accessToken, null];
 	}
@@ -68,7 +77,7 @@ export class AuthService {
 		}
 
 		// Generates access token
-		return this.generateAccessToken(castUser.id, castUser.email);
+		return this.generateAccessToken(castUser.id, castUser.email, 'AuthService/login');
 	}
 
 	async register(registerPayload: RegisterPayload): Promise<Either<string, ApplicationError>> {
@@ -117,6 +126,6 @@ export class AuthService {
 		}
 
 		// Generates access token
-		return this.generateAccessToken(user.id, user.email);
+		return this.generateAccessToken(user.id, user.email, 'AuthService/register');
 	}
 }

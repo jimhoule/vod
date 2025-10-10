@@ -16,12 +16,14 @@ describe('AuthService', (): void => {
 			password: 'password',
 		};
 		const [accessToken] = await authService.register(registerPayload);
-		const accessTokenPayload = tokensService.decode<Pick<User, 'id' | 'email'>>({
+		const [accessTokenPayload] = tokensService.decode<Pick<User, 'id' | 'email'>>({
 			token: accessToken as string,
 		});
 
+		const castAccessTokenPayload = accessTokenPayload as Pick<User, 'id' | 'email'>;
+
 		const user: User = {
-			id: accessTokenPayload.id,
+			id: castAccessTokenPayload.id,
 			...registerPayload,
 		};
 

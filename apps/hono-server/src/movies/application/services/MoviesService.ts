@@ -33,9 +33,19 @@ export class MoviesService {
 	}
 
 	async create(createMoviePayload: CreateMoviePayload): Promise<Either<Movie, ApplicationError>> {
+		const [uuid, generateUuidError] = this.uuidService.generate();
+		if (generateUuidError) {
+			const applicationError = new ApplicationError(
+				'UsersService/create',
+				'',
+				generateUuidError,
+			);
+			return [null, applicationError];
+		}
+
 		const [movie, error] = await this.moviesRepository.create({
 			...createMoviePayload,
-			id: this.uuidService.generate(),
+			id: uuid,
 		});
 		if (error) {
 			const applicationError = new ApplicationError('MoviesService/create', '', error);

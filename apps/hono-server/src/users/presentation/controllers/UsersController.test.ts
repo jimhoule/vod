@@ -24,7 +24,7 @@ describe('UsersController', async (): Promise<void> => {
 		const [user] = await usersService.create(createUserPayload);
 		const castUser = user as User;
 
-		const accessToken = await tokensService.generate({
+		const [accessToken] = await tokensService.generate({
 			payload: {
 				id: castUser.id,
 				email: castUser.email,

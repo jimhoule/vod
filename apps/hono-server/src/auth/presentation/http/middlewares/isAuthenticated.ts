@@ -7,7 +7,9 @@ export const isAuthenticated = createMiddleware((c, next) => {
 	const bearer = bearerAuth({
 		token,
 		verifyToken: (token) => {
-			return tokensService.verify({ token });
+			const [isValid] = tokensService.verify({ token });
+
+			return !!isValid;
 		},
 	});
 

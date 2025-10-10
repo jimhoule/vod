@@ -39,9 +39,19 @@ export class ProfilesService {
 	async create(
 		createProfilePayload: CreateProfilePayload,
 	): Promise<Either<Profile, ApplicationError>> {
+		const [uuid, generateUuidError] = this.uuidService.generate();
+		if (generateUuidError) {
+			const applicationError = new ApplicationError(
+				'UsersService/create',
+				'',
+				generateUuidError,
+			);
+			return [null, applicationError];
+		}
+
 		const [profile, error] = await this.profilesRepository.create({
 			...createProfilePayload,
-			id: this.uuidService.generate(),
+			id: uuid,
 		});
 		if (error) {
 			const applicationError = new ApplicationError('ProfilesService/create', '', error);
