@@ -2,7 +2,6 @@ import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { serve } from '@hono/node-server';
 import { env } from '@packages/env';
-import { AppHttpError } from '@app/app.http-error';
 import { authRoutes } from '@auth/authModule';
 import { moviesRoutes } from '@movies/moviesModule';
 import { profilesRoutes } from '@profiles/profilesModule';
@@ -14,14 +13,7 @@ export const app = new Hono()
 	.route('/', moviesRoutes)
 	.route('/', profilesRoutes)
 	.route('/', usersRoutes)
-	.onError((err, c) => {
-		// Gets AppHttpError the custom response
-		if (err instanceof AppHttpError) {
-			return err.getResponse();
-		}
-
-		return c.json(err);
-	});
+	.onError((err, c) => c.json(err));
 
 const port = env.HTTP_PORT;
 console.log(`Server is running on http://localhost:${port}`);
