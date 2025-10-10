@@ -1,5 +1,6 @@
 import type { Either } from '@packages/core/types/Either';
-import { ApplicationError } from '@packages/errors/application/ApplicationError';
+import type { ApplicationError } from '@packages/errors/application/ApplicationError';
+import type { ApplicationErrorMapper } from '@packages/errors/application/mappers/ApplicationErrorMapper';
 import type { Profile } from '@packages/models/profiles/Profile';
 import type { CreateProfilePayload } from '@profiles/application/services/payloads/CreateProfilePayload';
 import type { UpdateProfilePayload } from '@profiles/application/services/payloads/UpdateProfilePayload';
@@ -8,6 +9,7 @@ import type { UuidService } from '@uuid/application/services/UuidService';
 
 export class ProfilesService {
 	constructor(
+		private readonly applicationErrorMapper: ApplicationErrorMapper,
 		private readonly profilesRepository: ProfilesRepository,
 		private readonly uuidService: UuidService,
 	) {}
@@ -15,9 +17,8 @@ export class ProfilesService {
 	async findAllByUserId(userId: Profile['userId']): Promise<Either<Profile[], ApplicationError>> {
 		const [profiles, error] = await this.profilesRepository.findAllByUserId(userId);
 		if (error) {
-			const applicationError = new ApplicationError(
+			const applicationError = this.applicationErrorMapper.toApplicationError(
 				'ProfilesService/findAllByUserId',
-				'',
 				error,
 			);
 			return [null, applicationError];
@@ -29,7 +30,10 @@ export class ProfilesService {
 	async findById(id: Profile['id']): Promise<Either<Profile | undefined, ApplicationError>> {
 		const [profile, error] = await this.profilesRepository.findById(id);
 		if (error) {
-			const applicationError = new ApplicationError('ProfilesService/findById', '', error);
+			const applicationError = this.applicationErrorMapper.toApplicationError(
+				'ProfilesService/findById',
+				error,
+			);
 			return [null, applicationError];
 		}
 
@@ -41,20 +45,22 @@ export class ProfilesService {
 	): Promise<Either<Profile, ApplicationError>> {
 		const [uuid, generateUuidError] = this.uuidService.generate();
 		if (generateUuidError) {
-			const applicationError = new ApplicationError(
-				'UsersService/create',
-				'',
+			const applicationError = this.applicationErrorMapper.toApplicationError(
+				'ProfilesService/create',
 				generateUuidError,
 			);
 			return [null, applicationError];
 		}
 
-		const [profile, error] = await this.profilesRepository.create({
+		const [profile, createProfileError] = await this.profilesRepository.create({
 			...createProfilePayload,
 			id: uuid,
 		});
-		if (error) {
-			const applicationError = new ApplicationError('ProfilesService/create', '', error);
+		if (createProfileError) {
+			const applicationError = this.applicationErrorMapper.toApplicationError(
+				'ProfilesService/create',
+				createProfileError,
+			);
 			return [null, applicationError];
 		}
 
@@ -67,7 +73,10 @@ export class ProfilesService {
 	): Promise<Either<Profile, ApplicationError>> {
 		const [profile, error] = await this.profilesRepository.update(id, updateProfilePayload);
 		if (error) {
-			const applicationError = new ApplicationError('ProfilesService/update', '', error);
+			const applicationError = this.applicationErrorMapper.toApplicationError(
+				'ProfilesService/update',
+				error,
+			);
 			return [null, applicationError];
 		}
 
@@ -77,7 +86,10 @@ export class ProfilesService {
 	async delete(id: Profile['id']): Promise<Either<Profile, ApplicationError>> {
 		const [profile, error] = await this.profilesRepository.delete(id);
 		if (error) {
-			const applicationError = new ApplicationError('ProfilesService/delete', '', error);
+			const applicationError = this.applicationErrorMapper.toApplicationError(
+				'ProfilesService/delete',
+				error,
+			);
 			return [null, applicationError];
 		}
 

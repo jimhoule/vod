@@ -9,14 +9,4 @@ export class PresentationError extends BaseError {
 	) {
 		super('PresentationError', context, 'presentation', message, cause);
 	}
-
-	toJson() {
-		const { name, ...rest } = super.toJson();
-
-		return {
-			name,
-			status: this.status,
-			...rest,
-		};
-	}
 }

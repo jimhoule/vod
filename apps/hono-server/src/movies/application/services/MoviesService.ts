@@ -1,5 +1,6 @@
 import type { Either } from '@packages/core/types/Either';
-import { ApplicationError } from '@packages/errors/application/ApplicationError';
+import type { ApplicationError } from '@packages/errors/application/ApplicationError';
+import type { ApplicationErrorMapper } from '@packages/errors/application/mappers/ApplicationErrorMapper';
 import type { Movie } from '@packages/models/movies/Movie';
 import type { CreateMoviePayload } from '@movies/application/services/payloads/CreateMoviePayload';
 import type { UpdateMoviePayload } from '@movies/application/services/payloads/UpdateMoviePayload';
@@ -8,6 +9,7 @@ import type { UuidService } from '@uuid/application/services/UuidService';
 
 export class MoviesService {
 	constructor(
+		private readonly applicationErrorMapper: ApplicationErrorMapper,
 		private readonly moviesRepository: MoviesRepository,
 		private readonly uuidService: UuidService,
 	) {}
@@ -15,7 +17,10 @@ export class MoviesService {
 	async findAll(): Promise<Either<Movie[], ApplicationError>> {
 		const [movies, error] = await this.moviesRepository.findAll();
 		if (error) {
-			const applicationError = new ApplicationError('MoviesService/findAll', '', error);
+			const applicationError = this.applicationErrorMapper.toApplicationError(
+				'MoviesService/findAll',
+				error,
+			);
 			return [null, applicationError];
 		}
 
@@ -25,7 +30,10 @@ export class MoviesService {
 	async findById(id: Movie['id']): Promise<Either<Movie | undefined, ApplicationError>> {
 		const [movie, error] = await this.moviesRepository.findById(id);
 		if (error) {
-			const applicationError = new ApplicationError('MoviesService/findById', '', error);
+			const applicationError = this.applicationErrorMapper.toApplicationError(
+				'MoviesService/findById',
+				error,
+			);
 			return [null, applicationError];
 		}
 
@@ -35,20 +43,22 @@ export class MoviesService {
 	async create(createMoviePayload: CreateMoviePayload): Promise<Either<Movie, ApplicationError>> {
 		const [uuid, generateUuidError] = this.uuidService.generate();
 		if (generateUuidError) {
-			const applicationError = new ApplicationError(
-				'UsersService/create',
-				'',
+			const applicationError = this.applicationErrorMapper.toApplicationError(
+				'MoviesService/create',
 				generateUuidError,
 			);
 			return [null, applicationError];
 		}
 
-		const [movie, error] = await this.moviesRepository.create({
+		const [movie, createMovieError] = await this.moviesRepository.create({
 			...createMoviePayload,
 			id: uuid,
 		});
-		if (error) {
-			const applicationError = new ApplicationError('MoviesService/create', '', error);
+		if (createMovieError) {
+			const applicationError = this.applicationErrorMapper.toApplicationError(
+				'MoviesService/create',
+				createMovieError,
+			);
 			return [null, applicationError];
 		}
 
@@ -61,7 +71,10 @@ export class MoviesService {
 	): Promise<Either<Movie, ApplicationError>> {
 		const [movie, error] = await this.moviesRepository.update(id, updateMoviePayload);
 		if (error) {
-			const applicationError = new ApplicationError('MoviesService/update', '', error);
+			const applicationError = this.applicationErrorMapper.toApplicationError(
+				'MoviesService/update',
+				error,
+			);
 			return [null, applicationError];
 		}
 
@@ -71,7 +84,10 @@ export class MoviesService {
 	async delete(id: Movie['id']): Promise<Either<Movie, ApplicationError>> {
 		const [movie, error] = await this.moviesRepository.delete(id);
 		if (error) {
-			const applicationError = new ApplicationError('MoviesService/delete', '', error);
+			const applicationError = this.applicationErrorMapper.toApplicationError(
+				'MoviesService/delete',
+				error,
+			);
 			return [null, applicationError];
 		}
 

@@ -1,5 +1,6 @@
 import type { Either } from '@packages/core/types/Either';
-import { ApplicationError } from '@packages/errors/application/ApplicationError';
+import type { ApplicationError } from '@packages/errors/application/ApplicationError';
+import type { ApplicationErrorMapper } from '@packages/errors/application/mappers/ApplicationErrorMapper';
 import type { User } from '@packages/models/users/User';
 import type { LoginPayload } from '@auth/application/services/payloads/LoginPayload';
 import type { RegisterPayload } from '@auth/application/services/payloads/RegisterPayload';
@@ -9,6 +10,7 @@ import type { UsersService } from '@users/application/services/UsersService';
 
 export class AuthService {
 	constructor(
+		private readonly applicationErrorMapper: ApplicationErrorMapper,
 		private readonly encryptionService: EncryptionService,
 		private readonly tokensService: TokensService,
 		private readonly usersService: UsersService,
@@ -26,11 +28,7 @@ export class AuthService {
 			},
 		});
 		if (error) {
-			const applicationError = new ApplicationError(
-				context,
-				'Email or password invalid',
-				error,
-			);
+			const applicationError = this.applicationErrorMapper.toApplicationError(context, error);
 			return [null, applicationError];
 		}
 
@@ -43,9 +41,8 @@ export class AuthService {
 			loginPayload.email,
 		);
 		if (findUserByEmailError) {
-			const applicationError = new ApplicationError(
+			const applicationError = this.applicationErrorMapper.toApplicationError(
 				'AuthService/login',
-				'Email or password invalid',
 				findUserByEmailError,
 			);
 			return [null, applicationError];
@@ -60,19 +57,16 @@ export class AuthService {
 				hashedPassword: loginPayload.password,
 			});
 		if (comparePasswordError) {
-			const applicationError = new ApplicationError(
+			const applicationError = this.applicationErrorMapper.toApplicationError(
 				'AuthService/login',
-				comparePasswordError.message,
 				comparePasswordError,
 			);
 			return [null, applicationError];
 		}
 
 		if (!isPasswordValid) {
-			const applicationError = new ApplicationError(
-				'AuthService/login',
-				'Email or password invalid',
-			);
+			const applicationError =
+				this.applicationErrorMapper.toApplicationError('AuthService/login');
 			return [null, applicationError];
 		}
 
@@ -86,19 +80,16 @@ export class AuthService {
 			registerPayload.email,
 		);
 		if (findUserByEmailError) {
-			const applicationError = new ApplicationError(
-				'AuthService/login',
-				'',
+			const applicationError = this.applicationErrorMapper.toApplicationError(
+				'AuthService/register',
 				findUserByEmailError,
 			);
 			return [null, applicationError];
 		}
 
 		if (doesAlreadyExist) {
-			const applicationError = new ApplicationError(
-				'AuthService/login',
-				'User already exists',
-			);
+			const applicationError =
+				this.applicationErrorMapper.toApplicationError('AuthService/register');
 			return [null, applicationError];
 		}
 
@@ -107,9 +98,8 @@ export class AuthService {
 			password: registerPayload.password,
 		});
 		if (hashPasswordError) {
-			const applicationError = new ApplicationError(
-				'AuthService/login',
-				hashPasswordError.message,
+			const applicationError = this.applicationErrorMapper.toApplicationError(
+				'AuthService/register',
 				hashPasswordError,
 			);
 			return [null, applicationError];
@@ -121,7 +111,10 @@ export class AuthService {
 			password: hashedPassword,
 		});
 		if (createUserError) {
-			const applicationError = new ApplicationError('AuthService/login', '', createUserError);
+			const applicationError = this.applicationErrorMapper.toApplicationError(
+				'AuthService/register',
+				createUserError,
+			);
 			return [null, applicationError];
 		}
 

@@ -1,4 +1,5 @@
 import { Hono } from 'hono';
+import { ApplicationErrorMapper } from '@packages/errors/application/mappers/ApplicationErrorMapper';
 import { PostgresRepositoryErrorMapper } from '@packages/errors/infrastructure/repositories/mappers/PostgresRepositoryErrorMapper';
 import { MoviesService } from '@movies/application/services/MoviesService';
 import { FakeMoviesRepository } from '@movies/infrastructure/repositories/fake/FakeMoviesRepository';
@@ -7,7 +8,7 @@ import { MoviesController } from '@movies/presentation/http/controllers/MoviesCo
 import { uuidService } from '@uuid/uuidModule';
 
 export const createMoviesTestService = () =>
-	new MoviesService(new FakeMoviesRepository(), uuidService);
+	new MoviesService(new ApplicationErrorMapper(), new FakeMoviesRepository(), uuidService);
 export const createMoviesController = (moviesService: MoviesService) =>
 	new MoviesController(moviesService);
 export const createMoviesRoutes = (moviesController: MoviesController) => {
@@ -21,6 +22,7 @@ export const createMoviesRoutes = (moviesController: MoviesController) => {
 };
 
 export const moviesService = new MoviesService(
+	new ApplicationErrorMapper(),
 	new PostgresMoviesRepository(new PostgresRepositoryErrorMapper()),
 	uuidService,
 );

@@ -1,12 +1,16 @@
 import type { Either } from '@packages/core/types/Either';
-import { ApplicationError } from '@packages/errors/application/ApplicationError';
+import type { ApplicationError } from '@packages/errors/application/ApplicationError';
+import type { ApplicationErrorMapper } from '@packages/errors/application/mappers/ApplicationErrorMapper';
 import type { DecodeTokenPayload } from '@tokens/application/services/payloads/DecodeTokenPayload';
 import type { GenerateTokenPayload } from '@tokens/application/services/payloads/GenerateTokenPayload';
 import type { VerifyTokenPayload } from '@tokens/application/services/payloads/VerifyTokenPayload';
 import type { TokensProvider } from '@tokens/infrastructure/providers/TokensProvider';
 
 export class TokensService {
-	constructor(private readonly tokensProvider: TokensProvider) {}
+	constructor(
+		private readonly applicationErrorMapper: ApplicationErrorMapper,
+		private readonly tokensProvider: TokensProvider,
+	) {}
 
 	async generate<TPayload>(
 		generateTokenPayload: GenerateTokenPayload<TPayload>,
@@ -15,9 +19,8 @@ export class TokensService {
 			generateTokenPayload.payload,
 		);
 		if (error) {
-			const applicationError = new ApplicationError(
+			const applicationError = this.applicationErrorMapper.toApplicationError(
 				'TokensService/generate',
-				error.message,
 				error,
 			);
 			return [null, applicationError];
@@ -29,9 +32,8 @@ export class TokensService {
 	decode<TPayload>(decodeTokenPayload: DecodeTokenPayload): Either<TPayload, ApplicationError> {
 		const [payload, error] = this.tokensProvider.decode<TPayload>(decodeTokenPayload.token);
 		if (error) {
-			const applicationError = new ApplicationError(
+			const applicationError = this.applicationErrorMapper.toApplicationError(
 				'TokensService/decode',
-				error.message,
 				error,
 			);
 			return [null, applicationError];
@@ -43,9 +45,8 @@ export class TokensService {
 	verify(verifyTokenPayload: VerifyTokenPayload): Either<boolean, ApplicationError> {
 		const [payload, error] = this.tokensProvider.decode(verifyTokenPayload.token);
 		if (error) {
-			const applicationError = new ApplicationError(
+			const applicationError = this.applicationErrorMapper.toApplicationError(
 				'TokensService/verify',
-				error.message,
 				error,
 			);
 			return [null, applicationError];

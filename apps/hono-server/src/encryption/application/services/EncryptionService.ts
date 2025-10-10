@@ -1,11 +1,15 @@
 import type { Either } from '@packages/core/types/Either';
-import { ApplicationError } from '@packages/errors/application/ApplicationError';
+import type { ApplicationError } from '@packages/errors/application/ApplicationError';
+import type { ApplicationErrorMapper } from '@packages/errors/application/mappers/ApplicationErrorMapper';
 import type { ComparePasswordPayload } from '@encryption/application/services/payloads/ComparePasswordPayload';
 import type { HashPasswordPayload } from '@encryption/application/services/payloads/HashPasswordPayload';
 import type { EncryptionProvider } from '@encryption/infrastructure/providers/EncryptionProvider';
 
 export class EncryptionService {
-	constructor(private readonly encryptionProvider: EncryptionProvider) {}
+	constructor(
+		private readonly applicationErrorMapper: ApplicationErrorMapper,
+		private readonly encryptionProvider: EncryptionProvider,
+	) {}
 
 	async hashPassword(
 		hashPasswordPayload: HashPasswordPayload,
@@ -14,9 +18,8 @@ export class EncryptionService {
 			hashPasswordPayload.password,
 		);
 		if (error) {
-			const applicationError = new ApplicationError(
+			const applicationError = this.applicationErrorMapper.toApplicationError(
 				'EncryptionService/hashPassword',
-				error.message,
 				error,
 			);
 			return [null, applicationError];
@@ -33,9 +36,8 @@ export class EncryptionService {
 			comparePasswordPayload.hashedPassword,
 		);
 		if (error) {
-			const applicationError = new ApplicationError(
+			const applicationError = this.applicationErrorMapper.toApplicationError(
 				'EncryptionService/comparePassword',
-				error.message,
 				error,
 			);
 			return [null, applicationError];
