@@ -8,9 +8,9 @@ import { UniqueViolationError } from '../../infrastructure/repositories/UniqueVi
 export class ApplicationErrorMapper {
 	toApplicationError(
 		context: ApplicationError['context'],
-		infrastructureError?: InfrastructureError,
+		infrastructureError: InfrastructureError,
 	): ApplicationError {
-		switch (infrastructureError?.name) {
+		switch (infrastructureError.name) {
 			case ForeignKeyViolationError.name:
 				return new RelationNotFoundError(context, infrastructureError);
 

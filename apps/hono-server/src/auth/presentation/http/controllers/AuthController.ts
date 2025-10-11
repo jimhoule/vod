@@ -25,7 +25,6 @@ export class AuthController {
 			if (error) {
 				const presentationError = this.httpPresentationErrorMapper.toPresentationError(
 					'AuthController/login',
-					'',
 					error,
 				);
 				return c.json(presentationError, presentationError.status as ContentfulStatusCode);
@@ -51,7 +50,6 @@ export class AuthController {
 			if (error) {
 				const presentationError = this.httpPresentationErrorMapper.toPresentationError(
 					'AuthController/register',
-					'',
 					error,
 				);
 				return c.json(presentationError, presentationError.status as ContentfulStatusCode);

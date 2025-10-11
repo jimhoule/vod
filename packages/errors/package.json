@@ -13,6 +13,18 @@
 		"types": "./src/application/ApplicationError.ts",
 		"default": "./dist/application/ApplicationError.js"
 	},
+	"./application/DuplicationError": {
+		"types": "./src/application/DuplicationError.ts",
+		"default": "./dist/application/DuplicationError.js"
+	},
+	"./application/InvalidCredentialsError": {
+		"types": "./src/application/InvalidCredentialsError.ts",
+		"default": "./dist/application/InvalidCredentialsError.js"
+	},
+	"./application/RelationNotFoundError": {
+		"types": "./src/application/RelationNotFoundError.ts",
+		"default": "./dist/application/RelationNotFoundError.js"
+	},
 	"./application/mappers/ApplicationErrorMapper": {
 		"types": "./src/application/mappers/ApplicationErrorMapper.ts",
 		"default": "./dist/application/mappers/ApplicationErrorMapper.js"

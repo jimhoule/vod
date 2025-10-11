@@ -28,7 +28,6 @@ export class ProfilesController {
 				if (error) {
 					const presentationError = this.httpPresentationErrorMapper.toPresentationError(
 						'ProfilesController/findAllByUserId',
-						'',
 						error,
 					);
 					return c.json(
@@ -54,7 +53,6 @@ export class ProfilesController {
 				if (error) {
 					const presentationError = this.httpPresentationErrorMapper.toPresentationError(
 						'ProfilesController/findById',
-						'',
 						error,
 					);
 					return c.json(
@@ -94,7 +92,6 @@ export class ProfilesController {
 				if (error) {
 					const presentationError = this.httpPresentationErrorMapper.toPresentationError(
 						'ProfilesController/create',
-						'',
 						error,
 					);
 					return c.json(
@@ -125,7 +122,6 @@ export class ProfilesController {
 				if (error) {
 					const presentationError = this.httpPresentationErrorMapper.toPresentationError(
 						'ProfilesController/update',
-						'',
 						error,
 					);
 					return c.json(

@@ -19,7 +19,6 @@ export class UsersController {
 			if (error) {
 				const presentationError = this.httpPresentationErrorMapper.toPresentationError(
 					'UsersController/findAll',
-					'',
 					error,
 				);
 				return c.json(presentationError, presentationError.status as ContentfulStatusCode);
@@ -41,7 +40,6 @@ export class UsersController {
 				if (error) {
 					const presentationError = this.httpPresentationErrorMapper.toPresentationError(
 						'UsersController/findById',
-						'',
 						error,
 					);
 					return c.json(

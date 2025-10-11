@@ -1,5 +1,6 @@
 import type { Either } from '@packages/core/types/Either';
 import type { ApplicationError } from '@packages/errors/application/ApplicationError';
+import { InvalidCredentialsError } from '@packages/errors/application/InvalidCredentialsError';
 import type { ApplicationErrorMapper } from '@packages/errors/application/mappers/ApplicationErrorMapper';
 import type { User } from '@packages/models/users/User';
 import type { LoginPayload } from '@auth/application/services/payloads/LoginPayload';
@@ -65,8 +66,7 @@ export class AuthService {
 		}
 
 		if (!isPasswordValid) {
-			const applicationError =
-				this.applicationErrorMapper.toApplicationError('AuthService/login');
+			const applicationError = new InvalidCredentialsError('AuthService/login');
 			return [null, applicationError];
 		}
 
@@ -88,8 +88,7 @@ export class AuthService {
 		}
 
 		if (doesAlreadyExist) {
-			const applicationError =
-				this.applicationErrorMapper.toApplicationError('AuthService/register');
+			const applicationError = new InvalidCredentialsError('AuthService/register');
 			return [null, applicationError];
 		}
 

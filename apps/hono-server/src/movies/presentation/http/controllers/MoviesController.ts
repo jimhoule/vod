@@ -21,7 +21,6 @@ export class MoviesController {
 			if (error) {
 				const presentationError = this.httpPresentationErrorMapper.toPresentationError(
 					'MoviesController/findAll',
-					'',
 					error,
 				);
 				return c.json(presentationError, presentationError.status as ContentfulStatusCode);
@@ -43,7 +42,6 @@ export class MoviesController {
 				if (error) {
 					const presentationError = this.httpPresentationErrorMapper.toPresentationError(
 						'MoviesController/findById',
-						'',
 						error,
 					);
 					return c.json(
@@ -83,7 +81,6 @@ export class MoviesController {
 				if (error) {
 					const presentationError = this.httpPresentationErrorMapper.toPresentationError(
 						'MoviesController/create',
-						'',
 						error,
 					);
 					return c.json(
@@ -115,7 +112,6 @@ export class MoviesController {
 				if (error) {
 					const presentationError = this.httpPresentationErrorMapper.toPresentationError(
 						'MoviesController/update',
-						'',
 						error,
 					);
 					return c.json(
